@@ -1,0 +1,7 @@
+mutation AddTag($name: String!) {
+  addTag(input: { name: $name }) {
+    tag {
+      id
+    }
+  }
+}
