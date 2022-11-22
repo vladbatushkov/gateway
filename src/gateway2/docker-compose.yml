@@ -1,0 +1,61 @@
+version: '3.4'
+
+services:
+  gqlgateway:
+    image: ${DOCKER_REGISTRY-}gqlgateway
+    build:
+      context: .
+      dockerfile: src/GqlGateway/Dockerfile
+    depends_on:
+      - tagswebapi
+  tagswebapi:
+    image: ${DOCKER_REGISTRY-}tagswebapi
+    build:
+      context: .
+      dockerfile: src/TagsWebApi/Dockerfile
+    depends_on:
+      - mssql
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+        - '1433:1433'
+    expose:
+      - '1433'
+    environment:
+        - MSSQL_PID=Express
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=yourStrong(!)Password
+
+  redis-graphql:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+# Neo4j stack      
+  #ne4jdb:
+  #  image: neo4j
+  #  ports:
+  #    - '7474:7474'
+  #    - '7687:7687'
+  #  environment:
+  #      - NEO4J_AUTH=neo4j/s3cr3t
+
+  #neo4jgql:
+  #  build:
+  #    context: .
+  #    dockerfile: src/Neo4jGql/Dockerfile
+  #  ports:
+  #    - "4000:4000"
+  #  environment:
+  #    NODE_ENV: development
+  #    DEBUG: nodejs-docker-express:*
+  #  depends_on:
+  #    - ne4jdb
+
+
+volumes:
+  cache:
+    driver: local
