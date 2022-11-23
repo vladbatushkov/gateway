@@ -28,6 +28,17 @@ name: "vlad"
     }
   }
 }
+
+mutation{
+     createUsers(input:{name: "vlad"  }) {
+    users {
+      name
+      titles {
+        name
+      }
+    }
+  }
+}
 ```
 
 
@@ -88,3 +99,71 @@ query($where: PersonWhere){
   }
 }
 ```
+
+
+
+
+
+# Others query
+mutation {
+  createTitles(input: { name: "java" }) {
+    titles {
+      name
+    }
+  }
+}
+
+mutation {
+  createUsers(input: { name: "pom" }) {
+    users {
+      name
+      titles {
+        name
+      }
+    }
+  }
+}
+
+query {
+  users(where: { name: "vlad" }) {
+    titles {
+      users(where: { name_NOT: "vlad" }) {
+        name
+      }
+    }
+  }
+}
+
+query {
+  titles {
+    name
+    users {
+      name
+    }
+  }
+}
+
+mutation {
+  updateUsers(
+    connect: {
+      titles: {
+        where: { node: { name: "java" } }
+        connect: { users: { where: { node: { name: "pom" } } } }
+      }
+    }
+  ) {
+    users {
+      name
+      titles {
+        name
+      }
+    }
+  }
+}
+
+
+mutation {
+  updateUsers(up}) {
+    
+  }
+}
