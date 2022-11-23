@@ -1,4 +1,7 @@
-﻿namespace GqlGateway.GraphQL;
+﻿using HotChocolate;
+using HotChocolate.Types;
+
+namespace GqlGateway.GraphQL;
 
 public class Subscription
 {
