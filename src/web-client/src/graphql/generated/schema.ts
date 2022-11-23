@@ -98,9 +98,9 @@ export type AddTagMutationFn = Apollo.MutationFunction<AddTagMutation, AddTagMut
  * });
  */
 export function useAddTagMutation(baseOptions?: Apollo.MutationHookOptions<AddTagMutation, AddTagMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddTagMutation, AddTagMutationVariables>(AddTagDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<AddTagMutation, AddTagMutationVariables>(AddTagDocument, options);
+}
 export type AddTagMutationHookResult = ReturnType<typeof useAddTagMutation>;
 export type AddTagMutationResult = Apollo.MutationResult<AddTagMutation>;
 export type AddTagMutationOptions = Apollo.BaseMutationOptions<AddTagMutation, AddTagMutationVariables>;
@@ -129,13 +129,14 @@ export const GetTagsDocument = gql`
  * });
  */
 export function useGetTagsQuery(baseOptions?: Apollo.QueryHookOptions<GetTagsQuery, GetTagsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTagsQuery, GetTagsQueryVariables>(GetTagsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  console.log('gql-call');
+  return Apollo.useQuery<GetTagsQuery, GetTagsQueryVariables>(GetTagsDocument, options);
+}
 export function useGetTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTagsQuery, GetTagsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTagsQuery, GetTagsQueryVariables>(GetTagsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetTagsQuery, GetTagsQueryVariables>(GetTagsDocument, options);
+}
 export type GetTagsQueryHookResult = ReturnType<typeof useGetTagsQuery>;
 export type GetTagsLazyQueryHookResult = ReturnType<typeof useGetTagsLazyQuery>;
 export type GetTagsQueryResult = Apollo.QueryResult<GetTagsQuery, GetTagsQueryVariables>;
@@ -164,8 +165,8 @@ export const TagAddedDocument = gql`
  * });
  */
 export function useTagAddedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TagAddedSubscription, TagAddedSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<TagAddedSubscription, TagAddedSubscriptionVariables>(TagAddedDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSubscription<TagAddedSubscription, TagAddedSubscriptionVariables>(TagAddedDocument, options);
+}
 export type TagAddedSubscriptionHookResult = ReturnType<typeof useTagAddedSubscription>;
 export type TagAddedSubscriptionResult = Apollo.SubscriptionResult<TagAddedSubscription>;
