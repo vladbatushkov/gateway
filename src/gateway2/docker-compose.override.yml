@@ -4,23 +4,15 @@ services:
   gqlgateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:5001;http://+:5000;
+      - ASPNETCORE_URLS=http://+:5000;
     ports:
-      - "5001:5001"
       - "5000:5000"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   tagswebapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:5002;http://+:5003;
+      - ASPNETCORE_URLS=http://+:5003;
     ports:
-      - "5002:5002"
       - "5003:5003"
     expose:
-      - '5003'  
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - '5003'

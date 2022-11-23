@@ -1,7 +1,7 @@
-mutation AddTag($name: String!) {
-  addTag(input: { name: $name }) {
-    tag {
-      id
-    }
-  }
-}
+# mutation AddTag($name: String!) {
+#   addTag(input: { name: $name }) {
+#     tag {
+#       id
+#     }
+#   }
+# }
