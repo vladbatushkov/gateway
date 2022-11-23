@@ -7,3 +7,4 @@ global using System.ComponentModel.DataAnnotations.Schema;
 global using TagsWebApi.Endpoints;
 global using TagsWebApi.Models;
 global using TagsWebApi.Repositories;
+global using TagsWebApi.ApiModel;

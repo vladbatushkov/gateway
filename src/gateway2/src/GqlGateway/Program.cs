@@ -1,36 +1,35 @@
-
 var builder = WebApplication.CreateBuilder(args);
-var services = builder.Services;
-services.AddHttpClient<ITagApiClient, TagApiClient>(client
-    => client.BaseAddress = new Uri("http://tagswebapi:5003"));
+var serviceSection = builder.Configuration.GetSection("Services");
 
-services.AddHttpClient("neo4jgql", c => c.BaseAddress = new Uri("http://neo4jgql:4000"));
+var tagApiClientEndpoint = serviceSection.GetValue<string>("TagApiClient:endpoint");
 
-var options = new ConfigurationOptions
-{
-    EndPoints = { "redis-graphql:6379" },
-    Password = "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81"
-};
+(string endpoint, string password) redisConfiguration = (serviceSection.GetValue<string>("Redis:endpoint"),
+                                            serviceSection.GetValue<string>("Redis:password"));
 
+var neo4jEndpoint =  serviceSection.GetValue<string>("Neo4jgql:endpoint");
 
+builder.Services.AddHttpClient<ITagApiClient, TagApiClient>(client
+    => client.BaseAddress = new Uri(tagApiClientEndpoint));
+builder.Services.AddHttpClient("Neo4jgql", client
+    => client.BaseAddress = new Uri(neo4jEndpoint));
 
-
-services
+builder.Services
     .AddGraphQLServer()
-    //.AddQueryType(d=> d.Name("Query"))
-    //.AddMutationType<Mutation>()
-    //.AddMutationConventions()
-    //.AddSubscriptionType<Subscription>()
     .AddTypeExtension<Queries>()
     .AddTypeExtension<Mutations>()
     .AddTypeExtension<Subscriptions>()
+    .AddRedisSubscriptions(_ => 
+        ConnectionMultiplexer.Connect(new ConfigurationOptions
+        {
+            EndPoints = { redisConfiguration.endpoint },
+            Password = redisConfiguration.password
+        }))
+    .AddRemoteSchema("Neo4jgql", ignoreRootTypes: false);
 
-    .AddRedisSubscriptions(_ => ConnectionMultiplexer.Connect(options))
-    .AddRemoteSchema("neo4jgql", ignoreRootTypes: false);
 var app = builder.Build();
+
 app.UseWebSockets();
 app.MapGraphQL();
-
 app.Run();
 
 

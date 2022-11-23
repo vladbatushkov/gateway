@@ -6,6 +6,5 @@ public class TagDatabaseContext : DbContext
         :base(options)
     {
     }
-
     public DbSet<Tag> Tags { get; set; }
 }

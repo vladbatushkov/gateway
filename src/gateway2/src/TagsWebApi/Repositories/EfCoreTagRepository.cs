@@ -2,7 +2,6 @@
 
 public class EfCoreTagRepository : ITagRepository
 {
-
     private readonly TagDatabaseContext _dbContext;
 
     public EfCoreTagRepository(TagDatabaseContext dbContext) => _dbContext = dbContext;

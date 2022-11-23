@@ -1,4 +1,4 @@
-﻿using TagsWebApi.ApiModel;
+﻿
 
 namespace TagsWebApi.Endpoints;
 public static class TagEndpoints
@@ -6,20 +6,18 @@ public static class TagEndpoints
     public static WebApplication MapTagApiEndpoint(this WebApplication app)
     {
         app.MapGet("/api/tags", TagsEndpointRouting.GetAllAsync);
-        app.MapPost("/api/tags/{tagName}", TagsEndpointRouting.CreateNewTag)
-                .Produces<CreateTagResult>(StatusCodes.Status200OK);
-        app.MapDelete("/api/tags/{id}", TagsEndpointRouting.DeleteTagById)
-                .Produces(StatusCodes.Status200OK);
+        app.MapPost("/api/tags/{tagName}", TagsEndpointRouting.CreateNewTag).Produces<CreateTagResult>(StatusCodes.Status200OK);
+        app.MapDelete("/api/tags/{id}", TagsEndpointRouting.DeleteTagById).Produces(StatusCodes.Status200OK);
         return app;
     }
 
     internal sealed class TagsEndpointRouting
     {
-        public static async Task<IEnumerable<Tag>> GetAllAsync(
+        internal static async Task<IEnumerable<Tag>> GetAllAsync(
             [FromServices] ITagRepository tagRepos,
             CancellationToken cancellationToken) => await tagRepos.GetAllAsync(cancellationToken);
 
-        public static async Task<IResult> CreateNewTag(
+        internal static async Task<IResult> CreateNewTag(
             [FromServices] ITagRepository tagRepos, string tagName,
            CancellationToken cancellationToken)
         {
@@ -27,7 +25,7 @@ public static class TagEndpoints
             return Results.Ok(new CreateTagResult { Tag = result.tag, IsCreated = result.isCreated });
         }
 
-        public static async Task<IResult> DeleteTagById(
+        internal static async Task<IResult> DeleteTagById(
            TagDatabaseContext dbContext,
            [FromRoute(Name = "id")] int id,
            CancellationToken cancellationToken)

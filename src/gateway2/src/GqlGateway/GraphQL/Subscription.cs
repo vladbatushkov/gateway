@@ -1,8 +1,4 @@
-﻿using HotChocolate;
-using HotChocolate.Types;
-
-namespace GqlGateway.GraphQL;
-
+﻿namespace GqlGateway.GraphQL;
 
 [ExtendObjectType("Subscription")]
 public class Subscriptions
