@@ -20,7 +20,7 @@ var options = new ConfigurationOptions
 
 services
     .AddGraphQLServer()
-   // .AddQueryType<Query>()
+   // .AddQueryType(d => d.Name("query"))
     //.AddMutationType<Mutation>()
     //.AddMutationConventions()
     //.AddSubscriptionType<Subscription>()

@@ -4,15 +4,18 @@ const neo4j = require("neo4j-driver");
 require("dotenv").config();
 
 
+// sleep
+setTimeout(() => { 
+
 const typeDefs = gql`
-type Tag {
+type Title {
     name: String!   
     users: [User!]! @relationship(type: "LIKE", direction: IN)
   }
 
   type User {
     name: String!
-    tags: [Tag!]! @relationship(type: "LIKE", direction: OUT)
+    titles: [Title!]! @relationship(type: "LIKE", direction: OUT)
   }
 `;
 
@@ -32,3 +35,4 @@ neoSchema.getSchema().then((schema) => {
         console.log(`GraphQL server ready on ${url}`);
     });
 });
+}, 5000);
