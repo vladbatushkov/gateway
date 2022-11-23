@@ -130,7 +130,6 @@ export const GetTagsDocument = gql`
  */
 export function useGetTagsQuery(baseOptions?: Apollo.QueryHookOptions<GetTagsQuery, GetTagsQueryVariables>) {
   const options = { ...defaultOptions, ...baseOptions };
-  console.log('gql-call');
   return Apollo.useQuery<GetTagsQuery, GetTagsQueryVariables>(GetTagsDocument, options);
 }
 export function useGetTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTagsQuery, GetTagsQueryVariables>) {

@@ -4,6 +4,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { Tags } from './components/Tags';
 import { TagsWithInput } from './components/TagsWithInput';
 import { TagsWithInputWithSub } from './components/TagsWithInputWithSub';
+import { TagsWithInputWithSubWithChecks } from './components/TagsWithInputWithSubWithChecks';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { WebSocketLink } from "@apollo/client/link/ws";
 
@@ -39,9 +40,10 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          <Tags />
-          {/* <TagsWithInput />
-          <TagsWithInputWithSub /> */}
+          {/* <Tags /> */}
+          {/* <TagsWithInput /> */}
+          {/* <TagsWithInputWithSub /> */}
+          <TagsWithInputWithSubWithChecks />
         </header>
       </div>
     </ApolloProvider>

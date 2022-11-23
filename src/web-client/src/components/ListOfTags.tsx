@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Tag } from '../graphql/generated/schema';
 
-export const ListOfTags: FC<Tag[]> = (tags: Tag[]) => {
+export const ListOfTags: FC<{ tags: Tag[] }> = ({ tags }) => {
+  console.log(tags);
   const items = tags?.map((item: Tag) => (
     item ? <li key={item.id}>{item.name}</li> : null
   ));

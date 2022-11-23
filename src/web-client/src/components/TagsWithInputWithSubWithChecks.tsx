@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Tag, useGetTagsQuery, useTagAddedSubscription } from '../graphql/generated/schema';
 import { AddTag } from './AddTag';
-import { ListOfTags } from './ListOfTags';
+import { ListOfTagsWithChecks } from './ListOfTagsWithChecks';
 
-export const TagsWithInputWithSub: React.FC = () => {
+export const TagsWithInputWithSubWithChecks: React.FC = () => {
 
   const sub = useTagAddedSubscription();
   const dataSub = sub.data;
@@ -26,6 +26,6 @@ export const TagsWithInputWithSub: React.FC = () => {
 
   return (<div>
     <AddTag />
-    <ListOfTags {...{ tags }} />
+    <ListOfTagsWithChecks {...{ tags }} />
   </div>);
 };
