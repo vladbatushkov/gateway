@@ -3,10 +3,10 @@
 namespace GqlGateway.GraphQL;
 
 
-
-public class Query
+[ExtendObjectType("Query")]
+public class Queries
 {
-    public async Task<ICollection<Tag>> GetTagAsync(
+    public async Task<ICollection<Tag>> GetTagsAsync(
         [Service] ITagApiClient service,
         CancellationToken cancellationToken)
     {

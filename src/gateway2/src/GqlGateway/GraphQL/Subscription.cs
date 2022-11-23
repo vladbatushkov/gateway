@@ -3,9 +3,11 @@ using HotChocolate.Types;
 
 namespace GqlGateway.GraphQL;
 
-public class Subscription
+
+[ExtendObjectType("Subscription")]
+public class Subscriptions
 {
     [Subscribe]
-    [Topic(nameof(Mutation.AddTag))]
+    [Topic(nameof(Mutations.AddTag))]
     public Tag OnTagAdded([EventMessage] Tag tag) => tag;
 }

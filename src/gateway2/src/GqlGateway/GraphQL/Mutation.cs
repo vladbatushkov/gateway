@@ -1,9 +1,9 @@
 ﻿using HotChocolate.Subscriptions;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace GqlGateway.GraphQL;
 
-public class Mutation
+[ExtendObjectType("Mutation")]
+public class Mutations
 {
     /// <summary>
     /// Example
@@ -30,7 +30,7 @@ public class Mutation
         if (tagResult.IsCreated)
         {
             //publish new tag name
-            await eventSender.SendAsync(nameof(AddTag), tagResult.Tag, cancellationToken);
+           // await eventSender.SendAsync(nameof(AddTag), tagResult.Tag, cancellationToken);
         }
         return tagResult.Tag;
     }
