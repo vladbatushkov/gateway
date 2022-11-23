@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import { FC, useState } from 'react';
 import { useAddTagMutation } from '../graphql/generated/schema';
 
-export const AddTag: React.FC = () => {
+export const AddTag: FC = () => {
 
     const [tag, setTag] = useState("");
-    const [addTag, { data, loading, error }] = useAddTagMutation();
+    const [addTag, { loading, error }] = useAddTagMutation();
 
     if (loading) return <p>Submitting...</p>;
     if (error) return <p>Submission error! ${error.message}`</p>;
@@ -15,7 +15,7 @@ export const AddTag: React.FC = () => {
     };
 
     const handleClick = () => {
-        if (!tag){
+        if (!tag) {
             return;
         }
         addTag({ variables: { name: tag } });

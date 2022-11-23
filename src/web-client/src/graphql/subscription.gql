@@ -1,6 +1,6 @@
-subscription TagAdded {
-  tagAdded {
-    id
-    name
-  }
-}
+# subscription TagAdded {
+#   tagAdded {
+#     id
+#     name
+#   }
+# }

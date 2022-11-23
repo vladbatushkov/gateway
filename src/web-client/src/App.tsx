@@ -1,8 +1,9 @@
 import './App.css';
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, split, DefaultOptions } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { Tags } from './components/Tags';
-import { AddTag } from './components/AddTag';
+import { TagsWithInput } from './components/TagsWithInput';
+import { TagsWithInputWithSub } from './components/TagsWithInputWithSub';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { WebSocketLink } from "@apollo/client/link/ws";
 
@@ -38,8 +39,9 @@ function App() {
     <ApolloProvider client={client}>
       <div className="App">
         <header className="App-header">
-          <AddTag />
           <Tags />
+          {/* <TagsWithInput />
+          <TagsWithInputWithSub /> */}
         </header>
       </div>
     </ApolloProvider>

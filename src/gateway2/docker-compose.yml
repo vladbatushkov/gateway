@@ -1,33 +1,46 @@
 version: '3.6'
 
 services:
-###################   GATEWAY
+  ###################   GATEWAY
   gqlgateway:
     image: ${DOCKER_REGISTRY-}gqlgateway
     build:
       context: .
       dockerfile: src/GqlGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000;
+    ports:
+      - "5000:5000"
     depends_on:
       - tagswebapi
 
-###################   REST API
+  ###################   REST API
   tagswebapi:
     image: ${DOCKER_REGISTRY-}tagswebapi
     build:
       context: .
       dockerfile: src/TagsWebApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5003;
+    ports:
+      - "5003:5003"
+    expose:
+      - '5003'
     depends_on:
       - mssql
+
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
-        - '1433:1433'
+      - '1433:1433'
     expose:
       - '1433'
     environment:
-        - MSSQL_PID=Express
-        - ACCEPT_EULA=Y
-        - SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_PID=Express
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
 
   redis-graphql:
     image: redis:6.2-alpine
@@ -35,11 +48,10 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes: 
+    volumes:
       - cache:/data
 
-
-###################   Neo4J GQL
+  ###################   Neo4J GQL
   neo4jgql:
     build:
       context: .
@@ -47,10 +59,10 @@ services:
     ports:
       - "4000:4000"
     environment:
-        - NEO4J_USER=neo4j
-        - NEO4J_PASSWORD=s3cr3t
-        - NEO4J_URI=neo4j://neo4jdb:7687
-        - NODE_ENV=development
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=s3cr3t
+      - NEO4J_URI=neo4j://neo4jdb:7687
+      - NODE_ENV=development
     depends_on:
       - neo4jdb
 
@@ -60,10 +72,7 @@ services:
       - '7474:7474'
       - '7687:7687'
     environment:
-        - NEO4J_AUTH=neo4j/s3cr3t
-
-
-
+      - NEO4J_AUTH=neo4j/s3cr3t
 
 volumes:
   cache:
