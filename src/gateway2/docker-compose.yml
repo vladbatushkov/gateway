@@ -14,6 +14,8 @@ services:
       - "5000:5000"
     depends_on:
       - tagswebapi
+      - neo4jgql
+      - redis
 
   ###################   REST API
   tagswebapi:
@@ -42,7 +44,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=yourStrong(!)Password
 
-  redis-graphql:
+  redis:
     image: redis:6.2-alpine
     restart: always
     ports:

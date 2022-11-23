@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Tag, useGetTagsQuery, useOnTagAddedSubscription } from '../graphql/generated/schema';
-import { AddTag } from './AddTag';
+import { Tag, useGetTagsQuery, useTagAddedSubscription } from '../graphql/generated/schema';
+import { TagInput } from './TagInput';
 import { ListOfTags } from './ListOfTags';
 
 export const TagsWithInputWithSub: React.FC = () => {
 
-  const sub = useOnTagAddedSubscription();
+  const sub = useTagAddedSubscription();
   const dataSub = sub.data;
 
   const { data, loading, error } = useGetTagsQuery();
@@ -17,15 +17,15 @@ export const TagsWithInputWithSub: React.FC = () => {
   }, [data]);
 
   useEffect(() => {
-    if (!dataSub?.onTagAdded) return;
-    setTags([...tags, dataSub.onTagAdded as Tag]);
+    if (!dataSub?.tagAdded) return;
+    setTags([...tags, dataSub.tagAdded as Tag]);
   }, [dataSub]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
   return (<div>
-    <AddTag />
+    <TagInput />
     <ListOfTags {...{ tags }} />
   </div>);
 };

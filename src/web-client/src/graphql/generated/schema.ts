@@ -23,10 +23,10 @@ export type CreateInfo = {
   relationshipsCreated: Scalars['Int'];
 };
 
-export type CreateTitlesMutationResponse = {
-  __typename?: 'CreateTitlesMutationResponse';
+export type CreateTechnologiesMutationResponse = {
+  __typename?: 'CreateTechnologiesMutationResponse';
   info: CreateInfo;
-  titles: Array<Title>;
+  technologies: Array<Technology>;
 };
 
 export type CreateUsersMutationResponse = {
@@ -45,11 +45,11 @@ export type DeleteInfo = {
 export type Mutation = {
   __typename?: 'Mutation';
   addTag: Tag;
-  createTitles: CreateTitlesMutationResponse;
+  createTechnologies: CreateTechnologiesMutationResponse;
   createUsers: CreateUsersMutationResponse;
-  deleteTitles: DeleteInfo;
+  deleteTechnologies: DeleteInfo;
   deleteUsers: DeleteInfo;
-  updateTitles: UpdateTitlesMutationResponse;
+  updateTechnologies: UpdateTechnologiesMutationResponse;
   updateUsers: UpdateUsersMutationResponse;
 };
 
@@ -59,8 +59,8 @@ export type MutationAddTagArgs = {
 };
 
 
-export type MutationCreateTitlesArgs = {
-  input: Array<TitleCreateInput>;
+export type MutationCreateTechnologiesArgs = {
+  input: Array<TechnologyCreateInput>;
 };
 
 
@@ -69,9 +69,9 @@ export type MutationCreateUsersArgs = {
 };
 
 
-export type MutationDeleteTitlesArgs = {
-  delete?: InputMaybe<TitleDeleteInput>;
-  where?: InputMaybe<TitleWhere>;
+export type MutationDeleteTechnologiesArgs = {
+  delete?: InputMaybe<TechnologyDeleteInput>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
@@ -81,18 +81,20 @@ export type MutationDeleteUsersArgs = {
 };
 
 
-export type MutationUpdateTitlesArgs = {
-  connect?: InputMaybe<TitleConnectInput>;
-  create?: InputMaybe<TitleRelationInput>;
-  delete?: InputMaybe<TitleDeleteInput>;
-  disconnect?: InputMaybe<TitleDisconnectInput>;
-  update?: InputMaybe<TitleUpdateInput>;
-  where?: InputMaybe<TitleWhere>;
+export type MutationUpdateTechnologiesArgs = {
+  connect?: InputMaybe<TechnologyConnectInput>;
+  connectOrCreate?: InputMaybe<TechnologyConnectOrCreateInput>;
+  create?: InputMaybe<TechnologyRelationInput>;
+  delete?: InputMaybe<TechnologyDeleteInput>;
+  disconnect?: InputMaybe<TechnologyDisconnectInput>;
+  update?: InputMaybe<TechnologyUpdateInput>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
 export type MutationUpdateUsersArgs = {
   connect?: InputMaybe<UserConnectInput>;
+  connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
   create?: InputMaybe<UserRelationInput>;
   delete?: InputMaybe<UserDeleteInput>;
   disconnect?: InputMaybe<UserDisconnectInput>;
@@ -112,31 +114,31 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   tags: Array<Tag>;
-  titles: Array<Title>;
-  titlesAggregate: TitleAggregateSelection;
-  titlesConnection: TitlesConnection;
+  technologies: Array<Technology>;
+  technologiesAggregate: TechnologyAggregateSelection;
+  technologiesConnection: TechnologiesConnection;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
 };
 
 
-export type QueryTitlesArgs = {
-  options?: InputMaybe<TitleOptions>;
-  where?: InputMaybe<TitleWhere>;
+export type QueryTechnologiesArgs = {
+  options?: InputMaybe<TechnologyOptions>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
-export type QueryTitlesAggregateArgs = {
-  where?: InputMaybe<TitleWhere>;
+export type QueryTechnologiesAggregateArgs = {
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
-export type QueryTitlesConnectionArgs = {
+export type QueryTechnologiesConnectionArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<InputMaybe<TitleSort>>>;
-  where?: InputMaybe<TitleWhere>;
+  sort?: InputMaybe<Array<InputMaybe<TechnologySort>>>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
@@ -173,13 +175,13 @@ export type StringAggregateSelectionNonNullable = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  onTagAdded: Tag;
-  titleAdded?: Maybe<Title>;
+  tagAdded: Tag;
+  userAdded?: Maybe<User>;
 };
 
 
-export type SubscriptionTitleAddedArgs = {
-  titleID: Scalars['ID'];
+export type SubscriptionUserAddedArgs = {
+  name: Scalars['String'];
 };
 
 export type Tag = {
@@ -188,157 +190,190 @@ export type Tag = {
   name: Scalars['String'];
 };
 
-export type Title = {
-  __typename?: 'Title';
+export type TechnologiesConnection = {
+  __typename?: 'TechnologiesConnection';
+  edges: Array<TechnologyEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type Technology = {
+  __typename?: 'Technology';
   name: Scalars['String'];
   users: Array<User>;
-  usersAggregate?: Maybe<TitleUserUsersAggregationSelection>;
-  usersConnection: TitleUsersConnection;
+  usersAggregate?: Maybe<TechnologyUserUsersAggregationSelection>;
+  usersConnection: TechnologyUsersConnection;
 };
 
 
-export type TitleUsersArgs = {
+export type TechnologyUsersArgs = {
   directed?: InputMaybe<Scalars['Boolean']>;
   options?: InputMaybe<UserOptions>;
   where?: InputMaybe<UserWhere>;
 };
 
 
-export type TitleUsersAggregateArgs = {
+export type TechnologyUsersAggregateArgs = {
   directed?: InputMaybe<Scalars['Boolean']>;
   where?: InputMaybe<UserWhere>;
 };
 
 
-export type TitleUsersConnectionArgs = {
+export type TechnologyUsersConnectionArgs = {
   after?: InputMaybe<Scalars['String']>;
   directed?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<TitleUsersConnectionSort>>;
-  where?: InputMaybe<TitleUsersConnectionWhere>;
+  sort?: InputMaybe<Array<TechnologyUsersConnectionSort>>;
+  where?: InputMaybe<TechnologyUsersConnectionWhere>;
 };
 
-export type TitleAggregateSelection = {
-  __typename?: 'TitleAggregateSelection';
+export type TechnologyAggregateSelection = {
+  __typename?: 'TechnologyAggregateSelection';
   count: Scalars['Int'];
   name: StringAggregateSelectionNonNullable;
 };
 
-export type TitleConnectInput = {
-  users?: InputMaybe<Array<TitleUsersConnectFieldInput>>;
+export type TechnologyConnectInput = {
+  users?: InputMaybe<Array<TechnologyUsersConnectFieldInput>>;
 };
 
-export type TitleConnectWhere = {
-  node: TitleWhere;
+export type TechnologyConnectOrCreateInput = {
+  users?: InputMaybe<Array<TechnologyUsersConnectOrCreateFieldInput>>;
 };
 
-export type TitleCreateInput = {
+export type TechnologyConnectOrCreateWhere = {
+  node: TechnologyUniqueWhere;
+};
+
+export type TechnologyConnectWhere = {
+  node: TechnologyWhere;
+};
+
+export type TechnologyCreateInput = {
   name: Scalars['String'];
-  users?: InputMaybe<TitleUsersFieldInput>;
+  users?: InputMaybe<TechnologyUsersFieldInput>;
 };
 
-export type TitleDeleteInput = {
-  users?: InputMaybe<Array<TitleUsersDeleteFieldInput>>;
+export type TechnologyDeleteInput = {
+  users?: InputMaybe<Array<TechnologyUsersDeleteFieldInput>>;
 };
 
-export type TitleDisconnectInput = {
-  users?: InputMaybe<Array<TitleUsersDisconnectFieldInput>>;
+export type TechnologyDisconnectInput = {
+  users?: InputMaybe<Array<TechnologyUsersDisconnectFieldInput>>;
 };
 
-export type TitleEdge = {
-  __typename?: 'TitleEdge';
+export type TechnologyEdge = {
+  __typename?: 'TechnologyEdge';
   cursor: Scalars['String'];
-  node: Title;
+  node: Technology;
 };
 
-export type TitleOptions = {
+export type TechnologyOnCreateInput = {
+  name: Scalars['String'];
+};
+
+export type TechnologyOptions = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  /** Specify one or more TitleSort objects to sort Titles by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: InputMaybe<Array<TitleSort>>;
+  /** Specify one or more TechnologySort objects to sort Technologies by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<TechnologySort>>;
 };
 
-export type TitleRelationInput = {
-  users?: InputMaybe<Array<TitleUsersCreateFieldInput>>;
+export type TechnologyRelationInput = {
+  users?: InputMaybe<Array<TechnologyUsersCreateFieldInput>>;
 };
 
-/** Fields to sort Titles by. The order in which sorts are applied is not guaranteed when specifying many fields in one TitleSort object. */
-export type TitleSort = {
+/** Fields to sort Technologies by. The order in which sorts are applied is not guaranteed when specifying many fields in one TechnologySort object. */
+export type TechnologySort = {
   name?: InputMaybe<SortDirection>;
 };
 
-export type TitleUpdateInput = {
+export type TechnologyUniqueWhere = {
   name?: InputMaybe<Scalars['String']>;
-  users?: InputMaybe<Array<TitleUsersUpdateFieldInput>>;
 };
 
-export type TitleUserUsersAggregationSelection = {
-  __typename?: 'TitleUserUsersAggregationSelection';
+export type TechnologyUpdateInput = {
+  name?: InputMaybe<Scalars['String']>;
+  users?: InputMaybe<Array<TechnologyUsersUpdateFieldInput>>;
+};
+
+export type TechnologyUserUsersAggregationSelection = {
+  __typename?: 'TechnologyUserUsersAggregationSelection';
   count: Scalars['Int'];
-  node?: Maybe<TitleUserUsersNodeAggregateSelection>;
+  node?: Maybe<TechnologyUserUsersNodeAggregateSelection>;
 };
 
-export type TitleUserUsersNodeAggregateSelection = {
-  __typename?: 'TitleUserUsersNodeAggregateSelection';
+export type TechnologyUserUsersNodeAggregateSelection = {
+  __typename?: 'TechnologyUserUsersNodeAggregateSelection';
   name: StringAggregateSelectionNonNullable;
 };
 
-export type TitleUsersAggregateInput = {
-  AND?: InputMaybe<Array<TitleUsersAggregateInput>>;
-  OR?: InputMaybe<Array<TitleUsersAggregateInput>>;
+export type TechnologyUsersAggregateInput = {
+  AND?: InputMaybe<Array<TechnologyUsersAggregateInput>>;
+  OR?: InputMaybe<Array<TechnologyUsersAggregateInput>>;
   count?: InputMaybe<Scalars['Int']>;
   count_GT?: InputMaybe<Scalars['Int']>;
   count_GTE?: InputMaybe<Scalars['Int']>;
   count_LT?: InputMaybe<Scalars['Int']>;
   count_LTE?: InputMaybe<Scalars['Int']>;
-  node?: InputMaybe<TitleUsersNodeAggregationWhereInput>;
+  node?: InputMaybe<TechnologyUsersNodeAggregationWhereInput>;
 };
 
-export type TitleUsersConnectFieldInput = {
+export type TechnologyUsersConnectFieldInput = {
   connect?: InputMaybe<Array<UserConnectInput>>;
   where?: InputMaybe<UserConnectWhere>;
 };
 
-export type TitleUsersConnection = {
-  __typename?: 'TitleUsersConnection';
-  edges: Array<TitleUsersRelationship>;
+export type TechnologyUsersConnectOrCreateFieldInput = {
+  onCreate: TechnologyUsersConnectOrCreateFieldInputOnCreate;
+  where: UserConnectOrCreateWhere;
+};
+
+export type TechnologyUsersConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+};
+
+export type TechnologyUsersConnection = {
+  __typename?: 'TechnologyUsersConnection';
+  edges: Array<TechnologyUsersRelationship>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
 
-export type TitleUsersConnectionSort = {
+export type TechnologyUsersConnectionSort = {
   node?: InputMaybe<UserSort>;
 };
 
-export type TitleUsersConnectionWhere = {
-  AND?: InputMaybe<Array<TitleUsersConnectionWhere>>;
-  OR?: InputMaybe<Array<TitleUsersConnectionWhere>>;
+export type TechnologyUsersConnectionWhere = {
+  AND?: InputMaybe<Array<TechnologyUsersConnectionWhere>>;
+  OR?: InputMaybe<Array<TechnologyUsersConnectionWhere>>;
   node?: InputMaybe<UserWhere>;
   node_NOT?: InputMaybe<UserWhere>;
 };
 
-export type TitleUsersCreateFieldInput = {
+export type TechnologyUsersCreateFieldInput = {
   node: UserCreateInput;
 };
 
-export type TitleUsersDeleteFieldInput = {
+export type TechnologyUsersDeleteFieldInput = {
   delete?: InputMaybe<UserDeleteInput>;
-  where?: InputMaybe<TitleUsersConnectionWhere>;
+  where?: InputMaybe<TechnologyUsersConnectionWhere>;
 };
 
-export type TitleUsersDisconnectFieldInput = {
+export type TechnologyUsersDisconnectFieldInput = {
   disconnect?: InputMaybe<UserDisconnectInput>;
-  where?: InputMaybe<TitleUsersConnectionWhere>;
+  where?: InputMaybe<TechnologyUsersConnectionWhere>;
 };
 
-export type TitleUsersFieldInput = {
-  connect?: InputMaybe<Array<TitleUsersConnectFieldInput>>;
-  create?: InputMaybe<Array<TitleUsersCreateFieldInput>>;
+export type TechnologyUsersFieldInput = {
+  connect?: InputMaybe<Array<TechnologyUsersConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TechnologyUsersConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TechnologyUsersCreateFieldInput>>;
 };
 
-export type TitleUsersNodeAggregationWhereInput = {
-  AND?: InputMaybe<Array<TitleUsersNodeAggregationWhereInput>>;
-  OR?: InputMaybe<Array<TitleUsersNodeAggregationWhereInput>>;
+export type TechnologyUsersNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<TechnologyUsersNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<TechnologyUsersNodeAggregationWhereInput>>;
   name_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
@@ -361,28 +396,29 @@ export type TitleUsersNodeAggregationWhereInput = {
   name_SHORTEST_LTE?: InputMaybe<Scalars['Int']>;
 };
 
-export type TitleUsersRelationship = {
-  __typename?: 'TitleUsersRelationship';
+export type TechnologyUsersRelationship = {
+  __typename?: 'TechnologyUsersRelationship';
   cursor: Scalars['String'];
   node: User;
 };
 
-export type TitleUsersUpdateConnectionInput = {
+export type TechnologyUsersUpdateConnectionInput = {
   node?: InputMaybe<UserUpdateInput>;
 };
 
-export type TitleUsersUpdateFieldInput = {
-  connect?: InputMaybe<Array<TitleUsersConnectFieldInput>>;
-  create?: InputMaybe<Array<TitleUsersCreateFieldInput>>;
-  delete?: InputMaybe<Array<TitleUsersDeleteFieldInput>>;
-  disconnect?: InputMaybe<Array<TitleUsersDisconnectFieldInput>>;
-  update?: InputMaybe<TitleUsersUpdateConnectionInput>;
-  where?: InputMaybe<TitleUsersConnectionWhere>;
+export type TechnologyUsersUpdateFieldInput = {
+  connect?: InputMaybe<Array<TechnologyUsersConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TechnologyUsersConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TechnologyUsersCreateFieldInput>>;
+  delete?: InputMaybe<Array<TechnologyUsersDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<TechnologyUsersDisconnectFieldInput>>;
+  update?: InputMaybe<TechnologyUsersUpdateConnectionInput>;
+  where?: InputMaybe<TechnologyUsersConnectionWhere>;
 };
 
-export type TitleWhere = {
-  AND?: InputMaybe<Array<TitleWhere>>;
-  OR?: InputMaybe<Array<TitleWhere>>;
+export type TechnologyWhere = {
+  AND?: InputMaybe<Array<TechnologyWhere>>;
+  OR?: InputMaybe<Array<TechnologyWhere>>;
   name?: InputMaybe<Scalars['String']>;
   name_CONTAINS?: InputMaybe<Scalars['String']>;
   name_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -393,26 +429,19 @@ export type TitleWhere = {
   name_NOT_IN?: InputMaybe<Array<Scalars['String']>>;
   name_NOT_STARTS_WITH?: InputMaybe<Scalars['String']>;
   name_STARTS_WITH?: InputMaybe<Scalars['String']>;
-  usersAggregate?: InputMaybe<TitleUsersAggregateInput>;
-  usersConnection_ALL?: InputMaybe<TitleUsersConnectionWhere>;
-  usersConnection_NONE?: InputMaybe<TitleUsersConnectionWhere>;
-  usersConnection_SINGLE?: InputMaybe<TitleUsersConnectionWhere>;
-  usersConnection_SOME?: InputMaybe<TitleUsersConnectionWhere>;
-  /** Return Titles where all of the related Users match this filter */
+  usersAggregate?: InputMaybe<TechnologyUsersAggregateInput>;
+  usersConnection_ALL?: InputMaybe<TechnologyUsersConnectionWhere>;
+  usersConnection_NONE?: InputMaybe<TechnologyUsersConnectionWhere>;
+  usersConnection_SINGLE?: InputMaybe<TechnologyUsersConnectionWhere>;
+  usersConnection_SOME?: InputMaybe<TechnologyUsersConnectionWhere>;
+  /** Return Technologies where all of the related Users match this filter */
   users_ALL?: InputMaybe<UserWhere>;
-  /** Return Titles where none of the related Users match this filter */
+  /** Return Technologies where none of the related Users match this filter */
   users_NONE?: InputMaybe<UserWhere>;
-  /** Return Titles where one of the related Users match this filter */
+  /** Return Technologies where one of the related Users match this filter */
   users_SINGLE?: InputMaybe<UserWhere>;
-  /** Return Titles where some of the related Users match this filter */
+  /** Return Technologies where some of the related Users match this filter */
   users_SOME?: InputMaybe<UserWhere>;
-};
-
-export type TitlesConnection = {
-  __typename?: 'TitlesConnection';
-  edges: Array<TitleEdge>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int'];
 };
 
 export type UpdateInfo = {
@@ -424,10 +453,10 @@ export type UpdateInfo = {
   relationshipsDeleted: Scalars['Int'];
 };
 
-export type UpdateTitlesMutationResponse = {
-  __typename?: 'UpdateTitlesMutationResponse';
+export type UpdateTechnologiesMutationResponse = {
+  __typename?: 'UpdateTechnologiesMutationResponse';
   info: UpdateInfo;
-  titles: Array<Title>;
+  technologies: Array<Technology>;
 };
 
 export type UpdateUsersMutationResponse = {
@@ -439,31 +468,31 @@ export type UpdateUsersMutationResponse = {
 export type User = {
   __typename?: 'User';
   name: Scalars['String'];
-  titles: Array<Title>;
-  titlesAggregate?: Maybe<UserTitleTitlesAggregationSelection>;
-  titlesConnection: UserTitlesConnection;
+  technologies: Array<Technology>;
+  technologiesAggregate?: Maybe<UserTechnologyTechnologiesAggregationSelection>;
+  technologiesConnection: UserTechnologiesConnection;
 };
 
 
-export type UserTitlesArgs = {
+export type UserTechnologiesArgs = {
   directed?: InputMaybe<Scalars['Boolean']>;
-  options?: InputMaybe<TitleOptions>;
-  where?: InputMaybe<TitleWhere>;
+  options?: InputMaybe<TechnologyOptions>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
-export type UserTitlesAggregateArgs = {
+export type UserTechnologiesAggregateArgs = {
   directed?: InputMaybe<Scalars['Boolean']>;
-  where?: InputMaybe<TitleWhere>;
+  where?: InputMaybe<TechnologyWhere>;
 };
 
 
-export type UserTitlesConnectionArgs = {
+export type UserTechnologiesConnectionArgs = {
   after?: InputMaybe<Scalars['String']>;
   directed?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<UserTitlesConnectionSort>>;
-  where?: InputMaybe<UserTitlesConnectionWhere>;
+  sort?: InputMaybe<Array<UserTechnologiesConnectionSort>>;
+  where?: InputMaybe<UserTechnologiesConnectionWhere>;
 };
 
 export type UserAggregateSelection = {
@@ -473,7 +502,15 @@ export type UserAggregateSelection = {
 };
 
 export type UserConnectInput = {
-  titles?: InputMaybe<Array<UserTitlesConnectFieldInput>>;
+  technologies?: InputMaybe<Array<UserTechnologiesConnectFieldInput>>;
+};
+
+export type UserConnectOrCreateInput = {
+  technologies?: InputMaybe<Array<UserTechnologiesConnectOrCreateFieldInput>>;
+};
+
+export type UserConnectOrCreateWhere = {
+  node: UserUniqueWhere;
 };
 
 export type UserConnectWhere = {
@@ -482,21 +519,25 @@ export type UserConnectWhere = {
 
 export type UserCreateInput = {
   name: Scalars['String'];
-  titles?: InputMaybe<UserTitlesFieldInput>;
+  technologies?: InputMaybe<UserTechnologiesFieldInput>;
 };
 
 export type UserDeleteInput = {
-  titles?: InputMaybe<Array<UserTitlesDeleteFieldInput>>;
+  technologies?: InputMaybe<Array<UserTechnologiesDeleteFieldInput>>;
 };
 
 export type UserDisconnectInput = {
-  titles?: InputMaybe<Array<UserTitlesDisconnectFieldInput>>;
+  technologies?: InputMaybe<Array<UserTechnologiesDisconnectFieldInput>>;
 };
 
 export type UserEdge = {
   __typename?: 'UserEdge';
   cursor: Scalars['String'];
   node: User;
+};
+
+export type UserOnCreateInput = {
+  name: Scalars['String'];
 };
 
 export type UserOptions = {
@@ -507,7 +548,7 @@ export type UserOptions = {
 };
 
 export type UserRelationInput = {
-  titles?: InputMaybe<Array<UserTitlesCreateFieldInput>>;
+  technologies?: InputMaybe<Array<UserTechnologiesCreateFieldInput>>;
 };
 
 /** Fields to sort Users by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserSort object. */
@@ -515,73 +556,72 @@ export type UserSort = {
   name?: InputMaybe<SortDirection>;
 };
 
-export type UserTitleTitlesAggregationSelection = {
-  __typename?: 'UserTitleTitlesAggregationSelection';
-  count: Scalars['Int'];
-  node?: Maybe<UserTitleTitlesNodeAggregateSelection>;
-};
-
-export type UserTitleTitlesNodeAggregateSelection = {
-  __typename?: 'UserTitleTitlesNodeAggregateSelection';
-  name: StringAggregateSelectionNonNullable;
-};
-
-export type UserTitlesAggregateInput = {
-  AND?: InputMaybe<Array<UserTitlesAggregateInput>>;
-  OR?: InputMaybe<Array<UserTitlesAggregateInput>>;
+export type UserTechnologiesAggregateInput = {
+  AND?: InputMaybe<Array<UserTechnologiesAggregateInput>>;
+  OR?: InputMaybe<Array<UserTechnologiesAggregateInput>>;
   count?: InputMaybe<Scalars['Int']>;
   count_GT?: InputMaybe<Scalars['Int']>;
   count_GTE?: InputMaybe<Scalars['Int']>;
   count_LT?: InputMaybe<Scalars['Int']>;
   count_LTE?: InputMaybe<Scalars['Int']>;
-  node?: InputMaybe<UserTitlesNodeAggregationWhereInput>;
+  node?: InputMaybe<UserTechnologiesNodeAggregationWhereInput>;
 };
 
-export type UserTitlesConnectFieldInput = {
-  connect?: InputMaybe<Array<TitleConnectInput>>;
-  where?: InputMaybe<TitleConnectWhere>;
+export type UserTechnologiesConnectFieldInput = {
+  connect?: InputMaybe<Array<TechnologyConnectInput>>;
+  where?: InputMaybe<TechnologyConnectWhere>;
 };
 
-export type UserTitlesConnection = {
-  __typename?: 'UserTitlesConnection';
-  edges: Array<UserTitlesRelationship>;
+export type UserTechnologiesConnectOrCreateFieldInput = {
+  onCreate: UserTechnologiesConnectOrCreateFieldInputOnCreate;
+  where: TechnologyConnectOrCreateWhere;
+};
+
+export type UserTechnologiesConnectOrCreateFieldInputOnCreate = {
+  node: TechnologyOnCreateInput;
+};
+
+export type UserTechnologiesConnection = {
+  __typename?: 'UserTechnologiesConnection';
+  edges: Array<UserTechnologiesRelationship>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
 
-export type UserTitlesConnectionSort = {
-  node?: InputMaybe<TitleSort>;
+export type UserTechnologiesConnectionSort = {
+  node?: InputMaybe<TechnologySort>;
 };
 
-export type UserTitlesConnectionWhere = {
-  AND?: InputMaybe<Array<UserTitlesConnectionWhere>>;
-  OR?: InputMaybe<Array<UserTitlesConnectionWhere>>;
-  node?: InputMaybe<TitleWhere>;
-  node_NOT?: InputMaybe<TitleWhere>;
+export type UserTechnologiesConnectionWhere = {
+  AND?: InputMaybe<Array<UserTechnologiesConnectionWhere>>;
+  OR?: InputMaybe<Array<UserTechnologiesConnectionWhere>>;
+  node?: InputMaybe<TechnologyWhere>;
+  node_NOT?: InputMaybe<TechnologyWhere>;
 };
 
-export type UserTitlesCreateFieldInput = {
-  node: TitleCreateInput;
+export type UserTechnologiesCreateFieldInput = {
+  node: TechnologyCreateInput;
 };
 
-export type UserTitlesDeleteFieldInput = {
-  delete?: InputMaybe<TitleDeleteInput>;
-  where?: InputMaybe<UserTitlesConnectionWhere>;
+export type UserTechnologiesDeleteFieldInput = {
+  delete?: InputMaybe<TechnologyDeleteInput>;
+  where?: InputMaybe<UserTechnologiesConnectionWhere>;
 };
 
-export type UserTitlesDisconnectFieldInput = {
-  disconnect?: InputMaybe<TitleDisconnectInput>;
-  where?: InputMaybe<UserTitlesConnectionWhere>;
+export type UserTechnologiesDisconnectFieldInput = {
+  disconnect?: InputMaybe<TechnologyDisconnectInput>;
+  where?: InputMaybe<UserTechnologiesConnectionWhere>;
 };
 
-export type UserTitlesFieldInput = {
-  connect?: InputMaybe<Array<UserTitlesConnectFieldInput>>;
-  create?: InputMaybe<Array<UserTitlesCreateFieldInput>>;
+export type UserTechnologiesFieldInput = {
+  connect?: InputMaybe<Array<UserTechnologiesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserTechnologiesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserTechnologiesCreateFieldInput>>;
 };
 
-export type UserTitlesNodeAggregationWhereInput = {
-  AND?: InputMaybe<Array<UserTitlesNodeAggregationWhereInput>>;
-  OR?: InputMaybe<Array<UserTitlesNodeAggregationWhereInput>>;
+export type UserTechnologiesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserTechnologiesNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<UserTechnologiesNodeAggregationWhereInput>>;
   name_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
@@ -604,28 +644,44 @@ export type UserTitlesNodeAggregationWhereInput = {
   name_SHORTEST_LTE?: InputMaybe<Scalars['Int']>;
 };
 
-export type UserTitlesRelationship = {
-  __typename?: 'UserTitlesRelationship';
+export type UserTechnologiesRelationship = {
+  __typename?: 'UserTechnologiesRelationship';
   cursor: Scalars['String'];
-  node: Title;
+  node: Technology;
 };
 
-export type UserTitlesUpdateConnectionInput = {
-  node?: InputMaybe<TitleUpdateInput>;
+export type UserTechnologiesUpdateConnectionInput = {
+  node?: InputMaybe<TechnologyUpdateInput>;
 };
 
-export type UserTitlesUpdateFieldInput = {
-  connect?: InputMaybe<Array<UserTitlesConnectFieldInput>>;
-  create?: InputMaybe<Array<UserTitlesCreateFieldInput>>;
-  delete?: InputMaybe<Array<UserTitlesDeleteFieldInput>>;
-  disconnect?: InputMaybe<Array<UserTitlesDisconnectFieldInput>>;
-  update?: InputMaybe<UserTitlesUpdateConnectionInput>;
-  where?: InputMaybe<UserTitlesConnectionWhere>;
+export type UserTechnologiesUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserTechnologiesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserTechnologiesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserTechnologiesCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserTechnologiesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserTechnologiesDisconnectFieldInput>>;
+  update?: InputMaybe<UserTechnologiesUpdateConnectionInput>;
+  where?: InputMaybe<UserTechnologiesConnectionWhere>;
+};
+
+export type UserTechnologyTechnologiesAggregationSelection = {
+  __typename?: 'UserTechnologyTechnologiesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserTechnologyTechnologiesNodeAggregateSelection>;
+};
+
+export type UserTechnologyTechnologiesNodeAggregateSelection = {
+  __typename?: 'UserTechnologyTechnologiesNodeAggregateSelection';
+  name: StringAggregateSelectionNonNullable;
+};
+
+export type UserUniqueWhere = {
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type UserUpdateInput = {
   name?: InputMaybe<Scalars['String']>;
-  titles?: InputMaybe<Array<UserTitlesUpdateFieldInput>>;
+  technologies?: InputMaybe<Array<UserTechnologiesUpdateFieldInput>>;
 };
 
 export type UserWhere = {
@@ -641,19 +697,19 @@ export type UserWhere = {
   name_NOT_IN?: InputMaybe<Array<Scalars['String']>>;
   name_NOT_STARTS_WITH?: InputMaybe<Scalars['String']>;
   name_STARTS_WITH?: InputMaybe<Scalars['String']>;
-  titlesAggregate?: InputMaybe<UserTitlesAggregateInput>;
-  titlesConnection_ALL?: InputMaybe<UserTitlesConnectionWhere>;
-  titlesConnection_NONE?: InputMaybe<UserTitlesConnectionWhere>;
-  titlesConnection_SINGLE?: InputMaybe<UserTitlesConnectionWhere>;
-  titlesConnection_SOME?: InputMaybe<UserTitlesConnectionWhere>;
-  /** Return Users where all of the related Titles match this filter */
-  titles_ALL?: InputMaybe<TitleWhere>;
-  /** Return Users where none of the related Titles match this filter */
-  titles_NONE?: InputMaybe<TitleWhere>;
-  /** Return Users where one of the related Titles match this filter */
-  titles_SINGLE?: InputMaybe<TitleWhere>;
-  /** Return Users where some of the related Titles match this filter */
-  titles_SOME?: InputMaybe<TitleWhere>;
+  technologiesAggregate?: InputMaybe<UserTechnologiesAggregateInput>;
+  technologiesConnection_ALL?: InputMaybe<UserTechnologiesConnectionWhere>;
+  technologiesConnection_NONE?: InputMaybe<UserTechnologiesConnectionWhere>;
+  technologiesConnection_SINGLE?: InputMaybe<UserTechnologiesConnectionWhere>;
+  technologiesConnection_SOME?: InputMaybe<UserTechnologiesConnectionWhere>;
+  /** Return Users where all of the related Technologies match this filter */
+  technologies_ALL?: InputMaybe<TechnologyWhere>;
+  /** Return Users where none of the related Technologies match this filter */
+  technologies_NONE?: InputMaybe<TechnologyWhere>;
+  /** Return Users where one of the related Technologies match this filter */
+  technologies_SINGLE?: InputMaybe<TechnologyWhere>;
+  /** Return Users where some of the related Technologies match this filter */
+  technologies_SOME?: InputMaybe<TechnologyWhere>;
 };
 
 export type UsersConnection = {
@@ -670,15 +726,29 @@ export type AddTagMutationVariables = Exact<{
 
 export type AddTagMutation = { __typename?: 'Mutation', addTag: { __typename?: 'Tag', id: number, name: string } };
 
+export type CreateUsersMutationVariables = Exact<{
+  userName: Scalars['String'];
+}>;
+
+
+export type CreateUsersMutation = { __typename?: 'Mutation', createUsers: { __typename?: 'CreateUsersMutationResponse', info: { __typename?: 'CreateInfo', nodesCreated: number } } };
+
 export type GetTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', id: number, name: string }> };
 
-export type OnTagAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type UserQueryVariables = Exact<{
+  userName: Scalars['String'];
+}>;
 
 
-export type OnTagAddedSubscription = { __typename?: 'Subscription', onTagAdded: { __typename?: 'Tag', id: number, name: string } };
+export type UserQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', name: string }> };
+
+export type TagAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TagAddedSubscription = { __typename?: 'Subscription', tagAdded: { __typename?: 'Tag', id: number, name: string } };
 
 
 export const AddTagDocument = gql`
@@ -715,6 +785,41 @@ export function useAddTagMutation(baseOptions?: Apollo.MutationHookOptions<AddTa
 export type AddTagMutationHookResult = ReturnType<typeof useAddTagMutation>;
 export type AddTagMutationResult = Apollo.MutationResult<AddTagMutation>;
 export type AddTagMutationOptions = Apollo.BaseMutationOptions<AddTagMutation, AddTagMutationVariables>;
+export const CreateUsersDocument = gql`
+    mutation CreateUsers($userName: String!) {
+  createUsers(input: {name: $userName}) {
+    info {
+      nodesCreated
+    }
+  }
+}
+    `;
+export type CreateUsersMutationFn = Apollo.MutationFunction<CreateUsersMutation, CreateUsersMutationVariables>;
+
+/**
+ * __useCreateUsersMutation__
+ *
+ * To run a mutation, you first call `useCreateUsersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUsersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUsersMutation, { data, loading, error }] = useCreateUsersMutation({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useCreateUsersMutation(baseOptions?: Apollo.MutationHookOptions<CreateUsersMutation, CreateUsersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUsersMutation, CreateUsersMutationVariables>(CreateUsersDocument, options);
+      }
+export type CreateUsersMutationHookResult = ReturnType<typeof useCreateUsersMutation>;
+export type CreateUsersMutationResult = Apollo.MutationResult<CreateUsersMutation>;
+export type CreateUsersMutationOptions = Apollo.BaseMutationOptions<CreateUsersMutation, CreateUsersMutationVariables>;
 export const GetTagsDocument = gql`
     query GetTags {
   tags {
@@ -750,9 +855,44 @@ export function useGetTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetTagsQueryHookResult = ReturnType<typeof useGetTagsQuery>;
 export type GetTagsLazyQueryHookResult = ReturnType<typeof useGetTagsLazyQuery>;
 export type GetTagsQueryResult = Apollo.QueryResult<GetTagsQuery, GetTagsQueryVariables>;
-export const OnTagAddedDocument = gql`
-    subscription onTagAdded {
-  onTagAdded {
+export const UserDocument = gql`
+    query User($userName: String!) {
+  users(where: {name: $userName}) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const TagAddedDocument = gql`
+    subscription TagAdded {
+  tagAdded {
     id
     name
   }
@@ -760,23 +900,23 @@ export const OnTagAddedDocument = gql`
     `;
 
 /**
- * __useOnTagAddedSubscription__
+ * __useTagAddedSubscription__
  *
- * To run a query within a React component, call `useOnTagAddedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useOnTagAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTagAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTagAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOnTagAddedSubscription({
+ * const { data, loading, error } = useTagAddedSubscription({
  *   variables: {
  *   },
  * });
  */
-export function useOnTagAddedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnTagAddedSubscription, OnTagAddedSubscriptionVariables>) {
+export function useTagAddedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TagAddedSubscription, TagAddedSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<OnTagAddedSubscription, OnTagAddedSubscriptionVariables>(OnTagAddedDocument, options);
+        return Apollo.useSubscription<TagAddedSubscription, TagAddedSubscriptionVariables>(TagAddedDocument, options);
       }
-export type OnTagAddedSubscriptionHookResult = ReturnType<typeof useOnTagAddedSubscription>;
-export type OnTagAddedSubscriptionResult = Apollo.SubscriptionResult<OnTagAddedSubscription>;
+export type TagAddedSubscriptionHookResult = ReturnType<typeof useTagAddedSubscription>;
+export type TagAddedSubscriptionResult = Apollo.SubscriptionResult<TagAddedSubscription>;

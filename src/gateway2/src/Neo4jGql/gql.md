@@ -161,9 +161,29 @@ mutation {
   }
 }
 
+mutation CreateUsers($userName: String!) {
+  createUsers (input: {
+    name: $userName
+  }) {
+    info {
+      nodesCreated
+    }
+  }
+}
 
-mutation {
-  updateUsers(up}) {
-    
+mutation UpdateUsers($userName: String!, $technologyName: String!){
+  updateUsers(
+      connectOrCreate: {
+        technologies: {
+            where: { node: { name: $technologyName } }
+            onCreate: { node: { name: $technologyName } }
+        }
+      },
+      where: { name: $userName }
+  ) {
+    info {
+      nodesCreated
+      relationshipsCreated
+    }
   }
 }

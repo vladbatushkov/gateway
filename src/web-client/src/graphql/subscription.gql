@@ -1,5 +1,5 @@
-subscription onTagAdded {
-  onTagAdded {
+subscription TagAdded {
+  tagAdded {
     id
     name
   }

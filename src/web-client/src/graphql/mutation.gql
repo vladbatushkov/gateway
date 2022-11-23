@@ -4,3 +4,13 @@ mutation AddTag($name: String!) {
     name
   }
 }
+
+mutation CreateUsers($userName: String!) {
+  createUsers (input: {
+    name: $userName
+  }) {
+    info {
+      nodesCreated
+    }
+  }
+}

@@ -4,3 +4,9 @@ query GetTags {
     name
   }
 }
+
+query User($userName: String!) {
+  users(where: { name: $userName }) {
+    name
+  }
+}

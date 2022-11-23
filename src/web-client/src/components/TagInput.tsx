@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useAddTagMutation } from '../graphql/generated/schema';
 
-export const AddTag: FC = () => {
+export const TagInput: FC = () => {
 
     const [tag, setTag] = useState("");
     const [addTag, { loading, error }] = useAddTagMutation();
