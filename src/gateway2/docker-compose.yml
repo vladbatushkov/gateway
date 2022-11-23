@@ -13,8 +13,8 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - tagswebapi
       - neo4jgql
+      - tagswebapi
       - redis
 
   ###################   REST API

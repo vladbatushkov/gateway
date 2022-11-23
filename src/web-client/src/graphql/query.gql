@@ -10,3 +10,13 @@ query User($userName: String!) {
     name
   }
 }
+
+query GetFriends($userName: String!){
+  users(where: { name: $userName }){
+    technologies {
+      users(where: { name_NOT: $userName }){
+        name
+      }
+    }
+  }
+}

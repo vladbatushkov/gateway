@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { useUserLazyQuery, useCreateUsersMutation } from '../graphql/generated/schema';
 
-export const UserInput: FC = () => {
+export const UserInput: FC<{ onUserNameDefined: (name: string) => void }> = ({ onUserNameDefined }) => {
 
     const [name, setName] = useState("");
-    const [userName, setUserName] = useState("");
+    const [userStatus, setUserStatus] = useState(true);
     const [createUser] = useCreateUsersMutation();
     const [getUser, { loading, error, data }] = useUserLazyQuery({ nextFetchPolicy: 'no-cache', fetchPolicy: 'no-cache' });
 
@@ -16,6 +16,7 @@ export const UserInput: FC = () => {
                         userName: name
                     }
                 });
+                onUserNameDefined(name);
             }
         }, 500);
         return () => clearTimeout(getData);
@@ -23,10 +24,10 @@ export const UserInput: FC = () => {
 
     useEffect(() => {
         if (!!data && data?.users?.length === 0) {
-            setUserName(name);
+            setUserStatus(false);
             return;
         }
-        setUserName("");
+        setUserStatus(true);
     }, [data]);
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -35,17 +36,17 @@ export const UserInput: FC = () => {
     };
 
     const handleClick = () => {
-        if (userName) {
-            createUser({ variables: { userName: userName } });
-            setUserName("");
+        if (!userStatus) {
+            createUser({ variables: { userName: name } });
+            setUserStatus(true);
         }
     };
 
     return (
         <div>
-            <p>Enter a github account (user name)</p>
+            <p>Enter your github account (user name)</p>
             <input type="text" value={name} onChange={handleChange} placeholder="Search user name" />
-            <button onClick={handleClick} disabled={!userName}>Create User</button>
+            <button onClick={handleClick} disabled={userStatus}>Create User</button>
         </div>
     );
 };

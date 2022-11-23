@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Tag } from '../graphql/generated/schema';
 
-export const ListOfTagsWithChecks: FC<{ tags: Tag[] }> = ({ tags }) => {
+export const ListOfTagsWithChecks: FC<{ tags: Tag[], onChecked: (name: string, value: boolean) => void }> = ({ tags, onChecked }) => {
 
   const [checks, setChecks] = useState([] as { key: number, value: boolean, name: string }[]);
 
@@ -15,7 +15,7 @@ export const ListOfTagsWithChecks: FC<{ tags: Tag[] }> = ({ tags }) => {
     const checksUpdated = checks
       .map((item) => item.key === toggled.key ? toggled : item);
     setChecks(checksUpdated);
-    console.log(toggled);
+    onChecked(toggled.name, toggled.value);
   };
 
   const items = checks?.map((item) => (
