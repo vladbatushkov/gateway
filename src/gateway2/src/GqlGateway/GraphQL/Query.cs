@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GqlGateway.GraphQL;
-
+﻿namespace GqlGateway.GraphQL;
 
 [ExtendObjectType("Query")]
-public class Queries
+public class Query
 {
     public async Task<ICollection<Tag>> GetTagsAsync(
         [Service] ITagApiClient service,

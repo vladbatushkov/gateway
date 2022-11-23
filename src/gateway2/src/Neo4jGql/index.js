@@ -17,6 +17,10 @@ type Title {
     name: String!
     titles: [Title!]! @relationship(type: "LIKE", direction: OUT)
   }
+
+  type Subscription {
+    titleAdded(titleID: ID!): Title
+  }
 `;
 
 const driver = neo4j.driver(

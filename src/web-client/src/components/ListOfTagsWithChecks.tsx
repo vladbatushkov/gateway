@@ -3,14 +3,14 @@ import { Tag } from '../graphql/generated/schema';
 
 export const ListOfTagsWithChecks: FC<{ tags: Tag[] }> = ({ tags }) => {
 
-  const [checks, setChecks] = useState([] as { key: string, value: boolean, name: string }[]);
+  const [checks, setChecks] = useState([] as { key: number, value: boolean, name: string }[]);
 
   useEffect(() => {
     const items = tags.map((item: Tag) => ({ key: item.id, value: false, name: item.name }));
     setChecks(items);
   }, [tags]);
 
-  const checkHandler = (selected: { key: string, value: boolean, name: string }) => {
+  const checkHandler = (selected: { key: number, value: boolean, name: string }) => {
     const toggled = { key: selected.key, value: !selected.value, name: selected.name };
     const checksUpdated = checks
       .map((item) => item.key === toggled.key ? toggled : item);

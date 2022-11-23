@@ -1,4 +1,17 @@
 var builder = WebApplication.CreateBuilder(args);
+
+const string AllowedOrigin = "allowedOrigin";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowedOrigin,
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var serviceSection = builder.Configuration.GetSection("Services");
 
 var tagApiClientEndpoint = serviceSection.GetValue<string>("TagApiClient:endpoint");
@@ -6,7 +19,7 @@ var tagApiClientEndpoint = serviceSection.GetValue<string>("TagApiClient:endpoin
 (string endpoint, string password) redisConfiguration = (serviceSection.GetValue<string>("Redis:endpoint"),
                                             serviceSection.GetValue<string>("Redis:password"));
 
-var neo4jEndpoint =  serviceSection.GetValue<string>("Neo4jgql:endpoint");
+var neo4jEndpoint = serviceSection.GetValue<string>("Neo4jgql:endpoint");
 
 builder.Services.AddHttpClient<ITagApiClient, TagApiClient>(client
     => client.BaseAddress = new Uri(tagApiClientEndpoint));
@@ -15,10 +28,10 @@ builder.Services.AddHttpClient("Neo4jgql", client
 
 builder.Services
     .AddGraphQLServer()
-    .AddTypeExtension<Queries>()
-    .AddTypeExtension<Mutations>()
-    .AddTypeExtension<Subscriptions>()
-    .AddRedisSubscriptions(_ => 
+    .AddTypeExtension<Query>()
+    .AddTypeExtension<Mutation>()
+    .AddTypeExtension<Subscription>()
+    .AddRedisSubscriptions(_ =>
         ConnectionMultiplexer.Connect(new ConfigurationOptions
         {
             EndPoints = { redisConfiguration.endpoint },
@@ -27,7 +40,7 @@ builder.Services
     .AddRemoteSchema("Neo4jgql", ignoreRootTypes: false);
 
 var app = builder.Build();
-
+app.UseCors(AllowedOrigin);
 app.UseWebSockets();
 app.MapGraphQL();
 app.Run();

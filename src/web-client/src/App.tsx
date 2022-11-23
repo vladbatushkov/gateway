@@ -9,11 +9,11 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { WebSocketLink } from "@apollo/client/link/ws";
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:5126/graphql'
+  uri: 'http://localhost:5000/graphql'
 });
 
 const link = new WebSocketLink(
-  new SubscriptionClient("ws://localhost:5126/graphql", {
+  new SubscriptionClient("ws://localhost:5000/graphql", {
     reconnect: true
   })
 );

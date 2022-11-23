@@ -1,9 +1,9 @@
 ﻿namespace GqlGateway.GraphQL;
 
 [ExtendObjectType("Subscription")]
-public class Subscriptions
+public class Subscription
 {
     [Subscribe]
-    [Topic(nameof(Mutations.AddTag))]
+    [Topic(nameof(Mutation.AddTag))]
     public Tag OnTagAdded([EventMessage] Tag tag) => tag;
 }
