@@ -10,6 +10,8 @@ import {
 import { TagInput } from './TagInput';
 import { ListOfTagsWithChecks } from './ListOfTagsWithChecks';
 import { UserInput } from './UserInput';
+import axios from 'axios';
+import { config } from '../config';
 
 export const TagsWithInputWithSubWithChecks: React.FC = () => {
 
@@ -19,9 +21,10 @@ export const TagsWithInputWithSubWithChecks: React.FC = () => {
   const { data, loading, error } = useGetTagsQuery();
   const [tags, setTags] = useState([] as Tag[]);
 
-  const [userName, setUserName] = useState("");
-  const [updateUsers, updateResult] = useUpdateUsersMutation();
-  const [detachUsers, detachResult] = useDetachUsersMutation();
+  const [user, setUser] = useState({ name: "", image: "" });
+  const [friends, setFriends] = useState([] as ({ name: string, image: string } | null)[]);
+  const [updateUsers] = useUpdateUsersMutation();
+  const [detachUsers] = useDetachUsersMutation();
 
   const [getFriends, friendsResult] = useGetFriendsLazyQuery({ nextFetchPolicy: 'no-cache', fetchPolicy: 'no-cache' });
 
@@ -35,56 +38,66 @@ export const TagsWithInputWithSubWithChecks: React.FC = () => {
     setTags([...tags, dataSub.tagAdded as Tag]);
   }, [dataSub]);
 
-  const onUserNameDefined = (name: string) => {
+  const onUserDefined = (name: string, image: string) => {
     if (!!name) {
-      setUserName(name);
+      setUser({ name, image });
     }
   };
 
-  const onChecked = (name: string, isChecked: boolean) => {
-    console.log(userName);
-    if (!userName) {
+  useEffect(() => {
+    const names = friendsResult?.data?.users?.flatMap(x => x.technologies.flatMap(y => y.users))
+      .flatMap(z => z.name)
+      .filter((v, i, a) => a.indexOf(v) === i);
+
+    const items = names?.map(async (name) => {
+      const res = await axios.get(`https://api.github.com/users/${name}`, config);
+      return res && res?.data ? { name, image: res.data.avatar_url as string } : null;
+    });
+    if (items) {
+      Promise.all(items).then((res) => {
+        if (res) {
+          setFriends(res);
+        }
+      })
+    }
+  }, [friendsResult])
+
+  const onChecked = async (name: string, isChecked: boolean) => {
+    console.log(user);
+    if (!user || !user.name) {
       return;
     }
 
     if (isChecked) {
-      updateUsers({
+      await updateUsers({
         variables: {
-          userName: userName,
+          userName: user.name,
           technologyName: name
         }
-      }).then(() => {
-        getFriends({
-          variables: {
-            userName: userName
-          }
-        });
       });
     } else {
-      detachUsers({
+      await detachUsers({
         variables: {
-          userName: userName,
+          userName: user.name,
           technologyName: name
         }
-      }).then(() => {
-        getFriends({
-          variables: {
-            userName: userName
-          }
-        });
       });
     }
+    getFriends({
+      variables: {
+        userName: user.name
+      }
+    });
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
   return (<div>
-    <UserInput {...{ onUserNameDefined }} />
+    <UserInput {...{ onUserDefined }} />
     <TagInput />
     <ListOfTagsWithChecks {...{ tags, onChecked }} />
-    {/* <p>{updateResult?.data?.updateUsers?.info?.relationshipsCreated}</p>
-    <p>{detachResult?.data?.updateUsers?.info?.relationshipsDeleted}</p> */}
-    <p>{friendsResult?.data?.users?.flatMap(x => x.technologies.flatMap(y => y.users)).flatMap(z => z.name)}</p>
+    {user && user?.image ? <><h5>You:</h5><img src={user.image} alt={user.name} title={user.name} style={{ width: 100 }} /></> : null}
+    {friends && friends?.length > 0 ? <><h5>Friends by Technologies:</h5>{friends.map(friend => <img src={friend?.image} alt={friend?.name} title={friend?.name} style={{ width: 100, marginRight: 50 }} />)}</> : null}
   </div>);
 };
