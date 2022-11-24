@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import { useUserLazyQuery, useCreateUsersMutation } from '../graphql/generated/schema';
+import axios from 'axios';
+import { config } from '../config';
 
-export const UserInput: FC<{ onUserNameDefined: (name: string) => void }> = ({ onUserNameDefined }) => {
+export const UserInput: FC<{ onUserDefined: (name: string, image: string) => void }> = ({ onUserDefined }) => {
 
     const [name, setName] = useState("");
-    const [userStatus, setUserStatus] = useState(true);
+    const [isAddDisabled, setIsAddDisabled] = useState(true);
     const [createUser] = useCreateUsersMutation();
     const [getUser, { loading, error, data }] = useUserLazyQuery({ nextFetchPolicy: 'no-cache', fetchPolicy: 'no-cache' });
 
@@ -16,18 +18,29 @@ export const UserInput: FC<{ onUserNameDefined: (name: string) => void }> = ({ o
                         userName: name
                     }
                 });
-                onUserNameDefined(name);
             }
         }, 500);
         return () => clearTimeout(getData);
     }, [name]);
 
     useEffect(() => {
-        if (!!data && data?.users?.length === 0) {
-            setUserStatus(false);
-            return;
-        }
-        setUserStatus(true);
+        setIsAddDisabled(true);
+        axios.get(`https://api.github.com/users/${name}`, config)
+            .then(res => {
+                if (!res || !res.data) {
+                    setIsAddDisabled(true);
+                    return;
+                }
+                onUserDefined(name, res.data.avatar_url);
+                if (!!data && data?.users?.length === 0) {
+                    setIsAddDisabled(false);
+                    return;
+                }
+            })
+            .catch(_ => {
+                setIsAddDisabled(true);
+            });
+
     }, [data]);
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -35,18 +48,19 @@ export const UserInput: FC<{ onUserNameDefined: (name: string) => void }> = ({ o
         setName(val);
     };
 
-    const handleClick = () => {
-        if (!userStatus) {
-            createUser({ variables: { userName: name } });
-            setUserStatus(true);
+    const handleClick = async () => {
+        if (isAddDisabled) {
+            return;
         }
+        createUser({ variables: { userName: name } });
+        setIsAddDisabled(true);
     };
 
     return (
         <div>
-            <p>Enter your github account (user name)</p>
-            <input type="text" value={name} onChange={handleChange} placeholder="Search user name" />
-            <button onClick={handleClick} disabled={userStatus}>Create User</button>
+            <p>Enter your Github account (user name)</p>
+            <input type="text" value={name} onChange={handleChange} placeholder="Gihub account" />
+            <button onClick={handleClick} disabled={isAddDisabled}>Add User</button>
         </div>
     );
 };
