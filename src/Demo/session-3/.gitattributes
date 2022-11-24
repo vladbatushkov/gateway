@@ -1,0 +1,13 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+*.txt	text eol=crlf diff
+*.sln	text eol=crlf diff
+*.cs	text eol=crlf diff
+*.csproj	text eol=crlf diff
+*.css	text eol=crlf diff
+*.json	text eol=crlf diff
+*.ts	text eol=crlf diff
+*.tsx	text eol=crlf diff
+*.cshtml encoding=UTF-8
+*.cs encoding=UTF-8
