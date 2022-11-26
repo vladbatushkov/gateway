@@ -12,16 +12,9 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services
-    .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .AddMutationConventions()
-    .AddMutationType<Mutation>()
-    .AddInMemorySubscriptions()
-    .AddSubscriptionType<Subscription>();
+// setup hot chocolate here
 
 var app = builder.Build();
 app.UseCors(AllowedOrigin);
-app.UseWebSockets();
-app.MapGraphQL();
+// use hot chocolate here
 app.Run();
