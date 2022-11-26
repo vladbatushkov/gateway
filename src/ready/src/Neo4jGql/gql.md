@@ -187,3 +187,70 @@ mutation UpdateUsers($userName: String!, $technologyName: String!){
     }
   }
 }
+
+# More
+
+mutation CreateUsers($userName: String!) {
+  createUsers (input: {
+    name: $userName
+  }) {
+    info {
+      nodesCreated
+    }
+  }
+}
+
+query User($userName: String!) {
+  users(where: { name: $userName }) {
+    name
+  }
+}
+
+mutation UpdateUsers($userName: String!, $technologyName: String!){
+  updateUsers(
+      connectOrCreate: {
+        technologies: {
+            where: { node: { name: $technologyName } }
+            onCreate: { node: { name: $technologyName } }
+        }
+      },
+      where: { name: $userName }
+  ) {
+    info {
+      nodesCreated
+      relationshipsCreated
+    }
+  }
+}
+
+mutation DetachUsers($userName: String!, $technologyName: String!){
+  updateUsers(
+      disconnect: {
+        technologies: {
+            where: { node: { name: $technologyName } }
+        }
+      },
+      where: { name: $userName }
+  ) {
+    info {
+      relationshipsDeleted
+    }
+  }
+}
+
+query GetTags {
+  tags {
+    id
+    name
+  }
+}
+
+query GetFriends($userName: String!){
+  users(where: { name: $userName }){
+    technologies {
+      users(where: { name_NOT: $userName }){
+        name
+      }
+    }
+  }
+}
