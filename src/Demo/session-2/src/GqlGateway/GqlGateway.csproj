@@ -11,8 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.2" />
-    <PackageReference Include="HotChocolate.Stitching" Version="12.15.2" />
-    <PackageReference Include="HotChocolate.Subscriptions.Redis" Version="12.15.2" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,7 +21,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StackExchange.Redis" Version="2.6.70" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
