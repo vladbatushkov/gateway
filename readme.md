@@ -45,7 +45,11 @@ Tutorial to learn base concepts of GraphQL and build a Gateway API using Hot Cho
 - Hot Chocolate (watch https://www.youtube.com/@ChilliCream)
 
 # Workshop
-
+## VS code extension 
+1. .NET Extension Pack
+2. Auto-Using for C#
+4. Roslynator
+5. C#
 ## Project setup
 
 1.Create new project 
