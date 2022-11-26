@@ -622,3 +622,100 @@ public static class WebApplicationBuilderExtension
 }
 
 ```
+11. Add MSSQL connection string to appsettings.json
+```
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "TagDatabaseContext": "Server=localhost,1433;Database=TagDB;User Id=sa;Password=yourStrong(!)Password;TrustServerCertificate=True"
+  }
+}
+
+
+```
+
+11. Run MSSQL Docker
+```
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+```
+
+
+
+
+12. Add swagger.nswag and  swagger.json to gateway project inside /OpenApi and execute this command
+
+```
+// global tools
+>> dotnet tool install --global NSwag.ConsoleCore --version 13.18.0
+>> nswag run /runtime:Net60 /file:OpenAPI.nswag
+
+```
+13. Try run application
+```
+dotnet run --urls=http://localhost:5003
+```
+
+## Change code in gateway
+
+```
+// Mutation
+using HotChocolate.Subscriptions;
+namespace GqlGateway.Schema;
+
+public class Mutation
+{
+    public async Task<Tag> AddTag(string tagName,
+                                [Service] ITagApiClient service,
+                                [Service] ITopicEventSender eventSender,
+                                CancellationToken cancellationToken)
+    {
+        var tagResult = await service.ApiTagsPostAsync(tagName);
+        if (tagResult.IsCreated)
+        {
+            await eventSender.SendAsync("AddTag", tagResult.Tag, cancellationToken);
+        }
+        return tagResult.Tag;
+    }
+}
+
+// Query 
+
+
+namespace GqlGateway.Schema;
+
+public class Query { 
+     public async Task<ICollection<Tag>> GetTagsAsync(
+        [Service] ITagApiClient service,
+        CancellationToken cancellationToken)
+    {
+        return await service.ApiTagsGetAsync(cancellationToken);
+    }
+}
+//Programe.cs
+using GqlGateway;
+using GqlGateway.Schema;
+var builder = WebApplication.CreateBuilder(args);
+var serviceSection = builder.Configuration.GetSection("Services");
+var tagApiClientEndpoint = serviceSection.GetValue<string>("TagApiClient:endpoint");
+//builder.Services.AddSingleton<TagInMemoryDataStore>();
+builder.Services.AddHttpClient<ITagApiClient, TagApiClient>(client  => client.BaseAddress = new Uri(tagApiClientEndpoint));
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddSubscriptionType<Subscription>()
+    .AddInMemorySubscriptions();
+
+var app = builder.Build();
+app.UseWebSockets();
+app.MapGraphQL();
+app.Run();
+
+
+```
