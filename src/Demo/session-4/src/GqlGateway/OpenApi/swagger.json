@@ -4,9 +4,9 @@
     "title": "Tag Open API",
     "description": "Swagger Tag Minimal API for GQL",
     "contact": {
-      "name": "Agoda",
-      "url": "http://www.agoda.com",
-      "email": "dev@agoda.com"
+      "name": "awesome",
+      "url": "http://www.awesome.com",
+      "email": "dev@awesome.com"
     },
     "version": "v1"
   },

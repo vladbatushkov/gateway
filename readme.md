@@ -606,9 +606,9 @@ public static class WebApplicationBuilderExtension
             {
                 var contact = new OpenApiContact()
                 {
-                    Name = "Agoda",
-                    Email = "dev@agoda.com",
-                    Url = new Uri("http://www.agoda.com")
+                    Name = "awesome",
+                    Email = "dev@awesome.com",
+                    Url = new Uri("http://www.awesome.com")
                 };
                 var info = new OpenApiInfo()
                 {
