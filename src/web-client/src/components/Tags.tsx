@@ -1,18 +1,19 @@
-import React from 'react';
-import { useGetTagsQuery } from '../graphql/generated/schema';
+import { FC, useEffect, useState } from 'react';
+import { Tag, useGetTagsQuery } from '../graphql/generated/schema';
+import { ListOfTags } from './ListOfTags';
 
-export const Tags: React.FC = () => {
-  const { loading, error, data } = useGetTagsQuery();
+export const Tags: FC = () => {
+
+  const { data, loading, error } = useGetTagsQuery();
+  const [tags, setTags] = useState([] as Tag[]);
+
+  useEffect(() => {
+    if (!data?.tags) return;
+    setTags(data?.tags as Tag[]);
+  }, [data]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return (<div>
-    <h2>Tags:</h2>
-    <ul>
-      {data?.tags.map(({ id, name }) => (
-        <li key={id}>{name}</li>
-      ))}
-    </ul>
-  </div>);
+  return <ListOfTags {...{ tags }} />;
 };

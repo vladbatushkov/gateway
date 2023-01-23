@@ -1,0 +1,1 @@
+nswag run /runtime:Net60 /file:OpenAPI.nswag  
