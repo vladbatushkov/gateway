@@ -1,12 +1,18 @@
-import './App.css';
-import React from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, split } from '@apollo/client';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { LastAddedTag } from './components/LastAddedTag';
-import { Tags } from './components/Tags';
-import { AddTag } from './components/AddTag';
+import "./App.css";
+import React from "react";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  split,
+} from "@apollo/client";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
+
+import { Admin } from "./components/Admin";
+import { Grid } from "./components/Grid";
 
 // const httpLink = new HttpLink({
 //   uri: 'http://localhost:5126/graphql'
@@ -29,7 +35,7 @@ import { AddTag } from './components/AddTag';
 // );
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5126/graphql',
+  uri: "http://localhost:5126/graphql",
   //link: splitLink,
   cache: new InMemoryCache(),
 });
@@ -37,12 +43,17 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
-          {/* <LastAddedTag /> */}
-          <AddTag/>
-          <Tags />
-        </header>
+      <div className="section">
+        <div className="container">
+          <div className="columns">
+            <div className="column is-one-quarter">
+              <Admin />
+            </div>
+            <div className="column">
+              <Grid />
+            </div>
+          </div>
+        </div>
       </div>
     </ApolloProvider>
   );

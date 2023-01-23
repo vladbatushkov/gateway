@@ -9,6 +9,10 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -24,20 +28,242 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>GraphQL Gateway using Hot Chocolate & Neo4j</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <!-- <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-one-quarter">
+            <div class="block has-background-white">
+              <div class="block">
+                <div class="field">
+                  <label class="label">Your GitHub account</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      placeholder="e.g vladbatushkov"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="panel is-info">
+                <p class="panel-heading">Technologies</p>
+                <div class="panel-block">
+                  <div class="field has-addons">
+                    <p class="control is-expanded">
+                      <input
+                        class="input"
+                        type="text"
+                        placeholder="e.g. GraphQL"
+                      />
+                    </p>
+                    <p class="control is-expanded">
+                      <button class="button is-info is-outlined is-fullwidth">
+                        Add item
+                      </button>
+                    </p>
+                  </div>
+                </div>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  GraphQL
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  .NET
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  JavaScript
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  Hot Chocolate
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  Neo4j
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  React
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  AWS
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  DynamoDB
+                </label>
+                <label class="checkbox panel-block is-active">
+                  <input type="checkbox" />
+                  Node
+                </label>
+                <div class="panel-block">
+                  <button class="button is-danger is-outlined is-fullwidth">
+                    Delete selected items
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="columns is-multiline">
+              <div class="column is-one-third">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/6023235?v=4"
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">Vlad Batushkov</p>
+                        <p class="subtitle is-6">@vladbatushkov</p>
+                      </div>
+                    </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+                    <div class="content">
+                      DevManager at @agoda-com, Author of graphville.com, .NET
+                      Engineer, Neo4j enthusiast, Medium writer.
+                    </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+                    <div class="tags are-medium">
+                      <span class="tag is-link is-light">GraphQL</span>
+                      <span class="tag is-link is-light">.NET</span>
+                      <span class="tag is-link is-light">Neo4j</span>
+                      <span class="tag is-link is-light">React</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-one-third">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/29859822?v=4"
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">Alena Batushkova</p>
+                        <p class="subtitle is-6">@abatushkova</p>
+                      </div>
+                    </div>
+
+                    <div class="content">No Bio</div>
+
+                    <div class="tags are-medium">
+                      <span class="tag is-link is-light">React</span>
+                      <span class="tag is-link is-light">JavaScript</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-one-third">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/488464?v=4"
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">Keattisak Chinburarat</p>
+                        <p class="subtitle is-6">@kchinburarat</p>
+                      </div>
+                    </div>
+
+                    <div class="content">Senior Software Engineer @Agoda</div>
+
+                    <div class="tags are-medium">
+                      <span class="tag is-link is-light">GraphQL</span>
+                      <span class="tag is-link is-light">.NET</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-one-third">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/2327615?v=4"
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">Tobias Meixner</p>
+                        <p class="subtitle is-6">@meixnertobias</p>
+                      </div>
+                    </div>
+
+                    <div class="content">
+                      Do web things using React, Apollo, GraphQL, Node,
+                      DynamoDB, Serverless and AWS
+                    </div>
+
+                    <div class="tags are-medium">
+                      <span class="tag is-link is-light">GraphQL</span>
+                      <span class="tag is-link is-light">React</span>
+                      <span class="tag is-link is-light">Node</span>
+                      <span class="tag is-link is-light">AWS</span>
+                      <span class="tag is-link is-light">DynamoDB</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-one-third">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-1by1">
+                      <img
+                        src="https://avatars.githubusercontent.com/u/9714350?v=4"
+                        alt="Placeholder image"
+                      />
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4">Michael Staib</p>
+                        <p class="subtitle is-6">@michaelstaib</p>
+                      </div>
+                    </div>
+
+                    <div class="content">
+                      GraphQL Technical Steering Committee | Microsoft MVP |
+                      Author of Hot Chocolate |
+                      https://twitter.com/michael_staib
+                    </div>
+
+                    <div class="tags are-medium">
+                      <span class="tag is-link is-light">GraphQL</span>
+                      <span class="tag is-link is-light">.NET</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
   </body>
 </html>
