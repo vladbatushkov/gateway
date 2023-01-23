@@ -1,0 +1,19 @@
+{
+  "FilePath": "/Users/vladbatushkov/Documents/src/github/gateway/src/gateway2/src/GqlGateway/GqlGateway.csproj",
+  "Configuration": {
+    "ConfigurationName": "MVC-3.0",
+    "LanguageVersion": "6.0",
+    "Extensions": [
+      {
+        "ExtensionName": "MVC-3.0"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 1100
+  },
+  "RootNamespace": "GqlGateway",
+  "Documents": [],
+  "SerializationFormat": "0.2"
+}
