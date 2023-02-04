@@ -17,7 +17,7 @@ export const Admin: React.FC = () => {
         </div>
       </div>
       <div className="panel is-info">
-        <p className="panel-heading">Technologies</p>
+        <p className="panel-heading">Tags of Interests</p>
         <div className="panel-block">
           <div className="field has-addons">
             <p className="control is-expanded">
