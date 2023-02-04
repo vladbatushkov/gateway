@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TagsApi;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/tag")]
 public class TagController : ControllerBase
 {
     private readonly ITagRepository _tagRepository;
@@ -11,17 +11,23 @@ public class TagController : ControllerBase
     public TagController(ITagRepository tagRepository) =>
         _tagRepository = tagRepository;
 
-    [HttpGet("tags")]
-    public async Task<List<Tag>> GetAll() =>
+    [HttpGet]
+    public async Task<List<Tag>> Get() =>
         await _tagRepository.Get();
 
-    [HttpGet]
-    public async Task<ActionResult<Tag>> Get([FromQuery] string name)
+    [HttpGet("{name}")]
+    public async Task<ActionResult<Tag>> Get(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return BadRequest("Empty input not allowed");
+        }
+        name = name.ToLowerInvariant().Trim();
+
         var tag = await _tagRepository.Get(name);
         if (tag is null)
         {
-            return NotFound();
+            return NotFound("Tag not found");
         }
         return tag;
     }
@@ -31,27 +37,29 @@ public class TagController : ControllerBase
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return BadRequest("Bad name");
+            return BadRequest("Empty input not allowed");
         }
-
         name = name.ToLowerInvariant().Trim();
+
         var tag = await _tagRepository.Get(name);
         if (tag is not null)
         {
             return BadRequest("Tag already exists");
         }
 
-        await _tagRepository.Create(new Tag { Name = name });
+        await _tagRepository.Create(name);
         return CreatedAtAction(nameof(Get), new { name });
     }
 
-    [HttpDelete("name")]
+    [HttpDelete("{name}")]
     public async Task<IActionResult> Delete(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return NotFound();
+            return BadRequest("Empty input not allowed");
         }
+        name = name.ToLowerInvariant().Trim();
+
         await _tagRepository.Remove(name);
         return NoContent();
     }
