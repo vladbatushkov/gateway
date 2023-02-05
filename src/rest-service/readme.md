@@ -2,6 +2,8 @@
 
 ## Step 1: Setup Project
 
+- Open a folder `/workspace` and working inside that folder only
+
 - Create a new webapi project
 
 ```dotnet
@@ -16,7 +18,9 @@ dotnet new gitignore
 
 - `Swashbuckle.AspNetCore` already pre-installed, check `TagsApi.csproj` file
 
-- Cleanup https related stuff in `Program.cs` file to keep it simple
+- We don't really need to worry about `https` in our tutorial
+
+- Cleanup https stuff in `Program.cs` file
 
 ```cs
 // Program.cs
@@ -32,7 +36,35 @@ app.MapControllers();
 app.Run();
 ```
 
-- Run it locally
+- Cleanup https stuff in `Properties/launchSettings.json` file
+
+```json
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "TagsApi": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5010",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+```
+
+- Now we good. Run project locally
 
 ```dotnet
 dotnet run
@@ -97,7 +129,7 @@ builder.Services.Configure<MongoDBSettingsProvider>(
 
 ## Step 3: MVC Layer
 
-- Reaplce `WeatherForecast.cs` with `Tag.cs`. Keep file in root folder
+- Replace `WeatherForecast.cs` with `Tag.cs`. Keep file inside project root folder
 
 ```cs
 // Tag.cs
@@ -181,7 +213,7 @@ builder.Services.AddSingleton<ITagRepository, TagRepository>();
 // ...
 ```
 
-- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file in root folder
+- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder
 
 ```cs
 // TagController.cs
@@ -264,3 +296,53 @@ dotnet run
 - WebAPI is ready to try `POST`, `GET` and `DELETE` operations [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/)
 
 - Use SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+
+## Step 4: Docker
+
+- Create `Dockerfile` inside project root folder
+
+```docker
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
+WORKDIR /app
+COPY ./TagsApi.csproj ./
+RUN dotnet restore
+
+FROM sdk AS publish
+WORKDIR /app
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=publish /app/out .
+ENTRYPOINT ["dotnet", "TagsApi.dll"]
+```
+
+- Create `docker-compose.yml` file inside `workspace` folder. Not in the project root fodler, but one level up.
+
+- You will use this file to assemble all services
+
+```yml
+version: "3.6"
+
+services:
+  # REST API
+  tagsapi:
+    image: tagsapi
+    build:
+      context: ./TagsApi
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ASPNETCORE_URLS=http://+:5010;
+    ports:
+      - "5010:5010"
+    expose:
+      - "5010"
+```
+
+- Start service using docker
+
+```sh
+docker-compose up
+```

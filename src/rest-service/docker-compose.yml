@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
 
-  ################### REST API
+  # REST API
   tagsapi:
     image: tagsapi
     build:
