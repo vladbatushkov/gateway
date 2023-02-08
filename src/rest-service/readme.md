@@ -1,8 +1,8 @@
-# Basic REST WebAPI + MongoDB
+# WebAPI + MongoDB
 
 ## Step 1: Setup Project
 
-- Open a folder `/workspace` and working inside that folder only
+- Open a folder `/workspace` and work inside that folder only
 
 - Create a new webapi project
 
@@ -10,7 +10,7 @@
 dotnet new webapi -n TagsApi
 ```
 
-- Add `.gitignore` file
+- Open `/TagsApi` fodler and add `.gitignore` file
 
 ```dotnet
 dotnet new gitignore
@@ -18,9 +18,9 @@ dotnet new gitignore
 
 - `Swashbuckle.AspNetCore` already pre-installed, check `TagsApi.csproj` file
 
-- We don't really need to worry about `https` in our tutorial
+- We will not use `https` in our tutorial, so let's clean up several things
 
-- Cleanup https stuff in `Program.cs` file
+- Keep `Program.cs` file small like that
 
 ```cs
 // Program.cs
@@ -64,13 +64,15 @@ app.Run();
 }
 ```
 
-- Now we good. Run project locally
+- Now we are good to run project locally
 
 ```dotnet
 dotnet run
 ```
 
-- Use SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+- Check that all works using SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+
+- Stop the app (Ctrl+C)
 
 ## Step 2: MongoDB Network
 
@@ -287,7 +289,7 @@ public class TagController : ControllerBase
 
 > Note: Validation cover scenarios of empty input and tag duplication
 
-- Run it locally
+- Run the app
 
 ```dotnet
 dotnet run
@@ -301,7 +303,7 @@ dotnet run
 
 - Create `Dockerfile` inside project root folder
 
-```docker
+```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
 WORKDIR /app
 COPY ./TagsApi.csproj ./
@@ -318,15 +320,15 @@ COPY --from=publish /app/out .
 ENTRYPOINT ["dotnet", "TagsApi.dll"]
 ```
 
-- Create `docker-compose.yml` file inside `workspace` folder. Not in the project root fodler, but one level up.
+- Create `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
 
-- You will use this file to assemble all services
+- In future you will use this file to assemble all services
 
 ```yml
 version: "3.6"
 
 services:
-  # REST API
+  # WEBAPI MONGODB
   tagsapi:
     image: tagsapi
     build:
@@ -341,8 +343,12 @@ services:
       - "5010"
 ```
 
-- Start service using docker
+- Start service using docker compose
 
 ```sh
 docker-compose up
 ```
+
+###### Resources
+
+- https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio

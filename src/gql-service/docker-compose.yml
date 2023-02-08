@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+
+  # GRAPHQL NEO4J
+  likesapi:
+    image: likesapi
+    build:
+      context: ./LikesApi
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:4000"
