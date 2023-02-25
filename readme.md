@@ -1,6 +1,6 @@
-# Creating a GraphQL Gateway
+# GraphQL Gateway
 
-Tutorial to learn base concepts of GraphQL and build a Gateway API using Hot Chocolate server supporting Query, Mutation, Subscription and Schema Stitching.
+Tutorial to build a GraphQL Gateway API powered by Hot Chocolate server. How to work with Queries, Mutations, Subscriptions, and Schema Stitching. Use under the hood NoSQL databases such as Neo4j, MongoDB and Redis.
 
 ## Theory
 
@@ -9,60 +9,66 @@ Tutorial to learn base concepts of GraphQL and build a Gateway API using Hot Cho
 - API Design
   - REST
   - GraphQL
-- Data
-  - Relational Database
-  - Key-Value Database
-  - Graph Database
+- NoSQL
+  - Document-oriented
+  - Key-Value
+  - Graph
 
-## Stack of Technologies
+## Tech Stack
 
 - React
 - .NET 6
-- Hot Cholocate
 - GraphQL
+- Hot Cholocate
 - REST API
-- MSSQL
-- Redis
 - Neo4j
+- MongoDB
+- Redis
 
 ## Prerequisites
 
 - Required:
-  - Install IDE (VSCode: https://code.visualstudio.com/download)
+  - Install IDE (VSCode https://code.visualstudio.com/download or any other)
   - Install Docker (https://docs.docker.com/get-docker/)
   - Install .NET 6 SDK (https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-  - Install Node 14
+  - Install Node 18 (using NVM https://github.com/nvm-sh/nvm)
 - Good to know:
   - What is Docker (read https://docs.docker.com/get-started/)
   - What is REST (read https://en.wikipedia.org/wiki/Representational_state_transfer)
-  - What is Neo4j (learn http://www.graphville.com)
+  - What is Neo4j (learn https://graphacademy.neo4j.com/ and http://www.graphville.com)
 
-## Learning Materials
+## Learning Resources
 
-- GraphQL (read https://graphql.org/)
+- GraphQL (learn https://graphql.org/)
 - Gateway API (read https://microservices.io/patterns/apigateway.html)
-- Hot Chocolate (read https://chillicream.com/docs/hotchocolate)
-- Hot Chocolate (watch https://www.youtube.com/@ChilliCream)
+- Hot Chocolate (read https://chillicream.com/docs/hotchocolate/)
+- Hot Chocolate (subsribe https://www.youtube.com/@ChilliCream)
 
 # Workshop
-## VS code extension 
+
+## VS code extension
+
 1. .NET Extension Pack
 2. Auto-Using for C#
-4. Roslynator
-5. C#
+3. Roslynator
+4. C#
+
 ## Project setup
 
-1.Create new project 
-``` CMD
+1.Create new project
+
+```CMD
 //create project
 dotnet new webapi -minimal -o GqlGateway -f net6.0 --no-openapi --no-https
 //requied packages
 dotnet add package HotChocolate.AspNetCore --version 12.15.2
 ```
+
 2. Add Query Type
+
 On this, you'll learn in detail about how to query a GraphQL server.
 
-``` csharp
+```csharp
 namespace GqlGateway.Schema;
 public class Query
 {
@@ -72,8 +78,10 @@ public class Query
 // Model
 public record class Tag(int Id, string Name);
 ```
+
 3. Add Datastore
-``` csharp
+
+```csharp
 namespace GqlGateway.Schema;
 
 public class TagInMemoryDataStore
@@ -107,14 +115,16 @@ public class TagInMemoryDataStore
 
 
 ```
-4. Register datastore 
-``` csharp
+
+4. Register datastore
+
+```csharp
 builder.Services.AddSingleton<TagInMemoryDataStore>();
 ```
 
 5. Configure Query Type with HotChocolate
 
-``` csharp
+```csharp
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>(); // <=== add  query type
@@ -122,25 +132,26 @@ builder.Services
 
 6. Configure asp.net pipeline
 
-``` csharp
+```csharp
 var app = builder.Build();
 app.UseWebSockets();
 app.MapGraphQL(); //<==== Add /graphql endpoint
 app.Run();
-
 ```
 
+7. Run application
 
-7. Run application 
-
-``` csharp
-dotnet run GqlGateway.csproj  --urls=http://localhost:5000 
+```csharp
+dotnet run GqlGateway.csproj  --urls=http://localhost:5000
 ```
+
 # Add Mutation
+
 A Mutation is **a GraphQL Operation that allows you to insert new data or modify the existing data on the server-side**
 
 1. Add mutation class
-``` csharp
+
+```csharp
 using HotChocolate.Subscriptions;
 namespace GqlGateway.Schema;
 
@@ -158,27 +169,31 @@ public class Mutation
 }
 
 ```
+
 2.Register mutation type
-``` csharp
+
+```csharp
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>();
 ```
+
 3. Run application
 
 ```
-dotnet run GqlGateway.csproj  --urls=http://localhost:5000 
+dotnet run GqlGateway.csproj  --urls=http://localhost:5000
 ```
 
 ## Subscription
+
 In addition to [queries](https://www.apollographql.com/docs/react/data/queries) and [mutations](https://www.apollographql.com/docs/react/data/mutations), GraphQL supports a third operation type: **subscriptions**.
 
 Subscriptions are useful for notifying your client in real time about changes to back-end data, such as the creation of a new object or updates to an important field.
 
-1.Let's create new class  called  Subscription
+1.Let's create new class called Subscription
 
-``` csharp
+```csharp
 namespace GqlGateway.Schema;
 
 public class Subscription
@@ -193,8 +208,10 @@ public class Subscription
 }
 
 ```
+
 2. Register Subscription Type to Hotchocolate
-``` csharp 
+
+```csharp
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
@@ -205,15 +222,18 @@ builder.Services
 ```
 
 3. Start application
-```
-dotnet run GqlGateway.csproj  --urls=http://localhost:5000 
-```
 
+```
+dotnet run GqlGateway.csproj  --urls=http://localhost:5000
+```
 
 ## Fetch data from REST API
+
 We need to create more new project called `TagsWebApi`
+
 1. Create new project
-``` csharp
+
+```csharp
 dotnet new webapi -minimal -o TagsWebApi  -f net6.0  --no-https
 ```
 
@@ -227,8 +247,7 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.0
 dotnet add package Swashbuckle.AspNetCore --version 6.4.0
 ```
 
-
-3.Create Tag table 
+3.Create Tag table
 
 ```
 using System.ComponentModel.DataAnnotations;
@@ -250,7 +269,8 @@ public class Tag
 
 ```
 
-4. Create Database Context with EF core 
+4. Create Database Context with EF core
+
 ```
 using Microsoft.EntityFrameworkCore;
 
@@ -267,6 +287,7 @@ public class TagDatabaseContext : DbContext
 ```
 
 5. Create Migration script inside /Migrations folder
+
 ```
 //20221116171119_AddTagToDB.cs
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -398,7 +419,8 @@ namespace TagsWebApi.Migrations
 
 ```
 
-6. Add MigrationManager 
+6. Add MigrationManager
+
 ```
 namespace TagsWebApi.Models;
 
@@ -437,7 +459,7 @@ public static class MigrationManager
 7. Add Repository
 
 ```
-// 
+//
 
 using Microsoft.EntityFrameworkCore;
 using TagsWebApi.Models;
@@ -486,7 +508,7 @@ public class EfCoreTagRepository : ITagRepository
         }
     }
 
-    public async Task<IEnumerable<Tag>> GetAllAsync(CancellationToken cancellationToken) 
+    public async Task<IEnumerable<Tag>> GetAllAsync(CancellationToken cancellationToken)
         => await _dbContext.Tags.ToArrayAsync(cancellationToken);
 
     public async Task<Tag?> GetTagByNameAsync(string name, CancellationToken cancellationToken)
@@ -495,8 +517,9 @@ public class EfCoreTagRepository : ITagRepository
 }
 ```
 
-8. Add Api endpoint 
-``` csharp
+8. Add Api endpoint
+
+```csharp
 //TagEndpoints
 using Microsoft.AspNetCore.Mvc;
 using TagsWebApi.ApiModel;
@@ -566,6 +589,7 @@ public class CreateTagResult
 ```
 
 10. Configure Api project
+
 ```
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -625,12 +649,14 @@ public static class WebApplicationBuilderExtension
                 options.InferSecuritySchemes = true;
             });
         return builder;
- 
+
     }
 }
 
 ```
+
 11. Add MSSQL connection string to appsettings.json
+
 ```
 {
   "Logging": {
@@ -649,14 +675,12 @@ public static class WebApplicationBuilderExtension
 ```
 
 11. Run MSSQL Docker
+
 ```
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 ```
 
-
-
-
-12. Add swagger.nswag and  swagger.json to gateway project inside /OpenApi and execute this command
+12. Add swagger.nswag and swagger.json to gateway project inside /OpenApi and execute this command
 
 ```
 // global tools
@@ -664,7 +688,9 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -e "M
 >> nswag run /runtime:Net60 /file:OpenAPI.nswag
 
 ```
+
 13. Try run application
+
 ```
 dotnet run --urls=http://localhost:5003
 ```
@@ -692,12 +718,12 @@ public class Mutation
     }
 }
 
-// Query 
+// Query
 
 
 namespace GqlGateway.Schema;
 
-public class Query { 
+public class Query {
      public async Task<ICollection<Tag>> GetTagsAsync(
         [Service] ITagApiClient service,
         CancellationToken cancellationToken)

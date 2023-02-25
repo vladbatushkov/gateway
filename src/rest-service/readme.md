@@ -7,7 +7,7 @@
 - Create a new webapi project
 
 ```dotnet
-dotnet new webapi -n TagsApi
+dotnet new webapi -n TagsApi -f net6.0 --no-https
 ```
 
 - Open `/TagsApi` fodler and add `.gitignore` file
@@ -18,9 +18,7 @@ dotnet new gitignore
 
 - `Swashbuckle.AspNetCore` already pre-installed, check `TagsApi.csproj` file
 
-- We will not use `https` in our tutorial, so let's clean up several things
-
-- Keep `Program.cs` file small like that
+- Make `Program.cs` file even more simple
 
 ```cs
 // Program.cs
@@ -36,35 +34,7 @@ app.MapControllers();
 app.Run();
 ```
 
-- Cleanup https stuff in `Properties/launchSettings.json` file
-
-```json
-{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "profiles": {
-    "TagsApi": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5010",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    }
-  }
-}
-```
-
-- Now we are good to run project locally
+- Run project locally
 
 ```dotnet
 dotnet run
