@@ -10,28 +10,34 @@
 dotnet new webapi -n TagsApi -f net6.0 --no-https
 ```
 
+- Target framework is `.NET 6.0`. No `https` support
+
 - Open `/TagsApi` fodler and add `.gitignore` file
 
 ```dotnet
 dotnet new gitignore
 ```
 
-- `Swashbuckle.AspNetCore` already pre-installed, check `TagsApi.csproj` file
+- `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file
 
-- Make `Program.cs` file even more simple
+- Make `Program.cs` file simple
 
 ```cs
 // Program.cs
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
 app.Run();
+```
+
+- Set port `5010` in `launchSettings.json` file
+
+```json
+      "applicationUrl": "http://localhost:5010",
 ```
 
 - Run project locally
@@ -267,7 +273,11 @@ dotnet run
 
 - WebAPI is ready to try `POST`, `GET` and `DELETE` operations [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/)
 
-- Use SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+- Use `Postman`, VSCode `Thunder Client` or other API client
+
+- Here SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+
+- Here OpenAPI JSON [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json)
 
 ## Step 4: Docker
 
