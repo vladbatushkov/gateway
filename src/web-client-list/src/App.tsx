@@ -1,5 +1,4 @@
 import "./App.css";
-import React from "react";
 import {
   ApolloClient,
   InMemoryCache,
@@ -8,21 +7,20 @@ import {
   split,
 } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { Tags } from "./components/Tags";
-import { TagsWithInput } from "./components/TagsWithInput";
-import { TagsWithInputWithSub } from "./components/TagsWithInputWithSub";
-import { TagsWithInputWithSubWithChecks } from "./components/TagsWithInputWithSubWithChecks";
+// import { Tags } from "./components/Tags";
+// import { TagsWithInput } from "./components/TagsWithInput";
+// import { TagsWithInputWithSub } from "./components/TagsWithInputWithSub";
+// import { TagsWithInputWithSubWithChecks } from "./components/TagsWithInputWithSubWithChecks";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
-import { Admin } from "./components/Admin";
-import { Grid } from "./components/Grid";
+import { AppContainer } from "./components/AppContainer";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:5000/graphql",
+  uri: "http://localhost:5050/graphql",
 });
 
 const link = new WebSocketLink(
-  new SubscriptionClient("ws://localhost:5000/graphql", {
+  new SubscriptionClient("ws://localhost:5050/graphql", {
     reconnect: true,
   })
 );
@@ -40,7 +38,7 @@ const splitLink = split(
 );
 
 const client = new ApolloClient({
-  uri: "http://localhost:5126/graphql",
+  uri: "http://localhost:5050/graphql",
   link: splitLink,
   cache: new InMemoryCache(),
 });
@@ -48,18 +46,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="section">
-        <div className="container">
-          <div className="columns">
-            <div className="column is-one-quarter">
-              <Admin />
-            </div>
-            <div className="column">
-              <Grid />
-            </div>
-          </div>
-        </div>
-      </div>
+      <AppContainer />
     </ApolloProvider>
   );
 }

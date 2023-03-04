@@ -1,6 +1,5 @@
 subscription TagAdded {
   tagAdded {
-    id
     name
   }
 }

@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from 'react';
-import { Tag, useGetTagsQuery } from '../graphql/generated/schema';
-import { ListOfTags } from './ListOfTags';
+import { FC, useEffect, useState } from "react";
+import { Tag, useGetTagsQuery } from "../graphql/generated/schema";
+import { ListOfTags } from "../../drafts/ListOfTags";
 
 export const Tags: FC = () => {
-
   const { data, loading, error } = useGetTagsQuery();
   const [tags, setTags] = useState([] as Tag[]);
 

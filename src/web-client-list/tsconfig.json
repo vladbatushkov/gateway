@@ -22,5 +22,5 @@
     },
     "include": [
       "src"
-    ]
+, "drafts/ListOfTags.tsx", "drafts/TagInput.tsx"    ]
   }

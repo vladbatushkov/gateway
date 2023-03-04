@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Tag, useGetTagsQuery, useTagAddedSubscription } from '../graphql/generated/schema';
-import { TagInput } from './TagInput';
-import { ListOfTags } from './ListOfTags';
+import React, { useEffect, useState } from "react";
+import {
+  Tag,
+  useGetTagsQuery,
+  useTagAddedSubscription,
+} from "../graphql/generated/schema";
+import { TagInput } from "./TagInput";
+import { ListOfTags } from "../../drafts/ListOfTags";
 
 export const TagsWithInputWithSub: React.FC = () => {
-
   const sub = useTagAddedSubscription();
   const dataSub = sub.data;
 
@@ -24,8 +27,10 @@ export const TagsWithInputWithSub: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return (<div>
-    <TagInput />
-    <ListOfTags {...{ tags }} />
-  </div>);
+  return (
+    <div>
+      <TagInput />
+      <ListOfTags {...{ tags }} />
+    </div>
+  );
 };

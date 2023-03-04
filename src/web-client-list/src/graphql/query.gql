@@ -1,0 +1,21 @@
+query GetTags {
+  tags {
+    name
+  }
+}
+
+# query User($userName: String!) {
+#   users(where: { name: $userName }) {
+#     name
+#   }
+# }
+
+# query GetFriends($userName: String!){
+#   users(where: { name: $userName }){
+#     technologies {
+#       users(where: { name_NOT: $userName }){
+#         name
+#       }
+#     }
+#   }
+# }

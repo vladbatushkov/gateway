@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from "react";
-import { useAddTagMutation } from "../graphql/generated/schema";
+import React from "react";
 
-export const Grid: React.FC = () => {
+export const RightSection: React.FC = () => {
   return (
     <div className="columns is-multiline">
       <div className="column is-one-third">

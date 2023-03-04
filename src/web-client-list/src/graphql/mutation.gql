@@ -1,0 +1,49 @@
+mutation AddTag($name: String!) {
+  addTag(name: $name) {
+    tag {
+      name
+    }
+  }
+}
+
+# mutation CreateUsers($userName: String!) {
+#   createUsers (input: {
+#     name: $userName
+#   }) {
+#     info {
+#       nodesCreated
+#     }
+#   }
+# }
+
+# mutation UpdateUsers($userName: String!, $technologyName: String!){
+#   updateUsers(
+#       connectOrCreate: {
+#         technologies: {
+#             where: { node: { name: $technologyName } }
+#             onCreate: { node: { name: $technologyName } }
+#         }
+#       },
+#       where: { name: $userName }
+#   ) {
+#     info {
+#       nodesCreated
+#       relationshipsCreated
+#     }
+#   }
+# }
+
+# mutation DetachUsers($userName: String!, $technologyName: String!){
+#   updateUsers(
+#       disconnect: {
+#         technologies: {
+#             where: { node: { name: $technologyName } }
+#         }
+#       },
+#       where: { name: $userName }
+#   ) {
+#     info {
+#       relationshipsDeleted
+#     }
+#   }
+# }
