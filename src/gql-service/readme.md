@@ -2,20 +2,20 @@
 
 ## Step 1: Setup Project
 
-- Open fodler `/workspace`. Create a new folder `LikesApi` and init a Node.js project
+- Open fodler `/workspace`. Create a new folder `LikesApi` and init a Node.js project.
 
 ```sh
 mkdir LikesApi && cd LikesApi
 npm init --yes
 ```
 
-- Open folder `/LikesApi` and install all required dependencies
+- Open folder `/LikesApi` and install all required dependencies.
 
 ```sh
 npm install @neo4j/graphql graphql neo4j-driver apollo-server
 ```
 
-- Add `.gitignore` file
+- Add `.gitignore` file.
 
 ```sh
 node_modules
@@ -23,7 +23,7 @@ node_modules
 
 ## Step 2: GraphQL Server
 
-- Create file `index.js`
+- Create file `index.js`.
 
 ```js
 // index.js
@@ -61,19 +61,19 @@ neoSchema.getSchema().then((schema) => {
 });
 ```
 
-> Note: Don't forget to replace `<password>` with an actual password from our secret chat
+> Note: Don't forget to replace `<password>` with an actual password from our secret chat.
 
-- Start the app
+- Start the app.
 
 ```sh
 node index.js
 ```
 
-- Open [http://localhost:4000/](http://localhost:4000/)
+- Open [http://localhost:4000/](http://localhost:4000/).
 
 ## Step 4: Docker
 
-- Create `Dockerfile` inside project root folder
+- Create `Dockerfile` inside project root folder.
 
 ```dockerfile
 FROM node:18-alpine as base
@@ -87,7 +87,7 @@ ENTRYPOINT ["node", "index.js"]
 
 - Update `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
 
-- Adding one more service
+- Adding one more service.
 
 ```yml
 version: "3.6"
@@ -103,15 +103,17 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "4000:4000"
+    expose:
+      - "4000"
 ```
 
-- Start services using docker compose
+- Start services using docker compose.
 
 ```sh
 docker-compose up
 ```
 
-###### Resources
+###### Refs
 
 - https://neo4j.com/developer/graphql/
 - https://neo4j.com/docs/graphql-manual/current/getting-started/

@@ -2,29 +2,29 @@
 
 ## Step 1: Setup GraphQL Server
 
-- Open a folder `/workspace` and work inside that folder only
+- Open a folder `/workspace` and work inside that folder only.
 
-- Create a new webapi project
+- Create a new webapi project.
 
 ```dotnet
 dotnet new webapi -n GatewayApi -f net6.0 --no-openapi --no-https
 ```
 
-- Open `/TagsApi` fodler and add `.gitignore` file
+- Open `/TagsApi` fodler and add `.gitignore` file.
 
 ```dotnet
 dotnet new gitignore
 ```
 
-- Install `HotChocolate.AspNetCore` package
+- Install `HotChocolate.AspNetCore` package.
 
 ```dotnet
-dotnet add package HotChocolate.AspNetCore --version 13.0.2
+dotnet add package HotChocolate.AspNetCore --version 13.0.5
 ```
 
-- Remove `/Controllers` folder and `WeatherForecast.cs` file
+- Remove `/Controllers` folder and `WeatherForecast.cs` file.
 
-- Add a data model as `Tag.cs`
+- Add a data model as `Tag.cs`.
 
 ```cs
 // Tag.cs
@@ -42,15 +42,17 @@ public class Query
 {
     public Tag GetTag()
     {
-        return new Tag { Name = "Item" };
+        return new Tag { Name = "HotChocolate" };
     }
 }
 ```
 
-- Add GraphQL server support into `Program.cs` file
+- Add GraphQL server support into `Program.cs` file.
 
 ```cs
 // Program.cs
+using HotChocolate;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddGraphQLServer()
@@ -61,15 +63,20 @@ app.MapGraphQL();
 app.Run();
 ```
 
-- Run project locally
+- Setup `launchSettings.json` file.
+
+```json
+      "launchUrl": "graphql",
+      "applicationUrl": "http://localhost:5050",
+```
+
+- Run project locally.
 
 ```dotnet
 dotnet watch --no-hot-reload
 ```
 
-- Check that all works using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/)
-
-- Query Tag
+- Query a single `tag` object using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
 
 ```graphql
 query {
@@ -79,18 +86,103 @@ query {
 }
 ```
 
-## Step 2: Resolve Tag via REST Api dependency
+- Stop the app.
 
+## Step 2: Autogenerate REST Client
 
+- Create a tool manifest inside `GatewayApi` folder.
+
+```sh
+dotnet new tool-manifest
+```
+
+- Install the NSwag tool.
+
+```dotnet
+dotnet tool install NSwag.ConsoleCore --version 13.18.2
+```
+
+- Create `swagger.json` file based your REST endpoint. Make sure, that TagsApi app is running.
+
+```sh
+curl -o swagger.json http://localhost:5010/swagger/v1/swagger.json
+```
+
+- Generate the client from the `swagger.json` file.
+
+```dotnet
+dotnet nswag swagger2csclient /input:swagger.json /classname:TagsApiClient /namespace:GatewayApi /output:TagsApiClient.cs /generateClientInterfaces:true /useBaseUrl:false
+```
+
+- Install `Newtonsoft.Json` package to support `TagsApiClient` needs.
+
+```dotnet
+dotnet add package Newtonsoft.Json
+```
+
+- Add `Services` section into `appsettings.json` file
+
+```json
+  "Services": {
+    "TagsApi": {
+      "endpoint": "http://localhost:5010"
+    }
+  }
+```
+
+- Add Http Client into DI container
+
+```cs
+// Program.cs
+using GatewayApi;
+using HotChocolate;
+
+var builder = WebApplication.CreateBuilder(args);
+// rest service
+var serviceSection = builder.Configuration.GetSection("Services");
+var tagsApiEndpoint = serviceSection.GetValue<string>("TagsApi:Endpoint");
+builder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));
+```
+
+- Replace `Query.cs` implementation using Http Client
+
+```cs
+// Query.cs
+using System.Collections;
+
+namespace GatewayApi;
+
+public class Query
+{
+    public async Task<ICollection<Tag>> GetTagsAsync(
+        [Service] ITagsApiClient service,
+        CancellationToken cancellationToken)
+    {
+        return await service.TagAllAsync(cancellationToken);
+    }
+}
+```
+
+- Run the app and query `tags` collection using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
+
+```graphql
+query {
+  tags {
+    name
+  }
+}
+```
+
+> Note: Gateway API proxy your request to REST API and return collection from MongoDB.
 
 ## Step 4: Docker
 
-- Create `Dockerfile` inside project root folder
+- Create `Dockerfile` inside project root folder.
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
 WORKDIR /app
-COPY ./TagsApi.csproj ./
+COPY ./GatewayApi.csproj ./
 RUN dotnet restore
 
 FROM sdk AS publish
@@ -101,38 +193,45 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=publish /app/out .
-ENTRYPOINT ["dotnet", "TagsApi.dll"]
+ENTRYPOINT ["dotnet", "GatewayApi.dll"]
 ```
 
-- Create `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
-
-- In future you will use this file to assemble all services
+- Update `docker-compose.yml` file inside a `/workspace` folder.
 
 ```yml
 version: "3.6"
 
 services:
-  # WEBAPI MONGODB
-  tagsapi:
-    image: tagsapi
+  # GRAPHQL GATEWAY API
+  gatewayapi:
+    image: gatewayapi
     build:
-      context: ./TagsApi
+      context: ./GatewayApi
       dockerfile: ./Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - ASPNETCORE_URLS=http://+:5010;
+      - ASPNETCORE_URLS=http://+:5050;
     ports:
-      - "5010:5010"
+      - "5050:5050"
     expose:
-      - "5010"
+      - "5050"
+    depends_on:
+      - tagsapi
+      - likesapi
+
+  # WEBAPI MONGODB
+  # ...
+
+  # GRAPHQL NEO4J
+  # ...
 ```
 
-- Start service using docker compose
+- Start service using docker compose.
 
 ```sh
 docker-compose up
 ```
 
-###### Resources
+###### Refs
 
-- https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio
+- https://chillicream.com/docs/hotchocolate/v13/fetching-data/fetching-from-rest

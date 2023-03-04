@@ -2,30 +2,31 @@
 
 ## Step 1: Setup Project
 
-- Open a folder `/workspace` and work inside that folder only
+- Open a folder `/workspace` and work inside that folder only.
 
-- Create a new webapi project
+- Create a new webapi project.
 
 ```dotnet
 dotnet new webapi -n TagsApi -f net6.0 --no-https
 ```
 
-- Target framework is `.NET 6.0`. No `https` support
+- Target framework is `.NET 6.0`. No `https` support.
 
-- Open `/TagsApi` fodler and add `.gitignore` file
+- Open `/TagsApi` fodler and add `.gitignore` file.
 
 ```dotnet
 dotnet new gitignore
 ```
 
-- `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file
+- `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file.
 
-- Make `Program.cs` file simple
+- Make `Program.cs` file simple.
 
 ```cs
 // Program.cs
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 app.UseSwagger();
@@ -34,52 +35,43 @@ app.MapControllers();
 app.Run();
 ```
 
-- Set port `5010` in `launchSettings.json` file
+- Set port `5010` in `launchSettings.json` file.
 
 ```json
       "applicationUrl": "http://localhost:5010",
 ```
 
-- Run project locally
+- Run project locally.
 
 ```dotnet
 dotnet run
 ```
 
-- Check that all works using SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+- Check that all works using SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html).
 
-- Stop the app (Ctrl+C)
+- Stop the app.
 
 ## Step 2: MongoDB Network
 
-- Install `MongoDB.Driver` package
+- Install `MongoDB.Driver` package.
 
 ```dotnet
 dotnet add package MongoDB.Driver
 ```
 
-- Add MongoDB settings into `appsettings.json` file
+- Add `MongoDBSettings` section into `appsettings.json` file.
 
 ```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*",
   "MongoDBSettings": {
-    "ConnectionString": "mongodb+srv://mongodb-user:<password>@cluster-sg.uamu5be.mongodb.net/?retryWrites=true&w=majority",
+    "ConnectionString": "mongodb+srv://<user>:<password>@cluster-sg.uamu5be.mongodb.net/?retryWrites=true&w=majority",
     "DatabaseName": "mongodb-gql",
     "CollectionName": "tags"
   }
-}
 ```
 
-> Note: Don't forget to replace `<password>` with an actual password from our secret chat
+> Note: Don't forget to replace `<user>:<password>` with an actual credentials from our "secret chat".
 
-- Add MongoDB settings provider
+- Add MongoDB settings provider.
 
 ```cs
 // MongoDBSettingsProvider.cs
@@ -93,7 +85,7 @@ public class MongoDBSettingsProvider
 }
 ```
 
-- Add a Provider into DI container
+- Add a Provider into DI container.
 
 ```cs
 // Program.cs
@@ -107,7 +99,7 @@ builder.Services.Configure<MongoDBSettingsProvider>(
 
 ## Step 3: MVC Layer
 
-- Replace `WeatherForecast.cs` with `Tag.cs`. Keep file inside project root folder
+- Replace `WeatherForecast.cs` with `Tag.cs`. Keep file inside project root folder.
 
 ```cs
 // Tag.cs
@@ -128,12 +120,11 @@ public class Tag
     [JsonPropertyName("name")]
     public string Name { get; set; } = null!;
 }
-
 ```
 
-> Note: We will manage Tag by `Name` only, so `Id` can be hidden from external access
+> Note: We will manage Tag by `Name` only, so `Id` can be hidden from external access.
 
-- Add a Repository layer to manage Tag in MongoDB database
+- Add a Repository layer to manage Tag in MongoDB database.
 
 ```cs
 // TagRepository.cs
@@ -147,7 +138,6 @@ public interface ITagRepository
     Task<List<Tag>> Get();
     Task<Tag?> Get(string name);
     Task Create(string name);
-    Task Remove(string name);
 }
 
 public class TagRepository : ITagRepository
@@ -172,15 +162,12 @@ public class TagRepository : ITagRepository
 
     public async Task Create(string name) =>
         await _tagsCollection.InsertOneAsync(new Tag { Name = name });
-
-    public async Task Remove(string name) =>
-        await _tagsCollection.DeleteManyAsync(x => x.Name == name);
 }
 ```
 
-> Note: We don't need to support update operation
+> Note: We want to support only GET ALL, GET ONE and CREATE operations.
 
-- Add a Repository into DI container
+- Add a Repository into DI container.
 
 ```cs
 // Program.cs
@@ -191,7 +178,7 @@ builder.Services.AddSingleton<ITagRepository, TagRepository>();
 // ...
 ```
 
-- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder
+- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder.
 
 ```cs
 // TagController.cs
@@ -247,41 +234,28 @@ public class TagController : ControllerBase
         await _tagRepository.Create(name);
         return CreatedAtAction(nameof(Get), new { name });
     }
-
-    [HttpDelete("{name}")]
-    public async Task<IActionResult> Delete(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return BadRequest("Empty input not allowed");
-        }
-        name = name.ToLowerInvariant().Trim();
-
-        await _tagRepository.Remove(name);
-        return NoContent();
-    }
 }
 ```
 
-> Note: Validation cover scenarios of empty input and tag duplication
+> Note: Validation cover scenarios of empty input and tag duplication.
 
-- Run the app
+- Run the app.
 
 ```dotnet
 dotnet run
 ```
 
-- WebAPI is ready to try `POST`, `GET` and `DELETE` operations [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/)
+- WebAPI is ready to try `POST`, `GET` and `DELETE` operations [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/).
 
-- Use `Postman`, VSCode `Thunder Client` or other API client
+- Use `Postman`, VSCode `Thunder Client` or other API client.
 
-- Here SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html)
+- Here SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html).
 
-- Here OpenAPI JSON [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json)
+- Here OpenAPI JSON [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json).
 
 ## Step 4: Docker
 
-- Create `Dockerfile` inside project root folder
+- Create `Dockerfile` inside project root folder.
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
@@ -302,7 +276,7 @@ ENTRYPOINT ["dotnet", "TagsApi.dll"]
 
 - Create `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
 
-- In future you will use this file to assemble all services
+> Note: Used to assemble all services.
 
 ```yml
 version: "3.6"
@@ -323,12 +297,12 @@ services:
       - "5010"
 ```
 
-- Start service using docker compose
+- Start service using docker compose.
 
 ```sh
 docker-compose up
 ```
 
-###### Resources
+###### Refs
 
 - https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-6.0&tabs=visual-studio
