@@ -223,7 +223,7 @@ public class TagController : ControllerBase
         {
             return BadRequest("Empty input not allowed");
         }
-        name = name.ToLowerInvariant().Trim();
+        name = name.Trim();
 
         var tag = await _tagRepository.Get(name);
         if (tag is not null)
@@ -232,7 +232,7 @@ public class TagController : ControllerBase
         }
 
         await _tagRepository.Create(name);
-        return CreatedAtAction(nameof(Get), new { name });
+        return Ok();
     }
 }
 ```

@@ -8,11 +8,16 @@ This is your working folder `workspace`. All the things will be created insdie t
 
 > Note: Content of the folder `workspace` is excluded from git repository. Whatever you will create inside this folder will stay on your local machine only.
 
-Follow tutorials one by one:
+Follow the tutorials.
 
-1. Create WebAPI service using MongoDB using `/rest-service` tutorial
-2. Create GraphQL API service using Neo4j using `/gql-service` tutorial
-3. Create GraphQL Gateway API using Hot Chocolate server using `/gw-service` tutorial
-4. Frontend project is ready to use from `/web-client` folder
+Phase 1: List of Tags
 
-Good luck with creation!
+1. Create WebAPI service using MongoDB using `/rest-service` tutorial.
+2. Create GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase1.md` tutorial.
+3. Frontend project is ready to use from `/web-client-phase-1` folder.
+
+Phase 2: Recommendations
+
+1. Create GraphQL API service using Neo4j using `/gql-service` tutorial.
+2. Update GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase2.md` tutorial.
+3. Frontend project is ready to use from `/web-client-1` folder.

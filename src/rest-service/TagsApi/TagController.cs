@@ -33,13 +33,13 @@ public class TagController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] string name)
+    public async Task<ActionResult<Tag>> Post([FromBody] string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
             return BadRequest("Empty input not allowed");
         }
-        name = name.ToLowerInvariant().Trim();
+        name = name.Trim();
 
         var tag = await _tagRepository.Get(name);
         if (tag is not null)
@@ -47,20 +47,7 @@ public class TagController : ControllerBase
             return BadRequest("Tag already exists");
         }
 
-        await _tagRepository.Create(name);
-        return CreatedAtAction(nameof(Get), new { name });
-    }
-
-    [HttpDelete("{name}")]
-    public async Task<IActionResult> Delete(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return BadRequest("Empty input not allowed");
-        }
-        name = name.ToLowerInvariant().Trim();
-
-        await _tagRepository.Remove(name);
-        return NoContent();
+        tag = await _tagRepository.Create(name);
+        return Ok(tag);
     }
 }

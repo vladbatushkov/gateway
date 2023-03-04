@@ -7,8 +7,7 @@ public interface ITagRepository
 {
     Task<List<Tag>> Get();
     Task<Tag?> Get(string name);
-    Task Create(string name);
-    Task Remove(string name);
+    Task<Tag> Create(string name);
 }
 
 public class TagRepository : ITagRepository
@@ -31,9 +30,10 @@ public class TagRepository : ITagRepository
     public async Task<Tag?> Get(string name) =>
         await _tagsCollection.Find(x => x.Name == name).FirstOrDefaultAsync();
 
-    public async Task Create(string name) =>
-        await _tagsCollection.InsertOneAsync(new Tag { Name = name });
-
-    public async Task Remove(string name) =>
-        await _tagsCollection.DeleteManyAsync(x => x.Name == name);
+    public async Task<Tag> Create(string name)
+    {
+        var tag = new Tag { Name = name };
+        await _tagsCollection.InsertOneAsync(tag);
+        return tag;
+    }
 }
