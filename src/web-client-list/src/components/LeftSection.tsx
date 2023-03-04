@@ -1,12 +1,25 @@
 import { useEffect, useState } from "react";
-import { Tag, useGetTagsQuery } from "../graphql/generated/schema";
+import {
+  Tag,
+  useGetTagsQuery,
+  useTagAddedSubscription,
+} from "../graphql/generated/schema";
 import {
   ListOfTagsWithChecks,
   ListOfTagsProps,
   ItemProps,
 } from "./ListOfTagsWithChecks";
+import { TagInput } from "./TagInput";
 
 export const LeftSection = () => {
+  const sub = useTagAddedSubscription();
+  const dataSub = sub.data;
+
+  useEffect(() => {
+    if (!dataSub?.tagAdded) return;
+    setTags([...tags, dataSub.tagAdded as Tag]);
+  }, [dataSub]);
+
   const { data, loading, error } = useGetTagsQuery();
   const [tags, setTags] = useState([] as Tag[]);
 
@@ -24,7 +37,7 @@ export const LeftSection = () => {
 
   return (
     <div className="block has-background-white">
-      <div className="block">
+      {/* <div className="block">
         <div className="field">
           <label className="label">Your GitHub account</label>
           <div className="control">
@@ -35,21 +48,10 @@ export const LeftSection = () => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="panel is-info">
         <p className="panel-heading">List of Tags</p>
-        <div className="panel-block">
-          <div className="field has-addons">
-            <p className="control is-expanded">
-              <input className="input" type="text" placeholder="e.g. GraphQL" />
-            </p>
-            <p className="control is-expanded">
-              <button className="button is-info is-outlined is-fullwidth">
-                Add item
-              </button>
-            </p>
-          </div>
-        </div>
+        <TagInput />
         <ListOfTagsWithChecks {...({ tags, onChecked } as ListOfTagsProps)} />
       </div>
     </div>
