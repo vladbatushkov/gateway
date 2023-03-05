@@ -58,7 +58,7 @@ export const UserInput: FC = () => {
               technologies:
                 user.technologies?.map((x: Technology) => x.name) ?? [],
               name: res.data.name,
-              login: res.data.login,
+              account: res.data.login,
               image: res.data.avatar_url ?? "",
               bio: res.data.bio,
             },

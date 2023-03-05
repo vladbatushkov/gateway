@@ -2,13 +2,15 @@ import { userInfo } from "os";
 import { FC, useEffect, useState } from "react";
 import { TagItem, Types, useAppContext } from "../AppContext";
 import {
+  useDetachUsersMutation,
   useGetTagsLazyQuery,
   useTagAddedSubscription,
+  useUpdateUsersMutation,
 } from "../graphql/generated/schema";
 
 export const ListOfTagsWithChecks = () => {
-  // const [updateUsers] = useUpdateUsersMutation();
-  // const [detachUsers] = useDetachUsersMutation();
+  const [updateUsers] = useUpdateUsersMutation();
+  const [detachUsers] = useDetachUsersMutation();
 
   const useTagAddedSubscriptionObject = useTagAddedSubscription();
   const useTagAddedData = useTagAddedSubscriptionObject.data;
@@ -43,32 +45,31 @@ export const ListOfTagsWithChecks = () => {
     });
   }, [getTagsLazyData]);
 
-  // useEffect(() => {
-  //   const items = tags.map(
-  //     (item: Tag) =>
-  //       ({
-  //         key: item.name,
-  //         value: state.technologies.filter((x) => x == item.name).length > 0,
-  //         name: item.name,
-  //       } as ItemProps)
-  //   );
-  //   setChecks(items);
-  // }, [tags, state]);
+  const checkHandler = async (current: TagItem) => {
+    console.log(current);
+    const nextState = { ...current, isChecked: !current.isChecked } as TagItem;
 
-  const checkHandler = (current: TagItem) => {
-    // const nextState = {
-    //   value: !current.isChecked,
-    //   name: current.name,
-    // } as TagItem;
-    // await updateUsers({
-    //   variables: {
-    //     userName: state.name,
-    //     technologyName: props.name,
-    //   },
-    // });
-    // dispatch({
-    //   type: Types.AttachTag
-    // })
+    if (!state.userInfo || !state?.userInfo?.name) {
+      return;
+    }
+
+    var variables = {
+      userName: state.userInfo.account,
+      technologyName: nextState.name,
+    };
+
+    if (nextState.isChecked) {
+      await updateUsers({ variables });
+    } else {
+      await detachUsers({ variables });
+    }
+
+    dispatch({
+      type: Types.ToggleTag,
+      payload: {
+        item: nextState,
+      },
+    });
   };
 
   if (getTagsLazyLoading) return <p>Loading...</p>;

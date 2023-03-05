@@ -21,7 +21,7 @@ export const RightSection: React.FC = () => {
               <div className="media">
                 <div className="media-content">
                   <p className="title is-4">{user.name}</p>
-                  <p className="subtitle is-6">@{user.login}</p>
+                  <p className="subtitle is-6">@{user.account}</p>
                 </div>
               </div>
 
@@ -37,7 +37,7 @@ export const RightSection: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="column is-one-third">
+        {/* <div className="column is-one-third">
           <div className="card">
             <div className="card-image">
               <figure className="image is-1by1">
@@ -144,7 +144,7 @@ export const RightSection: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -17,8 +17,7 @@ export enum Types {
   SetupUserInfo = "SETUP_USERINFO",
   SetupTags = "SETUP_TAGS",
   AddTag = "ADD_TAG",
-  AttachTag = "ATTACH_TAG",
-  DetachTag = "DETACH_TAG",
+  ToggleTag = "TOGGLE_TAG",
 }
 
 export interface AppStateType {
@@ -29,7 +28,7 @@ export interface AppStateType {
 export interface UserInfo {
   technologies: string[];
   name: string;
-  login: string;
+  account: string;
   image: string;
   bio: string;
 }
@@ -56,19 +55,14 @@ export type TagsPayload = {
   [Types.AddTag]: {
     name: string;
   };
-  [Types.AttachTag]: {
-    userName: string;
-    technologyName: string;
-  };
-  [Types.DetachTag]: {
-    userName: string;
-    technologyName: string;
+  [Types.ToggleTag]: {
+    item: TagItem;
   };
 };
 
 const initialUserInfo: UserInfo = {
-  name: "User Name",
-  login: "user_name",
+  name: "FirstName LastName",
+  account: "github_account",
   image: "https://bulma.io/images/placeholders/128x128.png",
   bio: "Software Engineer",
   technologies: ["Nothing"],
@@ -130,6 +124,12 @@ const userInfoReducer = (
     case Types.AddUser:
       console.log("AddUser");
       return state;
+    case Types.ToggleTag:
+      console.log("userInfoReducer > ToggleTag");
+      const technologies = action.payload.item.isChecked
+        ? [...state.technologies, action.payload.item.name]
+        : state.technologies.filter((x) => x != action.payload.item.name);
+      return { ...state, technologies };
     default:
       return state;
   }
@@ -158,12 +158,11 @@ const tagsReducer = (
     case Types.AddTag:
       console.log("AddTag");
       return [...state, { name: action.payload.name, isChecked: false }];
-    case Types.AttachTag:
-      console.log("AttachTag");
-      return state;
-    case Types.DetachTag:
-      console.log("DetachTag");
-      return state;
+    case Types.ToggleTag:
+      console.log("tagsReducer > ToggleTag");
+      return state.map((x) =>
+        x.name == action.payload.item.name ? action.payload.item : x
+      );
     default:
       return state;
   }
