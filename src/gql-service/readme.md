@@ -113,6 +113,29 @@ services:
 docker-compose up
 ```
 
+## Step 5: Manage Neo4j Database
+
+- Open New4j Browser using docker image
+
+```yml
+version: "3.6"
+
+services:
+  neo4j:
+    image: neo4j:5.5.0
+    hostname: neo4j
+    container_name: neo4j-gql
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/logs:/logs
+```
+
+
+
 ###### Refs
 
 - https://neo4j.com/developer/graphql/

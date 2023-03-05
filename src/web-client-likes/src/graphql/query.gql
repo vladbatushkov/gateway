@@ -1,0 +1,24 @@
+query GetTags {
+  tags {
+    name
+  }
+}
+
+query User($userName: String!) {
+  users(where: { name: $userName }) {
+    name
+    technologies {
+      name
+    }
+  }
+}
+
+query GetRecommendation($userName: String!) {
+  users(where: { name: $userName }) {
+    technologies {
+      users(where: { NOT: { name: $userName } }) {
+        name
+      }
+    }
+  }
+}

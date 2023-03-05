@@ -12,6 +12,10 @@ const typeDefs = gql`
     name: String! @id(autogenerate: false, unique: true)
     technologies: [Technology!]! @relationship(type: "LIKE", direction: OUT)
   }
+
+  type Subscription {
+    userAdded()
+  }
 `;
 
 const driver = neo4j.driver(

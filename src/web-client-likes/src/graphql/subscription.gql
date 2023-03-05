@@ -1,0 +1,5 @@
+subscription TagAdded {
+  tagAdded {
+    name
+  }
+}

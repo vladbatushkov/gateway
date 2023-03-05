@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Tag } from "../graphql/generated/schema";
 
 export interface ItemProps {

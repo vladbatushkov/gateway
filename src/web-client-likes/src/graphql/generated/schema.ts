@@ -722,10 +722,47 @@ export type AddTagMutationVariables = Exact<{
 
 export type AddTagMutation = { __typename?: 'Mutation', addTag: { __typename?: 'TagPayload', tag: { __typename?: 'Tag', name?: string | null } } };
 
+export type CreateUsersMutationVariables = Exact<{
+  userName: Scalars['String'];
+}>;
+
+
+export type CreateUsersMutation = { __typename?: 'Mutation', createUsers: { __typename?: 'CreateUsersMutationResponse', info: { __typename?: 'CreateInfo', nodesCreated: number } } };
+
+export type UpdateUsersMutationVariables = Exact<{
+  userName: Scalars['String'];
+  technologyName: Scalars['String'];
+}>;
+
+
+export type UpdateUsersMutation = { __typename?: 'Mutation', updateUsers: { __typename?: 'UpdateUsersMutationResponse', info: { __typename?: 'UpdateInfo', nodesCreated: number, relationshipsCreated: number } } };
+
+export type DetachUsersMutationVariables = Exact<{
+  userName: Scalars['String'];
+  technologyName: Scalars['String'];
+}>;
+
+
+export type DetachUsersMutation = { __typename?: 'Mutation', updateUsers: { __typename?: 'UpdateUsersMutationResponse', info: { __typename?: 'UpdateInfo', relationshipsDeleted: number } } };
+
 export type GetTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', name?: string | null }> };
+
+export type UserQueryVariables = Exact<{
+  userName: Scalars['String'];
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', name: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> };
+
+export type GetRecommendationQueryVariables = Exact<{
+  userName: Scalars['String'];
+}>;
+
+
+export type GetRecommendationQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', technologies: Array<{ __typename?: 'Technology', users: Array<{ __typename?: 'User', name: string }> }> }> };
 
 export type TagAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -768,6 +805,120 @@ export function useAddTagMutation(baseOptions?: Apollo.MutationHookOptions<AddTa
 export type AddTagMutationHookResult = ReturnType<typeof useAddTagMutation>;
 export type AddTagMutationResult = Apollo.MutationResult<AddTagMutation>;
 export type AddTagMutationOptions = Apollo.BaseMutationOptions<AddTagMutation, AddTagMutationVariables>;
+export const CreateUsersDocument = gql`
+    mutation CreateUsers($userName: String!) {
+  createUsers(input: {name: $userName}) {
+    info {
+      nodesCreated
+    }
+  }
+}
+    `;
+export type CreateUsersMutationFn = Apollo.MutationFunction<CreateUsersMutation, CreateUsersMutationVariables>;
+
+/**
+ * __useCreateUsersMutation__
+ *
+ * To run a mutation, you first call `useCreateUsersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUsersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUsersMutation, { data, loading, error }] = useCreateUsersMutation({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useCreateUsersMutation(baseOptions?: Apollo.MutationHookOptions<CreateUsersMutation, CreateUsersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUsersMutation, CreateUsersMutationVariables>(CreateUsersDocument, options);
+      }
+export type CreateUsersMutationHookResult = ReturnType<typeof useCreateUsersMutation>;
+export type CreateUsersMutationResult = Apollo.MutationResult<CreateUsersMutation>;
+export type CreateUsersMutationOptions = Apollo.BaseMutationOptions<CreateUsersMutation, CreateUsersMutationVariables>;
+export const UpdateUsersDocument = gql`
+    mutation UpdateUsers($userName: String!, $technologyName: String!) {
+  updateUsers(
+    connectOrCreate: {technologies: {where: {node: {name: $technologyName}}, onCreate: {node: {name: $technologyName}}}}
+    where: {name: $userName}
+  ) {
+    info {
+      nodesCreated
+      relationshipsCreated
+    }
+  }
+}
+    `;
+export type UpdateUsersMutationFn = Apollo.MutationFunction<UpdateUsersMutation, UpdateUsersMutationVariables>;
+
+/**
+ * __useUpdateUsersMutation__
+ *
+ * To run a mutation, you first call `useUpdateUsersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUsersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUsersMutation, { data, loading, error }] = useUpdateUsersMutation({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *      technologyName: // value for 'technologyName'
+ *   },
+ * });
+ */
+export function useUpdateUsersMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUsersMutation, UpdateUsersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUsersMutation, UpdateUsersMutationVariables>(UpdateUsersDocument, options);
+      }
+export type UpdateUsersMutationHookResult = ReturnType<typeof useUpdateUsersMutation>;
+export type UpdateUsersMutationResult = Apollo.MutationResult<UpdateUsersMutation>;
+export type UpdateUsersMutationOptions = Apollo.BaseMutationOptions<UpdateUsersMutation, UpdateUsersMutationVariables>;
+export const DetachUsersDocument = gql`
+    mutation DetachUsers($userName: String!, $technologyName: String!) {
+  updateUsers(
+    disconnect: {technologies: {where: {node: {name: $technologyName}}}}
+    where: {name: $userName}
+  ) {
+    info {
+      relationshipsDeleted
+    }
+  }
+}
+    `;
+export type DetachUsersMutationFn = Apollo.MutationFunction<DetachUsersMutation, DetachUsersMutationVariables>;
+
+/**
+ * __useDetachUsersMutation__
+ *
+ * To run a mutation, you first call `useDetachUsersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDetachUsersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [detachUsersMutation, { data, loading, error }] = useDetachUsersMutation({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *      technologyName: // value for 'technologyName'
+ *   },
+ * });
+ */
+export function useDetachUsersMutation(baseOptions?: Apollo.MutationHookOptions<DetachUsersMutation, DetachUsersMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DetachUsersMutation, DetachUsersMutationVariables>(DetachUsersDocument, options);
+      }
+export type DetachUsersMutationHookResult = ReturnType<typeof useDetachUsersMutation>;
+export type DetachUsersMutationResult = Apollo.MutationResult<DetachUsersMutation>;
+export type DetachUsersMutationOptions = Apollo.BaseMutationOptions<DetachUsersMutation, DetachUsersMutationVariables>;
 export const GetTagsDocument = gql`
     query GetTags {
   tags {
@@ -802,6 +953,83 @@ export function useGetTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetTagsQueryHookResult = ReturnType<typeof useGetTagsQuery>;
 export type GetTagsLazyQueryHookResult = ReturnType<typeof useGetTagsLazyQuery>;
 export type GetTagsQueryResult = Apollo.QueryResult<GetTagsQuery, GetTagsQueryVariables>;
+export const UserDocument = gql`
+    query User($userName: String!) {
+  users(where: {name: $userName}) {
+    name
+    technologies {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const GetRecommendationDocument = gql`
+    query GetRecommendation($userName: String!) {
+  users(where: {name: $userName}) {
+    technologies {
+      users(where: {NOT: {name: $userName}}) {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecommendationQuery__
+ *
+ * To run a query within a React component, call `useGetRecommendationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecommendationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecommendationQuery({
+ *   variables: {
+ *      userName: // value for 'userName'
+ *   },
+ * });
+ */
+export function useGetRecommendationQuery(baseOptions: Apollo.QueryHookOptions<GetRecommendationQuery, GetRecommendationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecommendationQuery, GetRecommendationQueryVariables>(GetRecommendationDocument, options);
+      }
+export function useGetRecommendationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecommendationQuery, GetRecommendationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecommendationQuery, GetRecommendationQueryVariables>(GetRecommendationDocument, options);
+        }
+export type GetRecommendationQueryHookResult = ReturnType<typeof useGetRecommendationQuery>;
+export type GetRecommendationLazyQueryHookResult = ReturnType<typeof useGetRecommendationLazyQuery>;
+export type GetRecommendationQueryResult = Apollo.QueryResult<GetRecommendationQuery, GetRecommendationQueryVariables>;
 export const TagAddedDocument = gql`
     subscription TagAdded {
   tagAdded {
