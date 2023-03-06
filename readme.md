@@ -2,6 +2,43 @@
 
 Tutorial to build a GraphQL Gateway API powered by Hot Chocolate server. How to work with Queries, Mutations, Subscriptions, and Schema Stitching. Use under the hood NoSQL databases such as Neo4j, MongoDB and Redis.
 
+## Workshop
+
+Welcome to GraphQL Gateway API tutorial.
+
+Clone the repo and open the folder `/workspace` - this is your working folder. The content of `/workspace` is excluded from git repository. Whatever you will create inside this folder will stay on your local machine only.
+
+#### Structure
+
+Folder `/src` contains ready-to-use services and setp-by-setp tutorials how to create each.
+
+```sh
+/src
+  /gql-service # Apollo GraphQL Server connected to Neo4j Database
+  /gw-service # Hot Chocolate GraphQL Gateway API
+  /rest-service # .NET WebApi Swagger-based connected to MongoDB
+  /web-clinet-likes # React app for Phase 1
+  /web-clinet-list # React app for Phase 2
+```
+
+We recommend you to take a quick overview of repository and start from Phase 1.
+
+#### Phase 1: List of Tags
+
+In first phase you will build a Hot Chocolate Gateway API connected to REST WebApi to manipulate list of Tags stored in MongoDB. You will learn how to resolve Query, Mutation and use Subscription.
+
+1. Create WebAPI service using MongoDB using `/rest-service` tutorial.
+2. Create GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase1.md` tutorial.
+3. Frontend project is ready to use from `/web-client-list` folder.
+
+#### Phase 2: Friend Recommendations
+
+Once Tags collection is working, now you will stitch your Gateway API schema with the schema of Apollo GraphQL server connected to Neo4j database.
+
+1. Create GraphQL server connected to Neo4j using `/gql-service` tutorial.
+2. Update GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase2.md` tutorial.
+3. Frontend project is ready to use from `/web-client-likes` folder.
+
 ## Tech Stack
 
 - Frontend
@@ -41,7 +78,3 @@ Tutorial to build a GraphQL Gateway API powered by Hot Chocolate server. How to 
 - Gateway API (read https://microservices.io/patterns/apigateway.html)
 - Hot Chocolate (read https://chillicream.com/docs/hotchocolate/)
 - Hot Chocolate Youtube channel (subsribe https://www.youtube.com/@ChilliCream)
-
-# Workshop
-
-Follow the tutorial materials of `/workshop/readme.md` file.
