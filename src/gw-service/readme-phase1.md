@@ -253,7 +253,7 @@ mutation AddTag {
 - Install HotChocolate Redis package.
 
 ```dotnet
-dotnet add package HotChocolate.Subscriptions.Redis
+dotnet add package HotChocolate.Subscriptions.Redis --version 13.0.5
 ```
 
 - Add `Subscription.cs` file.
