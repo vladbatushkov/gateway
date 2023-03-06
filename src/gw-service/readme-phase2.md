@@ -146,8 +146,8 @@ mutation DetachUsers($userAccount: String!, $technologyName: String!) {
 - Get a recommmendation sample.
 
 ```graphql
-# get recommendation
-query GetRecommendation($userAccount: String!) {
+# get recommended friends
+query GetFriends($userAccount: String!) {
   users(where: { account: $userAccount }) {
     technologies {
       users(where: { NOT: { account: $userAccount } }) {

@@ -841,12 +841,12 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', account: string, name: string, image: string, bio: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> };
 
-export type GetRecommendationQueryVariables = Exact<{
+export type GetFriendsQueryVariables = Exact<{
   userAccount: Scalars['String'];
 }>;
 
 
-export type GetRecommendationQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', technologies: Array<{ __typename?: 'Technology', users: Array<{ __typename?: 'User', account: string, name: string, image: string, bio: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> }> }> };
+export type GetFriendsQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', technologies: Array<{ __typename?: 'Technology', users: Array<{ __typename?: 'User', account: string, name: string, image: string, bio: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> }> }> };
 
 export type TagAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1083,8 +1083,8 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export const GetRecommendationDocument = gql`
-    query GetRecommendation($userAccount: String!) {
+export const GetFriendsDocument = gql`
+    query GetFriends($userAccount: String!) {
   users(where: {account: $userAccount}) {
     technologies {
       users(where: {NOT: {account: $userAccount}}) {
@@ -1102,32 +1102,32 @@ export const GetRecommendationDocument = gql`
     `;
 
 /**
- * __useGetRecommendationQuery__
+ * __useGetFriendsQuery__
  *
- * To run a query within a React component, call `useGetRecommendationQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRecommendationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFriendsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFriendsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRecommendationQuery({
+ * const { data, loading, error } = useGetFriendsQuery({
  *   variables: {
  *      userAccount: // value for 'userAccount'
  *   },
  * });
  */
-export function useGetRecommendationQuery(baseOptions: Apollo.QueryHookOptions<GetRecommendationQuery, GetRecommendationQueryVariables>) {
+export function useGetFriendsQuery(baseOptions: Apollo.QueryHookOptions<GetFriendsQuery, GetFriendsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRecommendationQuery, GetRecommendationQueryVariables>(GetRecommendationDocument, options);
+        return Apollo.useQuery<GetFriendsQuery, GetFriendsQueryVariables>(GetFriendsDocument, options);
       }
-export function useGetRecommendationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecommendationQuery, GetRecommendationQueryVariables>) {
+export function useGetFriendsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFriendsQuery, GetFriendsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRecommendationQuery, GetRecommendationQueryVariables>(GetRecommendationDocument, options);
+          return Apollo.useLazyQuery<GetFriendsQuery, GetFriendsQueryVariables>(GetFriendsDocument, options);
         }
-export type GetRecommendationQueryHookResult = ReturnType<typeof useGetRecommendationQuery>;
-export type GetRecommendationLazyQueryHookResult = ReturnType<typeof useGetRecommendationLazyQuery>;
-export type GetRecommendationQueryResult = Apollo.QueryResult<GetRecommendationQuery, GetRecommendationQueryVariables>;
+export type GetFriendsQueryHookResult = ReturnType<typeof useGetFriendsQuery>;
+export type GetFriendsLazyQueryHookResult = ReturnType<typeof useGetFriendsLazyQuery>;
+export type GetFriendsQueryResult = Apollo.QueryResult<GetFriendsQuery, GetFriendsQueryVariables>;
 export const TagAddedDocument = gql`
     subscription TagAdded {
   tagAdded {

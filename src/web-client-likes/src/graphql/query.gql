@@ -16,7 +16,7 @@ query User($userAccount: String!) {
   }
 }
 
-query GetRecommendation($userAccount: String!) {
+query GetFriends($userAccount: String!) {
   users(where: { account: $userAccount }) {
     technologies {
       users(where: { NOT: { account: $userAccount } }) {
