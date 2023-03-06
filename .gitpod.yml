@@ -1,3 +1,4 @@
+
 image:
   file: .gitpod.Dockerfile
 
@@ -6,3 +7,6 @@ tasks:
     init: |
       mkdir -p $DOTNET_ROOT && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel $DOTNET_VERSION --install-dir $DOTNET_ROOT 
       dotnet dev-certs https 
+vscode:
+  extensions:
+    - muhammad-sammy.csharp
