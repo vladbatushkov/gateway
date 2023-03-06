@@ -6,15 +6,27 @@ mutation AddTag($name: String!) {
   }
 }
 
-mutation CreateUsers($userName: String!) {
-  createUsers(input: { name: $userName }) {
+mutation CreateUsers(
+  $userAccount: String!
+  $userName: String!
+  $userImage: String!
+  $userBio: String!
+) {
+  createUsers(
+    input: {
+      account: $userAccount
+      name: $userName
+      image: $userImage
+      bio: $userBio
+    }
+  ) {
     info {
       nodesCreated
     }
   }
 }
 
-mutation UpdateUsers($userName: String!, $technologyName: String!) {
+mutation UpdateUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     connectOrCreate: {
       technologies: {
@@ -22,7 +34,7 @@ mutation UpdateUsers($userName: String!, $technologyName: String!) {
         onCreate: { node: { name: $technologyName } }
       }
     }
-    where: { name: $userName }
+    where: { account: $userAccount }
   ) {
     info {
       nodesCreated
@@ -31,10 +43,10 @@ mutation UpdateUsers($userName: String!, $technologyName: String!) {
   }
 }
 
-mutation DetachUsers($userName: String!, $technologyName: String!) {
+mutation DetachUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     disconnect: { technologies: { where: { node: { name: $technologyName } } } }
-    where: { name: $userName }
+    where: { account: $userAccount }
   ) {
     info {
       relationshipsDeleted

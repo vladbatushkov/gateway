@@ -4,20 +4,29 @@ query GetTags {
   }
 }
 
-query User($userName: String!) {
-  users(where: { name: $userName }) {
+query User($userAccount: String!) {
+  users(where: { account: $userAccount }) {
+    account
     name
+    image
+    bio
     technologies {
       name
     }
   }
 }
 
-query GetRecommendation($userName: String!) {
-  users(where: { name: $userName }) {
+query GetRecommendation($userAccount: String!) {
+  users(where: { account: $userAccount }) {
     technologies {
-      users(where: { NOT: { name: $userName } }) {
+      users(where: { NOT: { account: $userAccount } }) {
+        account
         name
+        image
+        bio
+        technologies {
+          name
+        }
       }
     }
   }

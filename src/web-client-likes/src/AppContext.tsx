@@ -13,7 +13,6 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 export enum Types {
-  AddUser = "ADD_USER",
   SetupUserInfo = "SETUP_USERINFO",
   SetupTags = "SETUP_TAGS",
   AddTag = "ADD_TAG",
@@ -26,11 +25,11 @@ export interface AppStateType {
 }
 
 export interface UserInfo {
-  technologies: string[];
-  name: string;
   account: string;
+  name: string;
   image: string;
   bio: string;
+  technologies: string[];
 }
 
 export interface TagItem {
@@ -41,9 +40,6 @@ export interface TagItem {
 export type UserInfoPayload = {
   [Types.SetupUserInfo]: {
     userInfo: UserInfo;
-  };
-  [Types.AddUser]: {
-    name: string;
   };
 };
 
@@ -61,11 +57,11 @@ export type TagsPayload = {
 };
 
 const initialUserInfo: UserInfo = {
-  name: "FirstName LastName",
   account: "github_account",
-  image: "https://bulma.io/images/placeholders/128x128.png",
+  name: "FirstName LastName",
+  image: "https://bulma.io/images/placeholders/480x480.png",
   bio: "Software Engineer",
-  technologies: ["Nothing"],
+  technologies: ["Anything", "Everything"],
 };
 
 const initialAppState: AppStateType = {
@@ -121,9 +117,6 @@ const userInfoReducer = (
     case Types.SetupUserInfo:
       console.log("userInfoReducer > SetupUserInfo");
       return { ...action.payload.userInfo };
-    case Types.AddUser:
-      console.log("AddUser");
-      return state;
     case Types.ToggleTag:
       console.log("userInfoReducer > ToggleTag");
       const technologies = action.payload.item.isChecked

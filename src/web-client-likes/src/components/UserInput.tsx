@@ -27,7 +27,7 @@ export const UserInput: FC = () => {
       if (account) {
         await getUser({
           variables: {
-            userName: account,
+            userAccount: account,
           },
         });
       }
@@ -55,12 +55,15 @@ export const UserInput: FC = () => {
           type: Types.SetupUserInfo,
           payload: {
             userInfo: {
-              technologies:
-                user.technologies?.map((x: Technology) => x.name) ?? [],
-              name: res.data.name,
               account: res.data.login,
-              image: res.data.avatar_url ?? "",
-              bio: res.data.bio,
+              name: res.data.name,
+              image:
+                res.data.avatar_url ??
+                "https://bulma.io/images/placeholders/480x480.png",
+              bio: res.data.bio ?? "Software Engineer",
+              technologies: user.technologies?.map(
+                (x: Technology) => x.name
+              ) ?? ["Anything", "Everything"],
             },
           },
         });
@@ -89,7 +92,14 @@ export const UserInput: FC = () => {
     if (isAddDisabled) {
       return;
     }
-    await createUser({ variables: { userName: account } });
+    await createUser({
+      variables: {
+        userAccount: state.userInfo.account,
+        userName: state.userInfo.name,
+        userImage: state.userInfo.image,
+        userBio: state.userInfo.bio,
+      },
+    });
     setIsAddDisabled(true);
   };
 
@@ -130,7 +140,9 @@ export const UserInput: FC = () => {
               <button
                 onClick={handleClick}
                 disabled={isAddDisabled}
-                className="button is-info is-outlined is-fullwidth"
+                className={`button is-info is-fullwidth ${
+                  loading ? "is-loading" : ""
+                }`}
               >
                 Add User
               </button>

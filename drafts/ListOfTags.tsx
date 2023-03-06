@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Tag } from "../src/graphql/generated/schema";
+import { Tag } from "../src/web-client-likes/src/graphql/generated/schema";
 
 export const ListOfTags: FC<{ tags: Tag[] }> = ({ tags }) => {
   console.log(tags);

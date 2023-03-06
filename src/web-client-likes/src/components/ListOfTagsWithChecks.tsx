@@ -46,7 +46,6 @@ export const ListOfTagsWithChecks = () => {
   }, [getTagsLazyData]);
 
   const checkHandler = async (current: TagItem) => {
-    console.log(current);
     const nextState = { ...current, isChecked: !current.isChecked } as TagItem;
 
     if (!state.userInfo || !state?.userInfo?.name) {
@@ -54,7 +53,7 @@ export const ListOfTagsWithChecks = () => {
     }
 
     var variables = {
-      userName: state.userInfo.account,
+      userAccount: state.userInfo.account,
       technologyName: nextState.name,
     };
 

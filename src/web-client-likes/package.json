@@ -1,5 +1,5 @@
 {
-  "name": "web-client-list",
+  "name": "web-client-likes",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

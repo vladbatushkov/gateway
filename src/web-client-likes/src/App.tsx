@@ -7,10 +7,6 @@ import {
   split,
 } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-// import { Tags } from "./components/Tags";
-// import { TagsWithInput } from "./components/TagsWithInput";
-// import { TagsWithInputWithSub } from "./components/TagsWithInputWithSub";
-// import { TagsWithInputWithSubWithChecks } from "./components/TagsWithInputWithSubWithChecks";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { AppContainer } from "./components/AppContainer";

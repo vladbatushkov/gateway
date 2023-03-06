@@ -303,6 +303,9 @@ export type TechnologyUserUsersAggregationSelection = {
 
 export type TechnologyUserUsersNodeAggregateSelection = {
   __typename?: 'TechnologyUserUsersNodeAggregateSelection';
+  account: StringAggregateSelectionNonNullable;
+  bio: StringAggregateSelectionNonNullable;
+  image: StringAggregateSelectionNonNullable;
   name: StringAggregateSelectionNonNullable;
 };
 
@@ -376,6 +379,51 @@ export type TechnologyUsersNodeAggregationWhereInput = {
   AND?: InputMaybe<Array<TechnologyUsersNodeAggregationWhereInput>>;
   NOT?: InputMaybe<TechnologyUsersNodeAggregationWhereInput>;
   OR?: InputMaybe<Array<TechnologyUsersNodeAggregationWhereInput>>;
+  account_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  account_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  account_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  account_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  account_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  account_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  account_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  account_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  account_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  account_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  account_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  account_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  account_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  account_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  account_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  bio_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  bio_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  bio_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  bio_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  bio_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  bio_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  bio_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  bio_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  bio_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  bio_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  bio_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  bio_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  bio_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  bio_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  bio_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  image_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  image_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  image_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  image_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  image_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  image_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  image_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  image_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  image_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  image_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  image_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  image_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  image_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  image_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  image_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
   name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -464,6 +512,9 @@ export type UpdateUsersMutationResponse = {
 
 export type User = {
   __typename?: 'User';
+  account: Scalars['String'];
+  bio: Scalars['String'];
+  image: Scalars['String'];
   name: Scalars['String'];
   technologies: Array<Technology>;
   technologiesAggregate?: Maybe<UserTechnologyTechnologiesAggregationSelection>;
@@ -494,7 +545,10 @@ export type UserTechnologiesConnectionArgs = {
 
 export type UserAggregateSelection = {
   __typename?: 'UserAggregateSelection';
+  account: StringAggregateSelectionNonNullable;
+  bio: StringAggregateSelectionNonNullable;
   count: Scalars['Int'];
+  image: StringAggregateSelectionNonNullable;
   name: StringAggregateSelectionNonNullable;
 };
 
@@ -515,6 +569,9 @@ export type UserConnectWhere = {
 };
 
 export type UserCreateInput = {
+  account: Scalars['String'];
+  bio: Scalars['String'];
+  image: Scalars['String'];
   name: Scalars['String'];
   technologies?: InputMaybe<UserTechnologiesFieldInput>;
 };
@@ -534,6 +591,9 @@ export type UserEdge = {
 };
 
 export type UserOnCreateInput = {
+  account: Scalars['String'];
+  bio: Scalars['String'];
+  image: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -550,6 +610,9 @@ export type UserRelationInput = {
 
 /** Fields to sort Users by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserSort object. */
 export type UserSort = {
+  account?: InputMaybe<SortDirection>;
+  bio?: InputMaybe<SortDirection>;
+  image?: InputMaybe<SortDirection>;
   name?: InputMaybe<SortDirection>;
 };
 
@@ -672,10 +735,13 @@ export type UserTechnologyTechnologiesNodeAggregateSelection = {
 };
 
 export type UserUniqueWhere = {
-  name?: InputMaybe<Scalars['String']>;
+  account?: InputMaybe<Scalars['String']>;
 };
 
 export type UserUpdateInput = {
+  account?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   technologies?: InputMaybe<Array<UserTechnologiesUpdateFieldInput>>;
 };
@@ -684,6 +750,21 @@ export type UserWhere = {
   AND?: InputMaybe<Array<UserWhere>>;
   NOT?: InputMaybe<UserWhere>;
   OR?: InputMaybe<Array<UserWhere>>;
+  account?: InputMaybe<Scalars['String']>;
+  account_CONTAINS?: InputMaybe<Scalars['String']>;
+  account_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  account_IN?: InputMaybe<Array<Scalars['String']>>;
+  account_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  bio_CONTAINS?: InputMaybe<Scalars['String']>;
+  bio_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  bio_IN?: InputMaybe<Array<Scalars['String']>>;
+  bio_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  image_CONTAINS?: InputMaybe<Scalars['String']>;
+  image_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  image_IN?: InputMaybe<Array<Scalars['String']>>;
+  image_STARTS_WITH?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   name_CONTAINS?: InputMaybe<Scalars['String']>;
   name_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -723,14 +804,17 @@ export type AddTagMutationVariables = Exact<{
 export type AddTagMutation = { __typename?: 'Mutation', addTag: { __typename?: 'TagPayload', tag: { __typename?: 'Tag', name?: string | null } } };
 
 export type CreateUsersMutationVariables = Exact<{
+  userAccount: Scalars['String'];
   userName: Scalars['String'];
+  userImage: Scalars['String'];
+  userBio: Scalars['String'];
 }>;
 
 
 export type CreateUsersMutation = { __typename?: 'Mutation', createUsers: { __typename?: 'CreateUsersMutationResponse', info: { __typename?: 'CreateInfo', nodesCreated: number } } };
 
 export type UpdateUsersMutationVariables = Exact<{
-  userName: Scalars['String'];
+  userAccount: Scalars['String'];
   technologyName: Scalars['String'];
 }>;
 
@@ -738,7 +822,7 @@ export type UpdateUsersMutationVariables = Exact<{
 export type UpdateUsersMutation = { __typename?: 'Mutation', updateUsers: { __typename?: 'UpdateUsersMutationResponse', info: { __typename?: 'UpdateInfo', nodesCreated: number, relationshipsCreated: number } } };
 
 export type DetachUsersMutationVariables = Exact<{
-  userName: Scalars['String'];
+  userAccount: Scalars['String'];
   technologyName: Scalars['String'];
 }>;
 
@@ -751,18 +835,18 @@ export type GetTagsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetTagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', name?: string | null }> };
 
 export type UserQueryVariables = Exact<{
-  userName: Scalars['String'];
+  userAccount: Scalars['String'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', name: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> };
+export type UserQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', account: string, name: string, image: string, bio: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> };
 
 export type GetRecommendationQueryVariables = Exact<{
-  userName: Scalars['String'];
+  userAccount: Scalars['String'];
 }>;
 
 
-export type GetRecommendationQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', technologies: Array<{ __typename?: 'Technology', users: Array<{ __typename?: 'User', name: string }> }> }> };
+export type GetRecommendationQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', technologies: Array<{ __typename?: 'Technology', users: Array<{ __typename?: 'User', account: string, name: string, image: string, bio: string, technologies: Array<{ __typename?: 'Technology', name: string }> }> }> }> };
 
 export type TagAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -806,8 +890,10 @@ export type AddTagMutationHookResult = ReturnType<typeof useAddTagMutation>;
 export type AddTagMutationResult = Apollo.MutationResult<AddTagMutation>;
 export type AddTagMutationOptions = Apollo.BaseMutationOptions<AddTagMutation, AddTagMutationVariables>;
 export const CreateUsersDocument = gql`
-    mutation CreateUsers($userName: String!) {
-  createUsers(input: {name: $userName}) {
+    mutation CreateUsers($userAccount: String!, $userName: String!, $userImage: String!, $userBio: String!) {
+  createUsers(
+    input: {account: $userAccount, name: $userName, image: $userImage, bio: $userBio}
+  ) {
     info {
       nodesCreated
     }
@@ -829,7 +915,10 @@ export type CreateUsersMutationFn = Apollo.MutationFunction<CreateUsersMutation,
  * @example
  * const [createUsersMutation, { data, loading, error }] = useCreateUsersMutation({
  *   variables: {
+ *      userAccount: // value for 'userAccount'
  *      userName: // value for 'userName'
+ *      userImage: // value for 'userImage'
+ *      userBio: // value for 'userBio'
  *   },
  * });
  */
@@ -841,10 +930,10 @@ export type CreateUsersMutationHookResult = ReturnType<typeof useCreateUsersMuta
 export type CreateUsersMutationResult = Apollo.MutationResult<CreateUsersMutation>;
 export type CreateUsersMutationOptions = Apollo.BaseMutationOptions<CreateUsersMutation, CreateUsersMutationVariables>;
 export const UpdateUsersDocument = gql`
-    mutation UpdateUsers($userName: String!, $technologyName: String!) {
+    mutation UpdateUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     connectOrCreate: {technologies: {where: {node: {name: $technologyName}}, onCreate: {node: {name: $technologyName}}}}
-    where: {name: $userName}
+    where: {account: $userAccount}
   ) {
     info {
       nodesCreated
@@ -868,7 +957,7 @@ export type UpdateUsersMutationFn = Apollo.MutationFunction<UpdateUsersMutation,
  * @example
  * const [updateUsersMutation, { data, loading, error }] = useUpdateUsersMutation({
  *   variables: {
- *      userName: // value for 'userName'
+ *      userAccount: // value for 'userAccount'
  *      technologyName: // value for 'technologyName'
  *   },
  * });
@@ -881,10 +970,10 @@ export type UpdateUsersMutationHookResult = ReturnType<typeof useUpdateUsersMuta
 export type UpdateUsersMutationResult = Apollo.MutationResult<UpdateUsersMutation>;
 export type UpdateUsersMutationOptions = Apollo.BaseMutationOptions<UpdateUsersMutation, UpdateUsersMutationVariables>;
 export const DetachUsersDocument = gql`
-    mutation DetachUsers($userName: String!, $technologyName: String!) {
+    mutation DetachUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     disconnect: {technologies: {where: {node: {name: $technologyName}}}}
-    where: {name: $userName}
+    where: {account: $userAccount}
   ) {
     info {
       relationshipsDeleted
@@ -907,7 +996,7 @@ export type DetachUsersMutationFn = Apollo.MutationFunction<DetachUsersMutation,
  * @example
  * const [detachUsersMutation, { data, loading, error }] = useDetachUsersMutation({
  *   variables: {
- *      userName: // value for 'userName'
+ *      userAccount: // value for 'userAccount'
  *      technologyName: // value for 'technologyName'
  *   },
  * });
@@ -954,9 +1043,12 @@ export type GetTagsQueryHookResult = ReturnType<typeof useGetTagsQuery>;
 export type GetTagsLazyQueryHookResult = ReturnType<typeof useGetTagsLazyQuery>;
 export type GetTagsQueryResult = Apollo.QueryResult<GetTagsQuery, GetTagsQueryVariables>;
 export const UserDocument = gql`
-    query User($userName: String!) {
-  users(where: {name: $userName}) {
+    query User($userAccount: String!) {
+  users(where: {account: $userAccount}) {
+    account
     name
+    image
+    bio
     technologies {
       name
     }
@@ -976,7 +1068,7 @@ export const UserDocument = gql`
  * @example
  * const { data, loading, error } = useUserQuery({
  *   variables: {
- *      userName: // value for 'userName'
+ *      userAccount: // value for 'userAccount'
  *   },
  * });
  */
@@ -992,11 +1084,17 @@ export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const GetRecommendationDocument = gql`
-    query GetRecommendation($userName: String!) {
-  users(where: {name: $userName}) {
+    query GetRecommendation($userAccount: String!) {
+  users(where: {account: $userAccount}) {
     technologies {
-      users(where: {NOT: {name: $userName}}) {
+      users(where: {NOT: {account: $userAccount}}) {
+        account
         name
+        image
+        bio
+        technologies {
+          name
+        }
       }
     }
   }
@@ -1015,7 +1113,7 @@ export const GetRecommendationDocument = gql`
  * @example
  * const { data, loading, error } = useGetRecommendationQuery({
  *   variables: {
- *      userName: // value for 'userName'
+ *      userAccount: // value for 'userAccount'
  *   },
  * });
  */

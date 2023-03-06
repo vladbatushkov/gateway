@@ -1,6 +1,6 @@
 # WebClient List
 
-Example of client web app to manage a list of Tags.
+Example of client web app of List of Tags.
 
 - Install dependencies
 
@@ -12,4 +12,10 @@ npm install
 
 ```sh
 npm start
+```
+
+- Autogenerate GQL hooks.
+
+```sh
+npm run codegen
 ```
