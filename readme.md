@@ -17,8 +17,8 @@ Folder `/src` contains ready-to-use services and setp-by-setp tutorials how to c
   /gql-service # Apollo GraphQL Server connected to Neo4j Database
   /gw-service # Hot Chocolate GraphQL Gateway API
   /rest-service # .NET WebApi Swagger-based connected to MongoDB
-  /web-clinet-likes # React app for Phase 1
-  /web-clinet-list # React app for Phase 2
+  /web-clinet-list # React app for Phase 1
+  /web-clinet-likes # React app for Phase 2
 ```
 
 We recommend you to take a quick overview of repository and start from Phase 1.
