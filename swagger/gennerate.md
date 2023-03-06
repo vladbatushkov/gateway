@@ -1,1 +1,0 @@
-nswag run /runtime:Net60 /file:OpenAPI.nswag /classname:TagApiClient /namespace:GatewayApi /output:TagApiClient.cs

@@ -14,7 +14,7 @@ npm install
 npm start
 ```
 
-- Autogenerate GQL hooks.
+- (Optional) Generation of GraphQL hooks.
 
 ```sh
 npm run codegen
