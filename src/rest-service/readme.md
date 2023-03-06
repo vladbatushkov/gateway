@@ -10,9 +10,9 @@
 dotnet new webapi -n TagsApi -f net6.0 --no-https
 ```
 
-- [ ] Target framework is `.NET 6.0`. No `https` support.
+- Target framework is `.NET 6.0`. No `https` support.
 
-- [ ] Open `/TagsApi` folder and add `.gitignore` file.
+- Open `/TagsApi` folder and add `.gitignore` file.
 
 ```bash
 cd TagsApi/
@@ -22,9 +22,9 @@ cd TagsApi/
 dotnet new gitignore
 ```
 
-- [ ] `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file.
+- `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file.
 
-- [ ] Make `Program.cs` file as below:
+- Make `Program.cs` file as below:
 
 ```cs
 // Program.cs
