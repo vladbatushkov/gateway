@@ -74,7 +74,7 @@ dotnet add package MongoDB.Driver
   }
 ```
 
-> Note: Don't forget to replace settings with an actual credentials from our secret chat.
+> Note: Don't forget to replace settings with actual credentials from our secret chat.
 
 - Add MongoDB settings provider.
 
@@ -183,7 +183,7 @@ builder.Services.AddSingleton<ITagRepository, TagRepository>();
 // ...
 ```
 
-- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder.
+- Replace `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder.
 
 ```cs
 // TagController.cs
@@ -256,7 +256,7 @@ dotnet run
 
 ## Step 4: Docker
 
-- Create `Dockerfile` inside project root folder.
+- Create `Dockerfile` inside project root TagsApi folder.
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk
