@@ -76,7 +76,7 @@ app.MapGraphQL();
 app.Run();
 ```
 
-> Note: Support `AllowedOrigin` in advance to prevent CORS issue on web client.
+> Note: Support `AllowedOrigin` in advance to prevent CORS issue of using Gateway by Web Client.
 
 - Setup `launchSettings.json` file.
 
@@ -155,7 +155,7 @@ using HotChocolate;
 var builder = WebApplication.CreateBuilder(args);
 // rest service
 var serviceSection = builder.Configuration.GetSection("Services");
-var tagsApiEndpoint = serviceSection.GetValue<string>("TagsApi:Endpoint");
+var tagsApiEndpoint = serviceSection.GetValue<string>("TagsApi:endpoint");
 builder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));
 ```
 
@@ -243,10 +243,12 @@ mutation AddTag {
 
 ```json
     "Redis": {
-      "endpoint": "redis-16093.c295.ap-southeast-1-1.ec2.cloud.redislabs.com:16093",
-      "password": "vvrKZSRdePFndc1ILYLgroT4DJ3P2GRi"
+      "endpoint": "<redis.endpoint>",
+      "password": "<redis.password>"
     }
 ```
+
+> Note: Don't forget to replace connection props. with an actual credentials from our secret chat.
 
 - Install HotChocolate Redis package.
 

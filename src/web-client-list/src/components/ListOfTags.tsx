@@ -8,13 +8,9 @@ export interface ItemProps {
 
 export interface ListOfTagsProps {
   tags: Tag[];
-  onChecked: (props: ItemProps) => void;
 }
 
-export const ListOfTagsWithChecks: FC<ListOfTagsProps> = ({
-  tags,
-  onChecked,
-}) => {
+export const ListOfTags: FC<ListOfTagsProps> = ({ tags }) => {
   const [checks, setChecks] = useState([] as ItemProps[]);
 
   useEffect(() => {
@@ -29,26 +25,9 @@ export const ListOfTagsWithChecks: FC<ListOfTagsProps> = ({
     setChecks(items);
   }, [tags]);
 
-  const checkHandler = (selected: ItemProps) => {
-    const toggled = {
-      value: !selected.value,
-      name: selected.name,
-    } as ItemProps;
-    const checksUpdated = checks.map((item) =>
-      item.name === toggled.name ? toggled : item
-    );
-    setChecks(checksUpdated);
-    onChecked(toggled);
-  };
-
   const items = checks?.map((item) =>
     item ? (
       <label key={item.name} className="checkbox panel-block is-active">
-        <input
-          type="checkbox"
-          checked={item.value}
-          onChange={() => checkHandler(item)}
-        />
         {item.name}
       </label>
     ) : null

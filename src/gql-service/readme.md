@@ -34,19 +34,23 @@ const neo4j = require("neo4j-driver");
 const typeDefs = gql`
   type Technology {
     name: String! @id(autogenerate: false, unique: true)
-    persons: [Person!]! @relationship(type: "LIKE", direction: IN)
+    users: [User!]! @relationship(type: "LIKE", direction: IN)
   }
 
-  type Person {
-    name: String! @id(autogenerate: false, unique: true)
+  type User {
+    account: String! @id(autogenerate: false, unique: true)
+    name: String!
+    image: String!
+    bio: String!
     technologies: [Technology!]! @relationship(type: "LIKE", direction: OUT)
+  }
+
+  type Subscription {
+    userAdded: User!
   }
 `;
 
-const driver = neo4j.driver(
-  "neo4j+s://d71b6287.databases.neo4j.io",
-  neo4j.auth.basic("neo4j", "<password>")
-);
+const driver = neo4j.driver("<host>", neo4j.auth.basic("<user>", "<password>"));
 
 const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
 
@@ -61,7 +65,7 @@ neoSchema.getSchema().then((schema) => {
 });
 ```
 
-> Note: Don't forget to replace `<password>` with an actual password from our secret chat.
+> Note: Don't forget to replace connection props. with an actual credentials from our secret chat.
 
 - Start the app.
 
@@ -93,7 +97,6 @@ ENTRYPOINT ["node", "index.js"]
 version: "3.6"
 
 services:
-  # WEBAPI MONGODB
   # ...
   # GRAPHQL NEO4J
   likesapi:
@@ -113,28 +116,29 @@ services:
 docker-compose up
 ```
 
-## Step 5: Manage Neo4j Database
+## Step 5: Open Neo4j Database using Neo4j Browser
 
-- Open New4j Browser using docker image
+- Add Neo4j into `docker-compose.yml` file.
 
 ```yml
 version: "3.6"
 
 services:
+  # ...
+  # NEO4J
   neo4j:
     image: neo4j:5.5.0
-    hostname: neo4j
-    container_name: neo4j-gql
     restart: unless-stopped
     ports:
       - "7474:7474"
-      - "7687:7687"
-    volumes:
-      - ./neo4j/data:/data
-      - ./neo4j/logs:/logs
 ```
 
+- Open Neo4j Browser [http://localhost:7474/](http://localhost:7474/).
 
+- Connect to could instance of Neo4j Database using credentials from our secret chat.
+  - Host: `<neo4j.host>`
+  - User: `<neo4j.user>`
+  - Passowrd: `<neo4j.password>`
 
 ###### Refs
 

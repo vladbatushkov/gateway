@@ -5,7 +5,6 @@ export const TagInput: FC = () => {
   const [tag, setTag] = useState("");
   const [addTag, { loading, error }] = useAddTagMutation();
 
-  //if (loading) return <p>Submitting...</p>;
   if (error) return <p>Submission error! ${error.message}`</p>;
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -36,7 +35,9 @@ export const TagInput: FC = () => {
         <p className="control is-expanded">
           <button
             onClick={handleClick}
-            className="button is-info is-outlined is-fullwidth"
+            className={`button is-info is-fullwidth ${
+              loading ? "is-loading" : ""
+            }`}
           >
             Add Tag
           </button>

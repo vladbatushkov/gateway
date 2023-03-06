@@ -65,8 +65,20 @@ public class Subscription
 
 ```graphql
 # create a user
-mutation CreateUsers($userName: String!) {
-  createUsers(input: { name: $userName }) {
+mutation CreateUsers(
+  $userAccount: String!
+  $userName: String!
+  $userImage: String!
+  $userBio: String!
+) {
+  createUsers(
+    input: {
+      account: $userAccount
+      name: $userName
+      image: $userImage
+      bio: $userBio
+    }
+  ) {
     info {
       nodesCreated
     }
@@ -76,14 +88,20 @@ mutation CreateUsers($userName: String!) {
 # get all users
 query Users {
   users {
+    account
     name
+    image
+    bio
   }
 }
 
 # get user info by name
-query User($userName: String!) {
-  users(where: { name: $userName }) {
+query User($userAccount: String!) {
+  users(where: { account: $userAccount }) {
+    account
     name
+    image
+    bio
     technologies {
       name
     }
@@ -95,7 +113,7 @@ query User($userName: String!) {
 
 ```graphql
 # connect
-mutation UpdateUsers($userName: String!, $technologyName: String!) {
+mutation UpdateUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     connectOrCreate: {
       technologies: {
@@ -103,7 +121,7 @@ mutation UpdateUsers($userName: String!, $technologyName: String!) {
         onCreate: { node: { name: $technologyName } }
       }
     }
-    where: { name: $userName }
+    where: { account: $userAccount }
   ) {
     info {
       nodesCreated
@@ -113,10 +131,10 @@ mutation UpdateUsers($userName: String!, $technologyName: String!) {
 }
 
 # disconnect
-mutation DetachUsers($userName: String!, $technologyName: String!) {
+mutation DetachUsers($userAccount: String!, $technologyName: String!) {
   updateUsers(
     disconnect: { technologies: { where: { node: { name: $technologyName } } } }
-    where: { name: $userName }
+    where: { account: $userAccount }
   ) {
     info {
       relationshipsDeleted
@@ -129,11 +147,14 @@ mutation DetachUsers($userName: String!, $technologyName: String!) {
 
 ```graphql
 # get recommendation
-query GetRecommendation($userName: String!) {
-  users(where: { name: $userName }) {
+query GetRecommendation($userAccount: String!) {
+  users(where: { account: $userAccount }) {
     technologies {
-      users(where: { NOT: { name: $userName } }) {
+      users(where: { NOT: { account: $userAccount } }) {
+        account
         name
+        image
+        bio
       }
     }
   }

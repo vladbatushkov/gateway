@@ -26,6 +26,7 @@ dotnet new gitignore
 // Program.cs
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -63,13 +64,13 @@ dotnet add package MongoDB.Driver
 
 ```json
   "MongoDBSettings": {
-    "ConnectionString": "mongodb+srv://<user>:<password>@cluster-sg.uamu5be.mongodb.net/?retryWrites=true&w=majority",
-    "DatabaseName": "mongodb-gql",
+    "ConnectionString": "<mongo.host>",
+    "DatabaseName": "<mongo.name>",
     "CollectionName": "tags"
   }
 ```
 
-> Note: Don't forget to replace `<user>:<password>` with an actual credentials from our "secret chat".
+> Note: Don't forget to replace settings with an actual credentials from our secret chat.
 
 - Add MongoDB settings provider.
 
@@ -245,13 +246,9 @@ public class TagController : ControllerBase
 dotnet run
 ```
 
-- WebAPI is ready to try `POST`, `GET` and `DELETE` operations [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/).
+- WebAPI is ready to try [http://localhost:5010/api/tag/](http://localhost:5010/api/tag/). Use `Postman`, VSCode `Thunder Client` or any other API client.
 
-- Use `Postman`, VSCode `Thunder Client` or other API client.
-
-- Here SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html).
-
-- Here OpenAPI JSON [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json).
+- SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html) and JSON schema [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json).
 
 ## Step 4: Docker
 

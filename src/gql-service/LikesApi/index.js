@@ -5,16 +5,19 @@ const neo4j = require("neo4j-driver");
 const typeDefs = gql`
   type Technology {
     name: String! @id(autogenerate: false, unique: true)
-    persons: [Person!]! @relationship(type: "LIKE", direction: IN)
+    users: [User!]! @relationship(type: "LIKE", direction: IN)
   }
 
-  type Person {
-    name: String! @id(autogenerate: false, unique: true)
+  type User {
+    account: String! @id(autogenerate: false, unique: true)
+    name: String!
+    image: String!
+    bio: String!
     technologies: [Technology!]! @relationship(type: "LIKE", direction: OUT)
   }
 
   type Subscription {
-    userAdded()
+
   }
 `;
 

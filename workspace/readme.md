@@ -16,7 +16,7 @@ Phase 1: List of Tags
 2. Create GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase1.md` tutorial.
 3. Frontend project is ready to use from `/web-client-list` folder.
 
-Phase 2: Recommend Connections
+Phase 2: Recommendations
 
 1. Create GraphQL API service using Neo4j using `/gql-service` tutorial.
 2. Update GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase2.md` tutorial.

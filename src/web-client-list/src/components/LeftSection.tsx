@@ -4,11 +4,7 @@ import {
   useGetTagsQuery,
   useTagAddedSubscription,
 } from "../graphql/generated/schema";
-import {
-  ListOfTagsWithChecks,
-  ListOfTagsProps,
-  ItemProps,
-} from "./ListOfTagsWithChecks";
+import { ListOfTags, ListOfTagsProps } from "./ListOfTags";
 import { TagInput } from "./TagInput";
 
 export const LeftSection = () => {
@@ -31,28 +27,12 @@ export const LeftSection = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  const onChecked = (props: ItemProps) => {
-    console.table(props);
-  };
-
   return (
     <div className="block has-background-white">
-      {/* <div className="block">
-        <div className="field">
-          <label className="label">Your GitHub account</label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              placeholder="e.g vladbatushkov"
-            />
-          </div>
-        </div>
-      </div> */}
       <div className="panel is-info">
         <p className="panel-heading">List of Tags</p>
         <TagInput />
-        <ListOfTagsWithChecks {...({ tags, onChecked } as ListOfTagsProps)} />
+        <ListOfTags {...({ tags } as ListOfTagsProps)} />
       </div>
     </div>
   );
