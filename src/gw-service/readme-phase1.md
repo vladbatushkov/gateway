@@ -10,7 +10,7 @@
 dotnet new webapi -n GatewayApi -f net6.0 --no-openapi --no-https
 ```
 
-- Open `/TagsApi` fodler and add `.gitignore` file.
+- Open `/GatewayApi ` fodler and add `.gitignore` file.
 
 ```dotnet
 dotnet new gitignore
