@@ -1,0 +1,130 @@
+{
+	// snipet tools
+	//https://www.freeformatter.com/json-escape.html
+	"tags-api": {
+		"prefix": [
+			"tags-api"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nvar builder = WebApplication.CreateBuilder(args);\r\nbuilder.Services.AddControllers();\r\nbuilder.Services.AddEndpointsApiExplorer();\r\nbuilder.Services.AddSwaggerGen();\r\n\r\nvar app = builder.Build();\r\napp.UseSwagger();\r\napp.UseSwaggerUI();\r\napp.MapControllers();\r\napp.Run();\r\n"
+		],
+		"description": "TagsApi"
+	},
+	"tags-api-mongdb-config": {
+		"prefix": [
+			"tags-api-mongdb-config"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nusing TagsApi;\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\nbuilder.Services.AddControllers();\r\nbuilder.Services.AddEndpointsApiExplorer();\r\nbuilder.Services.AddSwaggerGen();\r\nbuilder.Services.Configure<MongoDBSettingsProvider>(\r\n    builder.Configuration.GetSection(\"MongoDBSettings\"));\r\n\r\nvar app = builder.Build();\r\napp.UseSwagger();\r\napp.UseSwaggerUI();\r\napp.MapControllers();\r\napp.Run();\r\n"
+		],
+		"description": "TagsApi with mongo config"
+	},
+	"tags-api-MongoDBSettingsProvider": {
+		"prefix": [
+			"tags-api-MongoDBSettingsProviderMongoDBSettingsProvider"
+		],
+		"body": [
+			"\/\/ MongoDBSettingsProvider.cs\r\nnamespace TagsApi;\r\n\r\npublic class MongoDBSettingsProvider\r\n{\r\n    public string ConnectionString { get; set; } = null!;\r\n    public string DatabaseName { get; set; } = null!;\r\n    public string CollectionName { get; set; } = null!;\r\n}"
+		],
+		"description": "MongoDBSettingsProvider.cs"
+	},
+	"tags-api-TagModle": {
+		"prefix": [
+			"tags-api-TagModle"
+		],
+		"body": [
+			"\/\/ Tag.cs\r\nusing System.Text.Json.Serialization;\r\nusing MongoDB.Bson;\r\nusing MongoDB.Bson.Serialization.Attributes;\r\n\r\nnamespace TagsApi;\r\n\r\npublic class Tag\r\n{\r\n    [BsonId]\r\n    [BsonRepresentation(BsonType.ObjectId)]\r\n    [JsonIgnore()]\r\n    public string? Id { get; set; }\r\n\r\n    [BsonElement(\"name\")]\r\n    [JsonPropertyName(\"name\")]\r\n    public string Name { get; set; } = null!;\r\n}"
+		],
+		"description": "TagModle.cs"
+	},
+	"tags-api-TagRepository ": {
+		"prefix": [
+			"tags-api-TagRepository "
+		],
+		"body": [
+			"\/\/ TagRepository.cs\r\nusing Microsoft.Extensions.Options;\r\nusing MongoDB.Driver;\r\n\r\nnamespace TagsApi;\r\n\r\npublic interface ITagRepository\r\n{\r\n    Task<List<Tag>> Get();\r\n    Task<Tag?> Get(string name);\r\n    Task Create(string name);\r\n}\r\n\r\npublic class TagRepository : ITagRepository\r\n{\r\n    private readonly IMongoCollection<Tag> _tagsCollection;\r\n\r\n    public TagRepository(\r\n        IOptions<MongoDBSettingsProvider> mongoDBSettingsProvider)\r\n    {\r\n        var dbSettings = mongoDBSettingsProvider.Value;\r\n        var clientSettings = MongoClientSettings.FromConnectionString(dbSettings.ConnectionString);\r\n        _tagsCollection = new MongoClient(clientSettings)\r\n                                .GetDatabase(dbSettings.DatabaseName)\r\n                                .GetCollection<Tag>(dbSettings.CollectionName);\r\n    }\r\n\r\n    public async Task<List<Tag>> Get() =>\r\n        await _tagsCollection.Find(_ => true).ToListAsync();\r\n\r\n    public async Task<Tag?> Get(string name) =>\r\n        await _tagsCollection.Find(x => x.Name == name).FirstOrDefaultAsync();\r\n\r\n    public async Task Create(string name) =>\r\n        await _tagsCollection.InsertOneAsync(new Tag { Name = name });\r\n}"
+		],
+		"description": "TagRepository.cs"
+	},
+	"tags-api-TagController": {
+		"prefix": [
+			"tags-api-TagController "
+		],
+		"body": [
+			"\/\/ TagController.cs\r\nusing Microsoft.AspNetCore.Mvc;\r\n\r\nnamespace TagsApi;\r\n\r\n[ApiController]\r\n[Route(\"api\/tag\")]\r\npublic class TagController : ControllerBase\r\n{\r\n    private readonly ITagRepository _tagRepository;\r\n\r\n    public TagController(ITagRepository tagRepository) =>\r\n        _tagRepository = tagRepository;\r\n\r\n    [HttpGet]\r\n    public async Task<List<Tag>> Get() =>\r\n        await _tagRepository.Get();\r\n\r\n    [HttpGet(\"{name}\")]\r\n    public async Task<ActionResult<Tag>> Get(string name)\r\n    {\r\n        if (string.IsNullOrWhiteSpace(name))\r\n        {\r\n            return BadRequest(\"Empty input not allowed\");\r\n        }\r\n        name = name.ToLowerInvariant().Trim();\r\n\r\n        var tag = await _tagRepository.Get(name);\r\n        if (tag is null)\r\n        {\r\n            return NotFound(\"Tag not found\");\r\n        }\r\n        return tag;\r\n    }\r\n\r\n    [HttpPost]\r\n    public async Task<IActionResult> Post([FromBody] string name)\r\n    {\r\n        if (string.IsNullOrWhiteSpace(name))\r\n        {\r\n            return BadRequest(\"Empty input not allowed\");\r\n        }\r\n        name = name.Trim();\r\n\r\n        var tag = await _tagRepository.Get(name);\r\n        if (tag is not null)\r\n        {\r\n            return BadRequest(\"Tag already exists\");\r\n        }\r\n\r\n        await _tagRepository.Create(name);\r\n        return Ok();\r\n    }\r\n}"
+		],
+		"description": "TagController.cs"
+	},
+	"gq-program-1": {
+		"prefix": [
+			"gq-program-1"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nusing HotChocolate;\r\n\r\nconst string AllowedOrigin = \"allowedOrigin\";\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\nbuilder.Services.AddCors(options =>\r\n{\r\n    options.AddPolicy(name: AllowedOrigin,\r\n        policy =>\r\n        {\r\n            policy.AllowAnyOrigin()\r\n                .AllowAnyHeader()\r\n                .AllowAnyMethod();\r\n        });\r\n});\r\nbuilder.Services\r\n    .AddGraphQLServer()\r\n    .AddQueryType<Query>();\r\n\r\nvar app = builder.Build();\r\napp.UseCors(AllowedOrigin);\r\napp.MapGraphQL();\r\napp.Run();"
+		],
+		"description": "Program.cs"
+	},
+	"gq-program-with-tagclient": {
+		"prefix": [
+			"gq-program-with-tagclient"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nusing GatewayApi;\r\nusing HotChocolate;\r\n\r\nconst string AllowedOrigin = \"allowedOrigin\";\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\n\/\/ tag api client\r\nvar serviceSection = builder.Configuration.GetSection(\"Services\");\r\nvar tagsApiEndpoint = serviceSection.GetValue<string>(\"TagsApi:endpoint\");\r\nbuilder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));\r\n\r\nbuilder.Services.AddCors(options =>\r\n{\r\n    options.AddPolicy(name: AllowedOrigin,\r\n        policy =>\r\n        {\r\n            policy.AllowAnyOrigin()\r\n                .AllowAnyHeader()\r\n                .AllowAnyMethod();\r\n        });\r\n});\r\nbuilder.Services\r\n    .AddGraphQLServer()\r\n    .AddQueryType<Query>();\r\n\r\nvar app = builder.Build();\r\napp.UseCors(AllowedOrigin);\r\napp.MapGraphQL();\r\napp.Run();"
+		],
+		"description": "gq-program-with-tagclient"
+	},
+	"gq-query-with-tagclient": {
+		"prefix": [
+			"gq-query-with-tagclient"
+		],
+		"body": [
+			"namespace  GatewayApi;\r\n\r\npublic class Query\r\n{\r\n    public async Task<ICollection<Tag>> GetTagsAsync(\r\n        [Service] ITagsApiClient service,\r\n        CancellationToken cancellationToken)\r\n    {\r\n        return await service.TagAllAsync(cancellationToken);\r\n    }\r\n}"
+		],
+		"description": "gq-query-with-tagclient"
+	},
+	"gq-mutation": {
+		"prefix": [
+			"gq-mutation"
+		],
+		"body": [
+			"\/\/ Mutation.cs\r\nnamespace GatewayApi;\r\n\r\npublic class Mutation\r\n{\r\n    public async Task<TagPayload> AddTag(string name,\r\n                                [Service] ITagsApiClient service,\r\n                                CancellationToken cancellationToken)\r\n    {\r\n        await service.TagPOSTAsync(name, cancellationToken);\r\n        return new TagPayload { Tag = new Tag { Name = name } };\r\n    }\r\n}\r\n\r\npublic class TagPayload\r\n{\r\n    public Tag Tag { get; set; } = null!;\r\n}"
+		],
+		"description": "gq-mutation"
+	},
+	"gq-program-with-mutation": {
+		"prefix": [
+			"gq-program-with-mutation"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nusing GatewayApi;\r\nusing HotChocolate;\r\n\r\nconst string AllowedOrigin = \"allowedOrigin\";\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\n\/\/ tag api client\r\nvar serviceSection = builder.Configuration.GetSection(\"Services\");\r\nvar tagsApiEndpoint = serviceSection.GetValue<string>(\"TagsApi:endpoint\");\r\nbuilder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));\r\n\r\nbuilder.Services.AddCors(options =>\r\n{\r\n    options.AddPolicy(name: AllowedOrigin,\r\n        policy =>\r\n        {\r\n            policy.AllowAnyOrigin()\r\n                .AllowAnyHeader()\r\n                .AllowAnyMethod();\r\n        });\r\n});\r\nbuilder.Services\r\n    .AddGraphQLServer()\r\n    .AddQueryType<Query>()\r\n    .AddMutationType<Mutation>();\r\n\r\nvar app = builder.Build();\r\napp.UseCors(AllowedOrigin);\r\napp.MapGraphQL();\r\napp.Run();"
+		],
+		"description": "gq-program-with-tagclient"
+	},
+	"gq-subscription": {
+		"prefix": [
+			"gq-subscription"
+		],
+		"body": [
+			"\/\/ Subscription.cs\r\nnamespace GatewayApi;\r\n\r\npublic class Subscription\r\n{\r\n    [Subscribe]\r\n    [Topic(\"AddTag\")]\r\n    public Tag TagAdded([EventMessage] Tag tag) => tag;\r\n}"
+		],
+		"description": "gq-program-with-tagclient"
+	},
+	"gq-mutation-with-subscription": {
+		"prefix": [
+			"gq-mutation-with-subscription"
+		],
+		"body": [
+			"using HotChocolate.Subscriptions;\r\n\r\nnamespace GatewayApi;\r\n\r\npublic class Mutation\r\n{\r\n    public async Task<TagPayload> AddTag(string name,\r\n                                [Service] ITagsApiClient service,\r\n                                [Service] ITopicEventSender eventSender,\r\n                                CancellationToken cancellationToken)\r\n    {\r\n        await service.TagPOSTAsync(name, cancellationToken);\r\n        var tag = new Tag { Name = name };\r\n        await eventSender.SendAsync(\"AddTag\", tag, cancellationToken);\r\n        return new TagPayload { Tag = tag };\r\n    }\r\n}\r\n\r\npublic class TagPayload\r\n{\r\n    public Tag Tag { get; set; } = null!;\r\n}"
+		],
+		"description": "gq-program-with-tagclient"
+	},
+	"gq-program-with-redis": {
+		"prefix": [
+			"gq-program-with-redis"
+		],
+		"body": [
+			"\/\/ Program.cs\r\nusing GatewayApi;\r\nusing HotChocolate;\r\nusing StackExchange.Redis;\r\n\r\nconst string AllowedOrigin = \"allowedOrigin\";\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\n\/\/ tag api client\r\nvar serviceSection = builder.Configuration.GetSection(\"Services\");\r\nvar tagsApiEndpoint = serviceSection.GetValue<string>(\"TagsApi:endpoint\");\r\n\r\n\/\/ redis\r\n(string endpoint, string password) redisConfiguration =\r\n(\r\n  serviceSection.GetValue<string>(\"Redis:endpoint\"),\r\n  serviceSection.GetValue<string>(\"Redis:password\")\r\n);\r\n\r\n\r\nbuilder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));\r\n\r\nbuilder.Services.AddCors(options =>\r\n{\r\n    options.AddPolicy(name: AllowedOrigin,\r\n        policy =>\r\n        {\r\n            policy.AllowAnyOrigin()\r\n                .AllowAnyHeader()\r\n                .AllowAnyMethod();\r\n        });\r\n});\r\nbuilder.Services\r\n    .AddGraphQLServer()\r\n    .AddQueryType<Query>()\r\n    .AddMutationType<Mutation>()\r\n    .AddSubscriptionType<Subscription>()\r\n    .AddRedisSubscriptions(_ =>\r\n        ConnectionMultiplexer.Connect(new ConfigurationOptions\r\n        {\r\n            EndPoints = { redisConfiguration.endpoint },\r\n            Password = redisConfiguration.password\r\n        })\r\n    );\r\n\r\nvar app = builder.Build();\r\napp.UseCors(AllowedOrigin);\r\napp.UseWebSockets();\r\napp.MapGraphQL();\r\napp.Run();"
+		],
+		"description": "gq-program-with-redis"
+	},
+}

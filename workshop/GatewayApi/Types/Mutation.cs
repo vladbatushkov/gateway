@@ -1,3 +1,5 @@
+using HotChocolate.Subscriptions;
+
 namespace GatewayApi;
 
 public class Mutation
@@ -9,7 +11,7 @@ public class Mutation
     {
         await service.TagPOSTAsync(name, cancellationToken);
         var tag = new Tag { Name = name };
-        await eventSender.SendAsync(nameof(AddTag), tag, cancellationToken);
+        await eventSender.SendAsync("AddTag", tag, cancellationToken);
         return new TagPayload { Tag = tag };
     }
 }

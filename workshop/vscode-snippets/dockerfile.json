@@ -1,0 +1,20 @@
+{
+	"tags-api-Docker": {
+		"prefix": [
+			"tags-api-Docker"
+		],
+		"body": [
+			"FROM mcr.microsoft.com\/dotnet\/sdk:6.0 AS sdk\r\nWORKDIR \/app\r\nCOPY .\/TagsApi.csproj .\/\r\nRUN dotnet restore\r\n\r\nFROM sdk AS publish\r\nWORKDIR \/app\r\nCOPY . .\/\r\nRUN dotnet publish -c Release -o out\r\n\r\nFROM mcr.microsoft.com\/dotnet\/aspnet:6.0\r\nWORKDIR \/app\r\nCOPY --from=publish \/app\/out .\r\nENTRYPOINT [\"dotnet\", \"TagsApi.dll\"]"
+		],
+		"description": "Docker"
+	},
+	"gq-Docker": {
+		"prefix": [
+			"gq-Docker"
+		],
+		"body": [
+			"FROM mcr.microsoft.com\/dotnet\/sdk:6.0 AS sdk\r\nWORKDIR \/app\r\nCOPY .\/GatewayApi.csproj .\/\r\nRUN dotnet restore\r\n\r\nFROM sdk AS publish\r\nWORKDIR \/app\r\nCOPY . .\/\r\nRUN dotnet publish -c Release -o out\r\n\r\nFROM mcr.microsoft.com\/dotnet\/aspnet:6.0\r\nWORKDIR \/app\r\nCOPY --from=publish \/app\/out .\r\nENTRYPOINT [\"dotnet\", \"GatewayApi.dll\"]"
+		],
+		"description": "Docker"
+	}
+}

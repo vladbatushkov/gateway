@@ -1,0 +1,2 @@
+# Get all tags from tagsApi
+GET http://localhost:5010/api/tag

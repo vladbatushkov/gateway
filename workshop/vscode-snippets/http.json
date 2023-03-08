@@ -1,0 +1,8 @@
+{
+
+	"tags-api-http": {
+		"prefix": ["tags-api-http"],
+		"body": ["# Get all tags from tagsApi\r\nGET http:\/\/localhost:5010\/api\/tag"],
+		"description": "tag.http"
+	  },
+}

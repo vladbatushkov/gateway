@@ -1,0 +1,29 @@
+{
+	"mongdb-config": {
+		"prefix": [
+			"mongdb-config"
+		],
+		"body": [
+			" \"MongoDBSettings\": {\r\n    \"ConnectionString\": \"mongodb+srv:\/\/mongodb-user:zWW1fNSfcsu4uRzX@cluster-sg.uamu5be.mongodb.net\/?retryWrites=true&w=majority\",\r\n    \"DatabaseName\": \"mongodb-gql\",\r\n    \"CollectionName\": \"tags\"\r\n  }  "
+		],
+		"description": "MongoDBSettings"
+	},
+	"tags-api-config": {
+		"prefix": [
+			"tags-api-config"
+		],
+		"body": [
+			"\"Services\": {\r\n    \"TagsApi\": {\r\n      \"endpoint\": \"http:\/\/localhost:5010\"\r\n    }\r\n  }"
+		],
+		"description": "tags-api-config"
+	},
+	"redis-config": {
+		"prefix": [
+			"redis-config"
+		],
+		"body": [
+			"\"Redis\": {\r\n      \"endpoint\": \"redis-10851.c252.ap-southeast-1-1.ec2.cloud.redislabs.com:10851\",\r\n      \"password\": \"avtZMjciQUZMqJAUQH39KB03Z1KUjDYU\"\r\n    }"
+		],
+		"description": "redis"
+	},
+}

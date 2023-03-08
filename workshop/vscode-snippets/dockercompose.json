@@ -1,0 +1,20 @@
+{
+	"tags-api-DockerCompose": {
+		"prefix": [
+			"tags-api-Docker"
+		],
+		"body": [
+			"version: \"3.6\"\r\n\r\nservices:\r\n  # WEBAPI MONGODB\r\n  tagsapi:\r\n    image: tagsapi\r\n    build:\r\n      context: .\/TagsApi\r\n      dockerfile: .\/Dockerfile\r\n    environment:\r\n      - ASPNETCORE_ENVIRONMENT=Release\r\n      - ASPNETCORE_URLS=http:\/\/+:5010;\r\n    ports:\r\n      - \"5010:5010\"\r\n    expose:\r\n      - \"5010\""
+		],
+		"description": "Docker"
+	},
+	"gq-tags-api-DockerCompose": {
+		"prefix": [
+			"gq-tags-api-DockerCompose"
+		],
+		"body": [
+			"version: \"3.6\"\r\n\r\nservices:\r\n  #GQL Gateway\r\n  gatewayapi:\r\n    image: gatewayapi\r\n    build:\r\n      context: .\/GatewayApi\r\n      dockerfile: .\/Dockerfile\r\n    environment:\r\n      - ASPNETCORE_ENVIRONMENT=Release\r\n      - ASPNETCORE_URLS=http:\/\/+:5050;\r\n      - Services__TagsApi__endpoint=http:\/\/tagsapi:5010\r\n    ports:\r\n      - \"5050:5050\"\r\n    expose:\r\n      - \"5050\"\r\n    depends_on:\r\n      - tagsapi\r\n  # WEBAPI MONGODB\r\n  tagsapi:\r\n    image: tagsapi\r\n    build:\r\n      context: .\/TagsApi\r\n      dockerfile: .\/Dockerfile\r\n    environment:\r\n      - ASPNETCORE_ENVIRONMENT=Release\r\n      - ASPNETCORE_URLS=http:\/\/+:5010;\r\n    ports:\r\n      - \"5010:5010\"\r\n    expose:\r\n      - \"5010\""
+		],
+		"description": "Docker"
+	},
+}

@@ -13,14 +13,22 @@ dotnet new webapi -n GatewayApi -f net6.0 --no-openapi --no-https
 - Open `/GatewayApi ` fodler and add `.gitignore` file.
 
 ```dotnet
-dotnet new gitignore
+dotnet new gitignore --force
 ```
+
+## Install required package 
 
 - Install `HotChocolate.AspNetCore` package.
 
 ```dotnet
 dotnet add package HotChocolate.AspNetCore --version 13.0.5
 ```
+- Install `Newtonsoft.Json` package to support `TagsApiClient` needs.
+
+```dotnet
+dotnet add package Newtonsoft.Json
+```
+
 
 - Remove `/Controllers` folder and `WeatherForecast.cs` file.
 
@@ -129,11 +137,8 @@ curl -o swagger.json http://localhost:5010/swagger/v1/swagger.json
 dotnet nswag swagger2csclient /input:swagger.json /classname:TagsApiClient /namespace:GatewayApi /output:TagsApiClient.cs /generateClientInterfaces:true /useBaseUrl:false
 ```
 
-- Install `Newtonsoft.Json` package to support `TagsApiClient` needs.
+- Remove Tag model from project !!!
 
-```dotnet
-dotnet add package Newtonsoft.Json
-```
 
 - Add `Services` section into `appsettings.json` file.
 
@@ -182,7 +187,7 @@ public class Query
 
 ```cs
 // Mutation.cs
-namespace Gateway;
+namespace GatewayApi;
 
 public class Mutation
 {
@@ -208,7 +213,7 @@ public class TagPayload
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddTypeExtension<Mutation>();
+    .AddMutationType<Mutation>();
 ```
 
 - Run the app and query `tags` collection using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
@@ -373,13 +378,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
       - ASPNETCORE_URLS=http://+:5050;
+      - Services__TagsApi__endpoint=http://tagsapi:5010
     ports:
       - "5050:5050"
     expose:
       - "5050"
     depends_on:
       - tagsapi
-      - likesapi
+  #    - likesapi
 
   # WEBAPI MONGODB
   # ...
