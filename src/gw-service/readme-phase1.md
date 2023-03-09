@@ -2,19 +2,13 @@
 
 ## Step 1: Setup GraphQL Server
 
-- Open a folder `/workspace` and work inside that folder only.
-
 - Create a new webapi project.
 
 ```dotnet
 dotnet new webapi -n GatewayApi -f net6.0 --no-openapi --no-https
 ```
 
-- Open `/GatewayApi ` fodler and add `.gitignore` file.
-
-```dotnet
-dotnet new gitignore
-```
+- Work inside `/GatewayApi` folder.
 
 - Install `HotChocolate.AspNetCore` package.
 
@@ -34,7 +28,7 @@ public class Tag
 }
 ```
 
-- Add GraphQL Query as `Query.cs`. Just a mock result.
+- Add GraphQL Query as `Query.cs`. Just a mock result for now.
 
 ```cs
 // Query.cs
@@ -117,6 +111,12 @@ dotnet new tool-manifest
 dotnet tool install NSwag.ConsoleCore --version 13.18.2
 ```
 
+- Install `Newtonsoft.Json` package to support future HttpClient needs.
+
+```dotnet
+dotnet add package Newtonsoft.Json
+```
+
 - Create `swagger.json` file based your REST endpoint. Make sure, that TagsApi app is running.
 
 ```sh
@@ -129,13 +129,17 @@ curl -o swagger.json http://localhost:5010/swagger/v1/swagger.json
 dotnet nswag swagger2csclient /input:swagger.json /classname:TagsApiClient /namespace:GatewayApi /output:TagsApiClient.cs /generateClientInterfaces:true /useBaseUrl:false
 ```
 
-- Install `Newtonsoft.Json` package to support `TagsApiClient` needs.
+- Add `Services` section into `appsettings.json` file.
 
-```dotnet
-dotnet add package Newtonsoft.Json
+```json
+  "Services": {
+    "TagsApi": {
+      "endpoint": "http://tagsapi:5010"
+    }
+  }
 ```
 
-- Add `Services` section into `appsettings.json` file.
+- Add `appsettings.Development.json` version.
 
 ```json
   "Services": {
@@ -233,8 +237,6 @@ mutation AddTag {
 }
 ```
 
-> Note: Gateway API proxy your requests to REST API and manage MongoDB storage.
-
 - Stop the app.
 
 ## Step 3: GraphQL Subscriptions using Redis
@@ -248,7 +250,7 @@ mutation AddTag {
     }
 ```
 
-> Note: Don't forget to replace connection props. with an actual credentials from our secret chat.
+> Note: Don't forget to replace values with an actual credentials from our secret chat.
 
 - Install HotChocolate Redis package.
 
@@ -325,7 +327,13 @@ app.MapGraphQL();
 app.Run();
 ```
 
-- Run the app and subscribe to `AddTag` topic.
+- Run the app again.
+
+```dotnet
+dotnet watch --no-hot-reload
+```
+
+- Open BananaCakePop and try how `AddTag` subscription works.
 
 ```graphql
 subscription TagAdded {
@@ -335,9 +343,9 @@ subscription TagAdded {
 }
 ```
 
-- Now, once you adding a new Tag, you've been notified.
+> Note: When you adding a new Tag, you should be notified.
 
-## Step 4: Docker
+## Step 4: Dockerize (Optional)
 
 - Create `Dockerfile` inside project root folder.
 
@@ -358,7 +366,7 @@ COPY --from=publish /app/out .
 ENTRYPOINT ["dotnet", "GatewayApi.dll"]
 ```
 
-- Update `docker-compose.yml` file inside a `/workspace` folder.
+- Update `docker-compose.yml` file from your root.
 
 ```yml
 version: "3.6"
@@ -380,17 +388,14 @@ services:
     depends_on:
       - tagsapi
 
-  # WEBAPI MONGODB - you created in step 1
-  # ...
-
-  # GRAPHQL NEO4J - we create later
+  # WEBAPI MONGODB - been created already
   # ...
 ```
 
-- Start service using docker compose.
+- Start containers again.
 
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
 ###### Refs

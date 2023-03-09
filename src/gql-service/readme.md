@@ -2,7 +2,7 @@
 
 ## Step 1: Setup Project
 
-- Open fodler `/workspace`. Create a new folder `LikesApi` and init a Node.js project.
+- Create a new folder `/LikesApi` and init a Node.js project.
 
 ```sh
 mkdir LikesApi && cd LikesApi
@@ -13,12 +13,6 @@ npm init --yes
 
 ```sh
 npm install @neo4j/graphql graphql neo4j-driver apollo-server
-```
-
-- Add `.gitignore` file.
-
-```sh
-node_modules
 ```
 
 ## Step 2: GraphQL Server
@@ -65,7 +59,7 @@ neoSchema.getSchema().then((schema) => {
 });
 ```
 
-> Note: Don't forget to replace connection props. with an actual credentials from our secret chat.
+> Note: Don't forget to replace connection values with an actual credentials from our secret chat.
 
 - Start the app.
 
@@ -75,7 +69,7 @@ node index.js
 
 - Open [http://localhost:4000/](http://localhost:4000/).
 
-## Step 4: Docker
+## Step 4: Dockerize (Optional)
 
 - Create `Dockerfile` inside project root folder.
 
@@ -89,14 +83,15 @@ COPY ./index.js .
 ENTRYPOINT ["node", "index.js"]
 ```
 
-- Update `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
-
-- Adding one more service.
+- Update `docker-compose.yml` file by adding one more service.
 
 ```yml
 version: "3.6"
 
 services:
+  # GRAPHQL GATEWAY API - been created already
+  # ...
+  # WEBAPI MONGODB - been created already
   # ...
   # GRAPHQL NEO4J
   likesapi:
@@ -110,13 +105,13 @@ services:
       - "4000"
 ```
 
-- Start services using docker compose.
+- Start containers again.
 
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
-## Step 5: Open Neo4j Database using Neo4j Browser
+## Step 5: Open Neo4j Database using Neo4j Browser (Optional)
 
 - Add Neo4j into `docker-compose.yml` file.
 
@@ -124,6 +119,11 @@ docker-compose up
 version: "3.6"
 
 services:
+  # GRAPHQL GATEWAY API - been created already
+  # ...
+  # WEBAPI MONGODB - been created already
+  # ...
+  # GRAPHQL NEO4J - been created already
   # ...
   # NEO4J
   neo4j:
@@ -131,6 +131,12 @@ services:
     restart: unless-stopped
     ports:
       - "7474:7474"
+```
+
+- Start containers again.
+
+```sh
+docker-compose up
 ```
 
 - Open Neo4j Browser [http://localhost:7474/](http://localhost:7474/).

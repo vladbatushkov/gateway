@@ -2,6 +2,7 @@ using HotChocolate;
 
 namespace GatewayApi;
 
+[ExtendObjectType("Subscription")]
 public class Subscription
 {
     [Subscribe]

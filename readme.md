@@ -6,11 +6,13 @@ Tutorial to build a GraphQL Gateway API powered by Hot Chocolate server. How to 
 
 Welcome to GraphQL Gateway API tutorial.
 
-Clone the repo and open the folder `/workspace` - this is your working folder. The content of `/workspace` is excluded from git repository. Whatever you will create inside this folder will stay on your local machine only.
+We recommend you to `fork` the repo and then start tutorial.
 
-#### Structure
+### Tutorial
 
-Folder `/src` contains ready-to-use services and setp-by-setp tutorials how to create each.
+- Folder `/src` contains **all ready-to-use services**.
+- Services `gql`, `gw`, and `rest` have a `readme.md` file with a setp-by-setp tutorial how to create it.
+- Explanation on how to build `web-clients` are not provided. You can use them just to run as is.
 
 ```sh
 /src
@@ -19,25 +21,38 @@ Folder `/src` contains ready-to-use services and setp-by-setp tutorials how to c
   /rest-service # .NET WebApi Swagger-based connected to MongoDB
   /web-clinet-list # React app for Phase 1
   /web-clinet-likes # React app for Phase 2
+  docker-compose.yml # Can be used to build and run containers
 ```
 
-We recommend you to take a quick overview of repository and start from Phase 1.
+We recommend you to take a quick overview of repository structure and then start Phase 1.
 
 #### Phase 1: List of Tags
 
 In first phase you will build a Hot Chocolate Gateway API connected to REST WebApi to manipulate list of Tags stored in MongoDB. You will learn how to resolve Query, Mutation and use Subscription.
 
-1. Create WebAPI service using MongoDB using `/rest-service` tutorial.
+1. Create WebAPI service using MongoDB using `/rest-service` tutorial (Optional).
 2. Create GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase1.md` tutorial.
 3. Frontend project is ready to use from `/web-client-list` folder.
+
+Expectations:
+
+- `rest-service` run as docker container.
+- `gw-service` run locally using cli or as a docker container.
+- `web-client-list` run locally using cli.
 
 #### Phase 2: Friend Recommendations
 
 Once Tags collection is working, now you will stitch your Gateway API schema with the schema of Apollo GraphQL server connected to Neo4j database.
 
-1. Create GraphQL server connected to Neo4j using `/gql-service` tutorial.
+1. Create GraphQL server connected to Neo4j using `/gql-service` tutorial (Optional).
 2. Update GraphQL Gateway API using Hot Chocolate server using `/gw-service/readme-phase2.md` tutorial.
 3. Frontend project is ready to use from `/web-client-likes` folder.
+
+Expectations:
+
+- `gql-service` run as docker container.
+- `gw-service` run locally using cli or as a docker container.
+- `web-client-likes` run locally using cli.
 
 ## Tech Stack
 

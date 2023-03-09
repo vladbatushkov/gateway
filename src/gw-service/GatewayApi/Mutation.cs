@@ -1,7 +1,9 @@
+using HotChocolate;
 using HotChocolate.Subscriptions;
 
 namespace GatewayApi;
 
+[ExtendObjectType("Mutation")]
 public class Mutation
 {
     public async Task<TagPayload> AddTag(string name,

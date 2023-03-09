@@ -1,7 +1,9 @@
+using HotChocolate;
 using System.Collections;
 
 namespace GatewayApi;
 
+[ExtendObjectType("Query")]
 public class Query
 {
     public async Task<ICollection<Tag>> GetTagsAsync(

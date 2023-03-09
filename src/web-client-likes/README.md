@@ -14,7 +14,7 @@ npm install
 npm start
 ```
 
-- (Optional) Generation of GraphQL hooks.
+- The way to re-generate GraphQL hooks (Not required).
 
 ```sh
 npm run codegen

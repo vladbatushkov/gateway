@@ -1,0 +1,57 @@
+version: "3.6"
+
+services:
+
+  # GRAPHQL GATEWAY API
+  gatewayapi:
+    container_name: gateway_gatewayapi
+    image: gatewayapi
+    build:
+      context: ./gw-service/GatewayApi
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ASPNETCORE_URLS=http://+:5050;
+    ports:
+      - "5050:5050"
+    expose:
+      - "5050"
+    depends_on:
+      - tagsapi
+      - likesapi
+
+  # WEBAPI MONGODB
+  tagsapi:
+    container_name: gateway_tagsapi
+    image: tagsapi
+    build:
+      context: ./rest-service/TagsApi
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ASPNETCORE_URLS=http://+:5010;
+    ports:
+      - "5010:5010"
+    expose:
+      - "5010"
+
+  # GRAPHQL NEO4J
+  likesapi:
+    container_name: gateway_likesapi
+    image: likesapi
+    build:
+      context: ./gql-service/LikesApi
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:4000"
+    expose:
+      - "4000"
+
+  # NEO4J
+
+  neo4j:
+    container_name: gateway_neo4j
+    image: neo4j:5.5.0
+    restart: unless-stopped
+    ports:
+      - "7474:7474"

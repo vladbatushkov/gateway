@@ -10,6 +10,14 @@
     }
 ```
 
+- Add `appsettings.Development.json` mode.
+
+```json
+    "LikesApi": {
+      "endpoint": "http://localhost:4000"
+    }
+```
+
 - Install `HotChocolate.Stitching` package.
 
 ```dotnet
@@ -41,18 +49,26 @@ builder.Services
 
 ```cs
 // Query.cs
+using HotChocolate;
+using System.Collections;
+
 [ExtendObjectType("Query")]
 public class Query
 ```
 
 ```cs
 // Mutation.cs
+using HotChocolate;
+using HotChocolate.Subscriptions;
+
 [ExtendObjectType("Mutation")]
 public class Mutation
 ```
 
 ```cs
 // Subscription.cs
+using HotChocolate;
+
 [ExtendObjectType("Subscription")]
 public class Subscription
 ```
@@ -60,6 +76,10 @@ public class Subscription
 ## Step 2: Explore
 
 - Run the app and explore new schema [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
+
+```dotnet
+dotnet watch --no-hot-reload
+```
 
 - Manage `User` node in Neo4j using GraphQL gateway
 

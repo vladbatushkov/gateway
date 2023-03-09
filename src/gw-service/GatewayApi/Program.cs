@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
-// rest service
+// tags
 var serviceSection = builder.Configuration.GetSection("Services");
 var tagsApiEndpoint = serviceSection.GetValue<string>("TagsApi:Endpoint");
 builder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.BaseAddress = new Uri(tagsApiEndpoint));
@@ -25,19 +25,23 @@ builder.Services.AddHttpClient<ITagsApiClient, TagsApiClient>(client => client.B
   serviceSection.GetValue<string>("Redis:endpoint"),
   serviceSection.GetValue<string>("Redis:password")
 );
+// likes
+var likesapiEndpoint = serviceSection.GetValue<string>("LikesApi:endpoint");
+builder.Services.AddHttpClient("LikesGqlClient", client
+    => client.BaseAddress = new Uri(likesapiEndpoint));
 // graphql
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .AddMutationType<Mutation>()
-    .AddSubscriptionType<Subscription>()
+    .AddTypeExtension<Query>()
+    .AddTypeExtension<Mutation>()
+    .AddTypeExtension<Subscription>()
     .AddRedisSubscriptions(_ =>
         ConnectionMultiplexer.Connect(new ConfigurationOptions
         {
             EndPoints = { redisConfiguration.endpoint },
             Password = redisConfiguration.password
-        })
-    );
+        }))
+    .AddRemoteSchema("LikesGqlClient", ignoreRootTypes: false);
 // app
 var app = builder.Build();
 app.UseCors(AllowedOrigin);

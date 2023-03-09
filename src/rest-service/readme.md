@@ -2,29 +2,17 @@
 
 ## Step 1: Setup Project
 
-- Open a folder `/workspace` and work inside that folder only.
-
 - Create a new webapi project.
 
 ```dotnet
 dotnet new webapi -n TagsApi -f net6.0 --no-https
 ```
 
-- Target framework is `.NET 6.0`. No `https` support.
+> Note: Target framework is `.NET 6.0`. No `https` support. `Swashbuckle.AspNetCore` package already installed.
 
-- Open `/TagsApi` folder and add `.gitignore` file.
+- Work inside `/TagsApi` folder.
 
-```bash
-cd TagsApi/
-```
-
-```dotnet
-dotnet new gitignore
-```
-
-- `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file.
-
-- Make `Program.cs` file as below:
+- Change `Program.cs` file as below:
 
 ```cs
 // Program.cs
@@ -254,7 +242,7 @@ dotnet run
 
 - SwaggerUI [http://localhost:5010/swagger/index.html](http://localhost:5010/swagger/index.html) and JSON schema [http://localhost:5010/swagger/v1/swagger.json](http://localhost:5010/swagger/v1/swagger.json).
 
-## Step 4: Docker
+## Step 4: Dockerize (Optional)
 
 - Create `Dockerfile` inside project root TagsApi folder.
 
@@ -275,9 +263,9 @@ COPY --from=publish /app/out .
 ENTRYPOINT ["dotnet", "TagsApi.dll"]
 ```
 
-- Create `docker-compose.yml` file inside a `/workspace` folder. (One level up to the project root folder).
+- Create `docker-compose.yml` file in a root of the repository.
 
-> Note: Used to assemble all services.
+> Note: It will be used to assemble all services.
 
 ```yml
 version: "3.6"
@@ -301,7 +289,7 @@ services:
 - Start service using docker compose.
 
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
 ###### Refs
