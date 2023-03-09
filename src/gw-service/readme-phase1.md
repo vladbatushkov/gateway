@@ -379,12 +379,11 @@ services:
       - "5050"
     depends_on:
       - tagsapi
-      - likesapi
 
-  # WEBAPI MONGODB
+  # WEBAPI MONGODB - you created in step 1
   # ...
 
-  # GRAPHQL NEO4J
+  # GRAPHQL NEO4J - we create later
   # ...
 ```
 
