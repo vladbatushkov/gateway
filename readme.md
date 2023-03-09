@@ -40,6 +40,8 @@ Expectations:
 - `gw-service` run locally using cli or as a docker container.
 - `web-client-list` run locally using cli.
 
+![phase1](./img/phase1.png)
+
 #### Phase 2: Friend Recommendations
 
 Once Tags collection is working, now you will stitch your Gateway API schema with the schema of Apollo GraphQL server connected to Neo4j database.
@@ -53,6 +55,8 @@ Expectations:
 - `gql-service` run as docker container.
 - `gw-service` run locally using cli or as a docker container.
 - `web-client-likes` run locally using cli.
+
+![phase2](./img/phase2.png)
 
 ## Tech Stack
 
