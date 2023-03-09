@@ -182,7 +182,7 @@ public class Query
 
 ```cs
 // Mutation.cs
-namespace Gateway;
+namespace GatewayApi;
 
 public class Mutation
 {
