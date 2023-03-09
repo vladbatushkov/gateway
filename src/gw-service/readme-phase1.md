@@ -208,7 +208,7 @@ public class TagPayload
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddTypeExtension<Mutation>();
+    .AddMutationType<Mutation>();
 ```
 
 - Run the app and query `tags` collection using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
