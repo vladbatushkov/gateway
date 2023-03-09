@@ -297,7 +297,7 @@ public class Mutation
 
 ```cs
 // Program.cs
-using StackExchange.Redis
+using StackExchange.Redis;
 // ...
 // redis
 (string endpoint, string password) redisConfiguration =
