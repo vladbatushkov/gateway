@@ -273,6 +273,7 @@ version: "3.6"
 services:
   # WEBAPI MONGODB
   tagsapi:
+    container_name: gateway_tagsapi
     image: tagsapi
     build:
       context: ./TagsApi

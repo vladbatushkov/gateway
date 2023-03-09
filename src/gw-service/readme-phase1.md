@@ -374,17 +374,20 @@ version: "3.6"
 services:
   # GRAPHQL GATEWAY API
   gatewayapi:
+    container_name: gateway_gatewayapi
     image: gatewayapi
     build:
-      context: ./GatewayApi
+      context: ./gw-service/GatewayApi
       dockerfile: ./Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
       - ASPNETCORE_URLS=http://+:5050;
     ports:
       - "5050:5050"
+      - "10851:10851"
     expose:
       - "5050"
+      - "10851"
     depends_on:
       - tagsapi
 

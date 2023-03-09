@@ -95,6 +95,7 @@ services:
   # ...
   # GRAPHQL NEO4J
   likesapi:
+    container_name: gateway_likesapi
     image: likesapi
     build:
       context: ./LikesApi
@@ -127,6 +128,7 @@ services:
   # ...
   # NEO4J
   neo4j:
+    container_name: gateway_neo4j
     image: neo4j:5.5.0
     restart: unless-stopped
     ports:

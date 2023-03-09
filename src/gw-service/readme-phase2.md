@@ -73,7 +73,7 @@ using HotChocolate;
 public class Subscription
 ```
 
-## Step 2: Explore
+## Step 2: Explore Schema
 
 - Run the app and explore new schema [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
 
@@ -179,6 +179,32 @@ query GetFriends($userAccount: String!) {
     }
   }
 }
+```
+
+## Step 3: Dockerize (Optional)
+
+- Update `docker-compose.yml` file from your root.
+
+```yml
+version: "3.6"
+
+services:
+  # GRAPHQL GATEWAY API - been created already
+  gatewayapi:
+    # ...
+    depends_on:
+      - tagsapi
+      - likesapi # add this
+
+
+  # WEBAPI MONGODB - been created already
+  # ...
+```
+
+- Start containers again.
+
+```sh
+docker-compose up --build
 ```
 
 ###### Refs
