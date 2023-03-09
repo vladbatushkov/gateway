@@ -9,4 +9,7 @@ tasks:
       dotnet dev-certs https 
 vscode:
   extensions:
-    - muhammad-sammy.csharp
+    - ms-dotnettools.csharp
+    - ms-dotnettools.vscode-dotnet-pack
+    - Fudge.auto-using
+    - josefpihrt-vscode.roslynator
