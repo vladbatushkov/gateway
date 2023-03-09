@@ -182,7 +182,7 @@ public class Query
 
 ```cs
 // Mutation.cs
-namespace Gateway;
+namespace GatewayApi;
 
 public class Mutation
 {
@@ -208,7 +208,7 @@ public class TagPayload
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddTypeExtension<Mutation>();
+    .AddMutationType<Mutation>();
 ```
 
 - Run the app and query `tags` collection using BananaCakePop [http://localhost:5050/graphql/](http://localhost:5050/graphql/).
@@ -297,7 +297,7 @@ public class Mutation
 
 ```cs
 // Program.cs
-using StackExchange.Redis
+using StackExchange.Redis;
 // ...
 // redis
 (string endpoint, string password) redisConfiguration =
@@ -379,12 +379,11 @@ services:
       - "5050"
     depends_on:
       - tagsapi
-      - likesapi
 
-  # WEBAPI MONGODB
+  # WEBAPI MONGODB - you created in step 1
   # ...
 
-  # GRAPHQL NEO4J
+  # GRAPHQL NEO4J - we create later
   # ...
 ```
 
