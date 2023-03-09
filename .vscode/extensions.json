@@ -1,0 +1,8 @@
+{
+    "recommendations": [        
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-pack",
+        "Fudge.auto-using",
+        "josefpihrt-vscode.roslynator",
+    ]
+}

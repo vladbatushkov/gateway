@@ -12,7 +12,11 @@ dotnet new webapi -n TagsApi -f net6.0 --no-https
 
 - Target framework is `.NET 6.0`. No `https` support.
 
-- Open `/TagsApi` fodler and add `.gitignore` file.
+- Open `/TagsApi` folder and add `.gitignore` file.
+
+```bash
+cd TagsApi/
+```
 
 ```dotnet
 dotnet new gitignore
@@ -20,7 +24,7 @@ dotnet new gitignore
 
 - `Swashbuckle.AspNetCore` already pre-installed, you can check `TagsApi.csproj` file.
 
-- Make `Program.cs` file simple.
+- Make `Program.cs` file as below:
 
 ```cs
 // Program.cs
@@ -70,7 +74,7 @@ dotnet add package MongoDB.Driver
   }
 ```
 
-> Note: Don't forget to replace settings with an actual credentials from our secret chat.
+> Note: Don't forget to replace settings with actual credentials from our secret chat.
 
 - Add MongoDB settings provider.
 
@@ -179,7 +183,7 @@ builder.Services.AddSingleton<ITagRepository, TagRepository>();
 // ...
 ```
 
-- Reaplce `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder.
+- Replace `WeatherForecastController.cs` with `TagController.cs`. Keep file inside project root folder.
 
 ```cs
 // TagController.cs
@@ -252,7 +256,7 @@ dotnet run
 
 ## Step 4: Docker
 
-- Create `Dockerfile` inside project root folder.
+- Create `Dockerfile` inside project root TagsApi folder.
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS sdk

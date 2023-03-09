@@ -1,0 +1,15 @@
+
+image:
+  file: .gitpod.Dockerfile
+
+tasks:  
+  - name: Postinstall .NET 6.0 and dev certificates
+    init: |
+      mkdir -p $DOTNET_ROOT && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel $DOTNET_VERSION --install-dir $DOTNET_ROOT 
+      dotnet dev-certs https 
+vscode:
+  extensions:
+    - ms-dotnettools.csharp
+    - ms-dotnettools.vscode-dotnet-pack
+    - Fudge.auto-using
+    - josefpihrt-vscode.roslynator
